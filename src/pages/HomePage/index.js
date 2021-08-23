@@ -8,11 +8,18 @@ import Header from "../../components/Header";
 import StudentListPage from "../StudentListPage";
 import StudentRegisterPage from "../StudentRegisterPage";
 
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     backgroundColor: "red",
+//     ...theme.root,
+//   },
+// }));
 const HomePage = () => {
   const [linkPicked, setLinkPicked] = useState("");
+  const [pageTitle, setPageTitle] = useState("Registro de Alunos");
   return (
     <Container maxWidth="sm">
-      <Header title="Lista de Alunos" />
+      <Header title={pageTitle} />
       <ButtonGroup
         color="primary"
         fullWidth
@@ -24,8 +31,8 @@ const HomePage = () => {
         <Button variant="contained" color="secondary">
           Student List
         </Button>
-        {/* <Button>Three</Button> */}
       </ButtonGroup>
+      <StudentRegisterPage />
     </Container>
   );
 };
