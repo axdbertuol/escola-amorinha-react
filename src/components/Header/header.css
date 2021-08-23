@@ -1,0 +1,13 @@
+.header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    padding: 30px;
+  }
+  
+  /* .cabecalho {
+    text-align: center;
+    /* color: #6610f2; */
+  /* } */ 
+  
