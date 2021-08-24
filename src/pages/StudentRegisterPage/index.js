@@ -70,6 +70,7 @@ const validationSchema = yup.object({
         .required("Campo obrigatório!"),
     })
   ),
+  classNumber: yup.number().positive().required(),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -107,10 +108,6 @@ const useStyles = makeStyles((theme) => ({
 
 const StudentRegisterPage = () => {
   const classes = useStyles();
-  // const { values, submitForm } = useFormikContext();
-  // useEffect(() => {
-  //   console.log(values);
-  // }, [values]);
 
   const addAuthorizedPerson = (push) =>
     push({ id: "", name: "", relation: "" });
@@ -130,6 +127,8 @@ const StudentRegisterPage = () => {
           },
           authorizeStudentImage: "yes",
           authorizedPeople: [{ id: "", name: "", relation: "" }],
+          classNumber: "",
+          additionalInfo: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
@@ -147,6 +146,7 @@ const StudentRegisterPage = () => {
         }) => (
           <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
+              required
               id="name"
               name="name"
               label="Nome"
@@ -157,6 +157,7 @@ const StudentRegisterPage = () => {
               helperText={touched.name ? errors.name : ""}
             />
             <TextField
+              required
               id="surname"
               name="surname"
               label="Sobrenome"
@@ -167,6 +168,7 @@ const StudentRegisterPage = () => {
               helperText={touched.surname ? errors.surname : ""}
             />
             <TextField
+              required
               id="sponsorName"
               name="sponsorName"
               fullWidth
@@ -178,6 +180,7 @@ const StudentRegisterPage = () => {
               helperText={touched.sponsorName ? errors.sponsorName : ""}
             />
             <TextField
+              required
               fullWidth
               id="sponsorPhone"
               name="sponsorPhone"
@@ -234,6 +237,7 @@ const StudentRegisterPage = () => {
               </FormControl>
             </div>
             <TextField
+              required
               fullWidth
               name="emergencyPhone"
               id="emergencyPhone"
@@ -320,60 +324,98 @@ const StudentRegisterPage = () => {
                 </RadioGroup>
               </FormControl>
             </div>
-            <FieldArray
-              name="authorizedPeople"
-              render={({ remove, push }) => (
-                <div>
-                  {values.authorizedPeople.length > 0 &&
-                    values.authorizedPeople.map(
-                      ({ id, name, relation }, index) => {
-                        if (id === "") {
-                          const id = "auth-person-" + getRndInteger(0, 100000);
-                          setFieldValue(`authorizedPeople.${index}.id`, id);
-                          console.log(values.authorizedPeople);
+            <FormControl className={classes.formGroup} component="div">
+              <FormLabel component="legend">
+                Adicionar pessoa autorizada
+              </FormLabel>
+              <FieldArray
+                name="authorizedPeople"
+                render={({ remove, push }) => (
+                  <div>
+                    {values.authorizedPeople.length > 0 &&
+                      values.authorizedPeople.map(
+                        ({ id, name, relation }, index) => {
+                          if (id === "") {
+                            const id =
+                              "auth-person-" + getRndInteger(0, 100000);
+                            setFieldValue(`authorizedPeople.${index}.id`, id);
+                            console.log(values.authorizedPeople);
+                          }
+                          return (
+                            <div key={id}>
+                              <TextField
+                                name={`authorizedPeople.${index}.name`}
+                                value={name}
+                                label="Nome"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                              />
+                              <TextField
+                                name={`authorizedPeople.${index}.relation`}
+                                value={relation}
+                                label="Relação"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                              />
+                              {index !== 0 && (
+                                <Button
+                                  variant="contained"
+                                  color="secondary"
+                                  className={classes.button}
+                                  startIcon={<DeleteIcon />}
+                                  onClick={() => remove(index)}
+                                >
+                                  Delete
+                                </Button>
+                              )}
+                            </div>
+                          );
                         }
-                        return (
-                          <div key={id}>
-                            <TextField
-                              name={`authorizedPeople.${index}.name`}
-                              value={name}
-                              label="Nome"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            />
-                            <TextField
-                              name={`authorizedPeople.${index}.relation`}
-                              value={relation}
-                              label="Relação"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                            />
-                            {index !== 0 && (
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                className={classes.button}
-                                startIcon={<DeleteIcon />}
-                                onClick={() => remove(index)}
-                              >
-                                Delete
-                              </Button>
-                            )}
-                          </div>
-                        );
-                      }
-                    )}
-                  <Fab
-                    size="small"
-                    color="primary"
-                    aria-label="add"
-                    onClick={() => addAuthorizedPerson(push)}
-                  >
-                    <AddIcon />
-                  </Fab>
-                </div>
-              )}
-            ></FieldArray>
+                      )}
+                    <Fab
+                      size="small"
+                      color="primary"
+                      aria-label="add"
+                      onClick={() => addAuthorizedPerson(push)}
+                    >
+                      <AddIcon />
+                    </Fab>
+                  </div>
+                )}
+              />
+            </FormControl>
+
+            <TextField
+              required
+              id="classNumber"
+              name="classNumber"
+              fullWidth
+              onChange={handleChange}
+              onBlur={handleBlur}
+              label="Número da turma"
+              value={values.classNumber}
+              error={Boolean(errors.classNumber) && touched.classNumber}
+              helperText={touched.classNumber ? errors.classNumber : ""}
+            />
+            <TextField
+              id="additionalInfo"
+              name="additionalInfo"
+              fullWidth
+              onChange={handleChange}
+              onBlur={handleBlur}
+              label="Informações adicionais"
+              value={values.additionalInfo}
+              error={Boolean(errors.additionalInfo) && touched.additionalInfo}
+              helperText={touched.additionalInfo ? errors.additionalInfo : ""}
+            />
+            <Button
+              className={classes.formGroup}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Registrar
+            </Button>
           </form>
         )}
       </Formik>
