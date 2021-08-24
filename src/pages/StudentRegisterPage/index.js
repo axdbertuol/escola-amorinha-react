@@ -57,7 +57,6 @@ const validationSchema = yup.object({
   authorizeStudentImage: yup.string().required(),
   authorizedPeople: yup.array().of(
     yup.object({
-      id: yup.string().required(),
       name: yup
         .string("Digite o nome")
         .max(40)
@@ -109,8 +108,6 @@ const useStyles = makeStyles((theme) => ({
 const StudentRegisterPage = () => {
   const classes = useStyles();
 
-  const addAuthorizedPerson = (push) =>
-    push({ id: "", name: "", relation: "" });
   return (
     <div className={classes.root}>
       <Formik
@@ -126,7 +123,7 @@ const StudentRegisterPage = () => {
             description: "",
           },
           authorizeStudentImage: "yes",
-          authorizedPeople: [{ id: "", name: "", relation: "" }],
+          authorizedPeople: [{ name: "", relation: "" }],
           classNumber: "",
           additionalInfo: "",
         }}
@@ -334,13 +331,9 @@ const StudentRegisterPage = () => {
                   <div>
                     {values.authorizedPeople.length > 0 &&
                       values.authorizedPeople.map(
-                        ({ id, name, relation }, index) => {
-                          if (id === "") {
-                            const id =
-                              "auth-person-" + getRndInteger(0, 100000);
-                            setFieldValue(`authorizedPeople.${index}.id`, id);
-                            console.log(values.authorizedPeople);
-                          }
+                        ({ name, relation }, index) => {
+                          const id = "auth-person-" + getRndInteger(0, 100000);
+
                           return (
                             <div key={id}>
                               <TextField
@@ -376,7 +369,7 @@ const StudentRegisterPage = () => {
                       size="small"
                       color="primary"
                       aria-label="add"
-                      onClick={() => addAuthorizedPerson(push)}
+                      onClick={() => push({ name: "", relation: "" })}
                     >
                       <AddIcon />
                     </Fab>
