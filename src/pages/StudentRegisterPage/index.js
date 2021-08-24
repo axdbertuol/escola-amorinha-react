@@ -1,4 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import "yup-phone-lite";
+import { AsYouType } from "libphonenumber-js";
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -13,6 +17,40 @@ import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
 
 import { Context as StudentFormDataContext } from "../../context/StudentFormContext";
+
+let asYouType = new AsYouType();
+asYouType.defaultCountry = "BR";
+
+const validationSchema = yup.object({
+  name: yup
+    .string("Digite o nome")
+    .max(40)
+    .matches(/^[a-zA-Z]+$/, "Digite um nome válido")
+    .required("Campo obrigatório!"),
+  surname: yup
+    .string()
+    .max(40)
+    .matches(/^[a-zA-Z]+$/, "Digite um nome válido")
+    .required("Campo obrigatório!"),
+  sponsorName: yup
+    .string()
+    .matches(/^[a-zA-Z]+$/, "Digite um nome válido")
+    .required("Campo obrigatório!"),
+  sponsorPhone: yup
+    .string()
+    .phone("BR", "Número inválido")
+    .required("Campo obrigatório!"),
+  sponsorType: yup.string().required("Campo obrigatório!"),
+  emergencyPhone: yup.string().required("Campo obrigatório!"),
+  foodRestriction: yup.object({
+    have: yup.string().required(),
+    description: yup.string().optional(),
+  }),
+  authorizeStudentImage: yup.string().required(),
+  authorizedPeople: yup
+    .array()
+    .of(yup.object({ id: "", name: "", relation: "" })),
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,9 +71,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     alignItems: "center",
   },
-  // textField: {
-  //   width: "25rem",
-  // },
+
   twoFieldsRow: {
     display: "flex",
     justifyContent: "space-between",
@@ -50,42 +86,93 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const StudentRegisterPage = () => {
-  const {
-    state,
-    addAuthorizedPerson,
-    setStudentFormData,
-    setSponsorType,
-    setFoodRestriction,
-  } = useContext(StudentFormDataContext);
-  const [authorizedPeople, setAuthorizedPeople] = useState([]);
   const classes = useStyles();
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      surname: "",
+      sponsorName: "",
+      sponsorPhone: "",
+      sponsorType: "pais",
+      emergencyPhone: "",
+      foodRestriction: {
+        have: "no",
+        description: "",
+      },
+      authorizeStudentImage: "yes",
+      authorizedPeople: [{ id: "", name: "", sponsorType: "" }],
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(JSON.stringify(values, null, 2));
+    },
+  });
+
+  useEffect(() => {
+    console.log("formik values changed", formik.values);
+  }, [formik.values]);
+
+  useEffect(() => {
+    console.log("formik errors", formik.errors);
+  }, [formik.errors]);
+
   return (
     <div className={classes.root}>
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={formik.handleSubmit}>
         <TextField
-          className={classes.textField}
-          required
           id="name"
+          name="name"
           label="Nome"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={Boolean(formik.errors.name) && formik.touched.name}
+          helperText={formik.touched.name ? formik.errors.name : ""}
         />
         <TextField
-          className={classes.textField}
-          required
           id="surname"
+          name="surname"
           label="Sobrenome"
+          value={formik.values.surname}
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          error={Boolean(formik.errors.surname) && formik.touched.surname}
+          helperText={formik.touched.surname ? formik.errors.surname : ""}
         />
         <TextField
-          required
           id="sponsorName"
+          name="sponsorName"
           fullWidth
-          className={classes.textField}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           label="Nome do responsável pela criança"
+          value={formik.values.sponsorName}
+          error={
+            Boolean(formik.errors.sponsorName) && formik.touched.sponsorName
+          }
+          helperText={
+            formik.touched.sponsorName ? formik.errors.sponsorName : ""
+          }
         />
         <TextField
-          required
           fullWidth
-          id="parentPhone"
-          className={classes.textField}
+          id="sponsorPhone"
+          name="sponsorPhone"
+          value={formik.values.sponsorPhone}
+          // onChange={formik.handleChange}
+          placeholder="(48) 99999-9999"
+          onBlur={formik.handleBlur}
+          onInput={(e) => {
+            formik.setFieldValue(
+              "sponsorPhone",
+              new AsYouType("BR").input(e.target.value)
+            );
+          }}
+          error={
+            Boolean(formik.errors.sponsorPhone) && formik.touched.sponsorPhone
+          }
+          helperText={formik.errors.sponsorPhone}
           label="Telefone de Contato do Responsável pela criança"
         />
         <div className={classes.formGroup}>
@@ -96,11 +183,9 @@ const StudentRegisterPage = () => {
             <RadioGroup
               row
               aria-label="Quem devemos chamar em caso de emergência?"
-              name="sponsorRadio"
-              value={state.sponsorType}
-              onChange={(e) => {
-                setSponsorType({ sponsorType: e.target.value });
-              }}
+              name="sponsorType"
+              value={formik.values.sponsorType}
+              onChange={formik.handleChange}
             >
               <FormControlLabel value="pais" control={<Radio />} label="Pais" />
               <FormControlLabel value="tios" control={<Radio />} label="Tios" />
@@ -113,84 +198,6 @@ const StudentRegisterPage = () => {
             </RadioGroup>
           </FormControl>
         </div>
-        <TextField fullWidth id="sponsorPhone" label="Telefone de Emergência" />
-        <div className={classes.formGroup}>
-          <FormControl component="fieldset" required>
-            <FormLabel component="legend">
-              Possui alguma restrição alimentar?
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-label="Possui alguma restrição alimentar?"
-              name="foodRestrictionRadio"
-              value={state.foodRestriction.have}
-              onChange={(e) => {
-                setFoodRestriction({ have: e.target.value });
-              }}
-            >
-              <FormControlLabel value={"no"} control={<Radio />} label="Não" />
-              <FormControlLabel value={"yes"} control={<Radio />} label="Sim" />
-            </RadioGroup>
-          </FormControl>
-        </div>
-        {state.foodRestriction.have === "yes" && (
-          <TextField
-            required
-            id="foodRestrictionList"
-            fullWidth
-            label="Descrição da Restrição Alimentar"
-            multiline
-            rows={4}
-          />
-        )}
-        <div className={classes.formGroup}>
-          <FormControl component="fieldset" required>
-            <FormLabel component="legend">
-              Autoriza fotos e vídeos da criança para uso escolar?
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-label="Possui alguma restrição alimentar?"
-              name="authorizeStudentImageRadio"
-              value={state.authorizeStudentImage}
-              onChange={(e) => {
-                setStudentFormData({ authorizeStudentImage: e.target.value });
-              }}
-            >
-              <FormControlLabel value={"yes"} control={<Radio />} label="Sim" />
-              <FormControlLabel value={"no"} control={<Radio />} label="Não" />
-            </RadioGroup>
-          </FormControl>
-        </div>
-        <FormControl component="fieldset" required>
-          <FormLabel component="legend">
-            Lista de Autorizados a pegar a criança
-          </FormLabel>
-          <div className={classes.formGroup}>
-            <FormGroup id="person-1" row name="AuthorizedPeopleList">
-              <TextField
-                label="Nome"
-                name="name"
-                onChange={(e) => {
-                  console.log("name", e);
-                }}
-                required
-              />
-              <TextField
-                label="Parentesco"
-                name="parentesco"
-                onChange={(e) => {
-                  console.log("parentesco", e);
-                  // addAuthorizedPerson(personName, personParenthood);
-                }}
-                required
-              />
-            </FormGroup>
-          </div>
-        </FormControl>
-        <Fab size="small" color="primary" aria-label="add">
-          <AddIcon />
-        </Fab>
       </form>
     </div>
   );
