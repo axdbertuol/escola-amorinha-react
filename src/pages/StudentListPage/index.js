@@ -2,6 +2,8 @@ import React from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { InputAdornment, IconButton, TextField } from "@material-ui/core";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
+import { Context as StudentsContext } from "../../context/StudentsContext";
+
 const makeStudents = () => {
   let array = [];
   for (let index = 0; index < 10; index++) {
@@ -60,13 +62,26 @@ let studentsArray = makeStudents();
 const StudentListPage = () => {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
+  const {
+    state: { students },
+    setStudentsFromLocalStorage,
+  } = React.useContext(StudentsContext);
+
   React.useEffect(() => {
-    let r = studentsArray.filter(({ name }) => name.match(query));
-    console.log(r);
-    if (r) {
-      setResults(r);
+    if (students.length === 0 && localStorage.getItem("students").length > 0) {
+      setStudentsFromLocalStorage(JSON.parse(localStorage.getItem("students")));
     }
-  }, [query]);
+  }, []);
+
+  React.useEffect(() => {
+    if (students && query) {
+      let searchResults = students.filter(({ name }) => name.match(query));
+      console.log(searchResults);
+      if (searchResults) {
+        setResults(searchResults);
+      }
+    }
+  }, [query, students]);
   return (
     <div style={{ height: "800px", width: "100%" }}>
       <TextField
@@ -86,7 +101,7 @@ const StudentListPage = () => {
         }}
       />
 
-      <DataGrid columns={columns} rows={query ? results : studentsArray} />
+      <DataGrid columns={columns} rows={query ? results : students} />
     </div>
   );
 };

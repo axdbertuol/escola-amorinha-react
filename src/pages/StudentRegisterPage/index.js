@@ -23,7 +23,6 @@ import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-import { Context as StudentsContext } from "../../context/StudentsContext";
 import useLocalStorage from "../../hooks/useLocalStorage";
 
 function getRndInteger(min, max) {
