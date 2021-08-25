@@ -1,19 +1,27 @@
 import React from "react";
-import { FieldArray, Formik } from "formik";
+import { FieldArray, Formik, useFormikContext } from "formik";
 import * as yup from "yup";
 import "yup-phone-lite";
 import { AsYouType } from "libphonenumber-js";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import InputLabel from "@material-ui/core/InputLabel";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -30,6 +38,7 @@ const validationSchema = yup.object({
     .max(40)
     .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
     .required("Campo obrigatório!"),
+  birthday: yup.date("dd/MM/yyyy").nullable().required("Campo obrigatório!"),
   sponsorName: yup
     .string()
     .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
@@ -55,16 +64,17 @@ const validationSchema = yup.object({
       name: yup
         .string("Digite o nome")
         .max(40)
-        .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
-        .required("Campo obrigatório!"),
+        .matches(/^[a-zA-Z ]+$/, "Digite um nome válido"),
       relation: yup
         .string("Digite uma relação")
         .max(40)
-        .matches(/^[a-zA-Z ]+$/, "Digite uma relação válida")
-        .required("Campo obrigatório!"),
+        .matches(/^[a-zA-Z ]+$/, "Digite uma relação válida"),
     })
   ),
-  classNumber: yup.number().positive().required(),
+  classNumber: yup
+    .string()
+    .oneOf(["A", "B", "C", "D"])
+    .required("Campo obrigatório!"),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -97,18 +107,27 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",
+    minWidth: "15rem",
   },
 }));
 
+const Teste = () => {
+  const { values, errors } = useFormikContext();
+  React.useEffect(() => {
+    console.log(values, errors);
+  });
+  return null;
+};
+
 const StudentRegisterPage = () => {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <Formik
         initialValues={{
           name: "",
           surname: "",
+          birthday: null,
           sponsorName: "",
           sponsorPhone: "",
           sponsorType: "pais",
@@ -119,7 +138,7 @@ const StudentRegisterPage = () => {
           },
           authorizeStudentImage: "yes",
           authorizedPeople: [{ name: "", relation: "" }],
-          classNumber: "",
+          classNumber: "A",
           additionalInfo: "",
         }}
         validationSchema={validationSchema}
@@ -148,6 +167,7 @@ const StudentRegisterPage = () => {
               error={Boolean(errors.name) && touched.name}
               helperText={touched.name ? errors.name : ""}
             />
+
             <TextField
               required
               id="surname"
@@ -159,6 +179,33 @@ const StudentRegisterPage = () => {
               error={Boolean(errors.surname) && touched.surname}
               helperText={touched.surname ? errors.surname : ""}
             />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="dd/MM/yyyy"
+                margin="normal"
+                id="birthday"
+                label="Data de Nascimento"
+                name={"birthday"}
+                value={values.birthday}
+                onChange={(date) => {
+                  if (date.toISOString()) {
+                    setFieldValue(
+                      "birthday",
+                      date.getDate() +
+                        "/" +
+                        (date.getMonth() + 1) +
+                        "/" +
+                        date.getFullYear()
+                    );
+                  }
+                }}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </MuiPickersUtilsProvider>
             <TextField
               required
               id="sponsorName"
@@ -372,19 +419,24 @@ const StudentRegisterPage = () => {
                 )}
               />
             </FormControl>
+            <FormControl className={classes.formGroup}>
+              <InputLabel required id="classNumber">
+                Turma
+              </InputLabel>
+              <Select
+                labelId="classNumber"
+                id="classNumber"
+                name="classNumber"
+                value={values.classNumber}
+                onChange={handleChange}
+              >
+                <MenuItem value={"A"}>A</MenuItem>
+                <MenuItem value={"B"}>B</MenuItem>
+                <MenuItem value={"C"}>C</MenuItem>
+                <MenuItem value={"D"}>D</MenuItem>
+              </Select>
+            </FormControl>
 
-            <TextField
-              required
-              id="classNumber"
-              name="classNumber"
-              fullWidth
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="Número da turma"
-              value={values.classNumber}
-              error={Boolean(errors.classNumber) && touched.classNumber}
-              helperText={touched.classNumber ? errors.classNumber : ""}
-            />
             <TextField
               id="additionalInfo"
               name="additionalInfo"
@@ -404,6 +456,7 @@ const StudentRegisterPage = () => {
             >
               Registrar
             </Button>
+            <Teste />
           </form>
         )}
       </Formik>
