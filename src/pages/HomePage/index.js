@@ -32,7 +32,8 @@ const HomePage = () => {
           Student List
         </Button>
       </ButtonGroup>
-      <StudentRegisterPage />
+      {/* <StudentRegisterPage /> */}
+      <StudentListPage />
     </Container>
   );
 };
