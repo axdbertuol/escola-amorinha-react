@@ -10,9 +10,9 @@ import PropTypes from "prop-types";
 
 const dataReducer = (state, action) => {
   switch (action.type) {
-    case "add_task":
+    case "add_student":
       return { ...state, students: [...state.students, action.payload] };
-    case "remove_task":
+    case "remove_student":
       return {
         ...state,
         students: state.students.filter((task) => task.id !== action.payload),
@@ -39,6 +39,8 @@ const dataReducer = (state, action) => {
 };
 
 const addStudent = (dispatch) => (student) => {
+  console.log("studs from context", student);
+
   dispatch({ type: "add_student", payload: student });
 };
 

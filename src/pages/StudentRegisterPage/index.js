@@ -23,11 +23,15 @@ import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
+import { Context as StudentsContext } from "../../context/StudentsContext";
+import useLocalStorage from "../../hooks/useLocalStorage";
+
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
 const validationSchema = yup.object({
+  id: yup.string(),
   name: yup
     .string("Digite o nome")
     .max(40)
@@ -121,10 +125,13 @@ const Teste = () => {
 
 const StudentRegisterPage = () => {
   const classes = useStyles();
+  const [setSaveToLocalStorage, addStudent] = useLocalStorage();
+
   return (
     <div className={classes.root}>
       <Formik
         initialValues={{
+          id: "",
           name: "",
           surname: "",
           birthday: null,
@@ -143,7 +150,11 @@ const StudentRegisterPage = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
+          values.id = "XYZ" + getRndInteger(100, 100000);
           console.log(JSON.stringify(values, null, 2));
+          addStudent(values);
+          setSaveToLocalStorage(true);
+          window.alert("Estudante salvo com sucesso!");
         }}
       >
         {({
@@ -155,7 +166,13 @@ const StudentRegisterPage = () => {
           touched,
           setFieldValue,
         }) => (
-          <form className={classes.form} onSubmit={handleSubmit}>
+          <form
+            className={classes.form}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(e);
+            }}
+          >
             <TextField
               required
               id="name"

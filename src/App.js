@@ -1,15 +1,15 @@
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { Provider as StudentFormDataProvider } from "./context/StudentFormContext";
+import { Provider as StudentsProvider } from "./context/StudentsContext";
 
 function App() {
   return (
-    <StudentFormDataProvider>
+    <StudentsProvider>
       <ThemeProvider>
         <HomePage />
       </ThemeProvider>
-    </StudentFormDataProvider>
+    </StudentsProvider>
   );
 }
 
