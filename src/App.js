@@ -1,13 +1,14 @@
 import "./App.css";
-import HomePage from "./pages/HomePage";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { Provider as StudentsProvider } from "./context/StudentsContext";
+
+import MainRouter from "./MainRouter";
 
 function App() {
   return (
     <StudentsProvider>
       <ThemeProvider>
-        <HomePage />
+        <MainRouter />
       </ThemeProvider>
     </StudentsProvider>
   );

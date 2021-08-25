@@ -2,38 +2,46 @@ import React, { useState } from "react";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
-// import { makeStyles } from '@material-ui/core/styles';
 
 import Header from "../../components/Header";
-import StudentListPage from "../StudentListPage";
-import StudentRegisterPage from "../StudentRegisterPage";
 
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    alignItems: "center",
+    justifyItems: "center",
+    justifyContent: "center",
+    "& > *": {
+      margin: theme.spacing(2),
+    },
+  },
+}));
 // const useStyles = makeStyles((theme) => ({
 //   root: {
 //     backgroundColor: "red",
 //     ...theme.root,
 //   },
 // }));
-const HomePage = () => {
-  const [linkPicked, setLinkPicked] = useState("");
+const HomePage = ({ children }) => {
   const [pageTitle, setPageTitle] = useState("Registro de Alunos");
+  const classes = useStyles();
   return (
     <Container maxWidth="sm">
       <Header title={pageTitle} />
-      <ButtonGroup
-        color="primary"
-        fullWidth
-        aria-label="outlined primary button group"
-      >
-        <Button variant="contained" color="primary">
-          Registration
-        </Button>
-        <Button variant="contained" color="secondary">
-          Student List
-        </Button>
-      </ButtonGroup>
-      {/* <StudentRegisterPage /> */}
-      <StudentListPage />
+      <nav className={classes.root}>
+        <ButtonGroup color="secondary">
+          <Link to={"/register"}>
+            <Button>Registration</Button>
+          </Link>
+          <Link to={"/list"}>
+            <Button>Student List</Button>
+          </Link>
+        </ButtonGroup>
+      </nav>
+      {children}
     </Container>
   );
 };
