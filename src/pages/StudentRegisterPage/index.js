@@ -32,6 +32,9 @@ import { getRndInteger } from "../../utils/functions";
 //   return null;
 // };
 
+function isValidDate(d) {
+  return d instanceof Date && !isNaN(d);
+}
 const StudentRegisterPage = () => {
   const classes = useStyles();
   const [setSaveToLocalStorage, addStudent] = useLocalStorage();
@@ -43,7 +46,7 @@ const StudentRegisterPage = () => {
           id: "",
           name: "",
           surname: "",
-          birthday: null,
+          birthday: Date.now(),
           sponsorName: "",
           sponsorPhone: "",
           sponsorType: "pais",
@@ -112,21 +115,12 @@ const StudentRegisterPage = () => {
                 format="dd/MM/yyyy"
                 margin="normal"
                 id="birthday"
+                disableFuture
+                clearable
                 label="Data de Nascimento"
                 name={"birthday"}
                 value={values.birthday}
-                onChange={(date) => {
-                  if (date.toISOString()) {
-                    setFieldValue(
-                      "birthday",
-                      date.getDate() +
-                        "/" +
-                        (date.getMonth() + 1) +
-                        "/" +
-                        date.getFullYear()
-                    );
-                  }
-                }}
+                onChange={(date) => setFieldValue("birthday", date)}
                 KeyboardButtonProps={{
                   "aria-label": "change date",
                 }}
