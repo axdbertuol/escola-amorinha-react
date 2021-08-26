@@ -24,17 +24,14 @@ import validationSchema from "./StudentRegisterPage.schema";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { getRndInteger } from "../../utils/functions";
 
-// const Teste = () => {
-//   const { values, errors } = useFormikContext();
-//   React.useEffect(() => {
-//     console.log(values, errors);
-//   });
-//   return null;
-// };
+const Teste = () => {
+  const { values, errors } = useFormikContext();
+  React.useEffect(() => {
+    console.log(values, errors);
+  });
+  return null;
+};
 
-function isValidDate(d) {
-  return d instanceof Date && !isNaN(d);
-}
 const StudentRegisterPage = () => {
   const classes = useStyles();
   const [setSaveToLocalStorage, addStudent] = useLocalStorage();
@@ -46,7 +43,7 @@ const StudentRegisterPage = () => {
           id: "",
           name: "",
           surname: "",
-          birthday: Date.now(),
+          birthday: null,
           sponsorName: "",
           sponsorPhone: "",
           sponsorType: "pais",
@@ -117,10 +114,12 @@ const StudentRegisterPage = () => {
                 id="birthday"
                 disableFuture
                 clearable
+                placeholder={"08/10/2000"}
                 label="Data de Nascimento"
                 name={"birthday"}
                 value={values.birthday}
                 onChange={(date) => setFieldValue("birthday", date)}
+                invalidDateMessage="Data inválida"
                 KeyboardButtonProps={{
                   "aria-label": "change date",
                 }}
@@ -144,7 +143,6 @@ const StudentRegisterPage = () => {
               id="sponsorPhone"
               name="sponsorPhone"
               value={values.sponsorPhone}
-              // onChange={handleChange}
               placeholder="(48) 99999-9999"
               onBlur={handleBlur}
               onInput={(e) => {
@@ -376,7 +374,7 @@ const StudentRegisterPage = () => {
             >
               Registrar
             </Button>
-            {/* <Teste /> */}
+            <Teste />
           </form>
         )}
       </Formik>
