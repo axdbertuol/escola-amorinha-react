@@ -20,6 +20,7 @@ import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
+import { useParams } from "react-router-dom";
 
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
@@ -53,20 +54,29 @@ const Teste = () => {
 };
 
 const StudentRegisterPage = () => {
+  const { id } = useParams();
+  const [isEditing, setIsEditing] = React.useState(Boolean(id));
   const classes = useStyles();
-  const [setSaveToLocalStorage, addStudent] = useLocalStorage();
+  const [setSaveToLocalStorage, getStudentFromLocalStorage, addStudent] =
+    useLocalStorage();
 
   return (
     <div className={classes.root}>
       <Formik
-        initialValues={initialValues}
+        initialValues={
+          isEditing ? getStudentFromLocalStorage(id) : initialValues
+        }
         validationSchema={validationSchema}
         onSubmit={(values) => {
           values.id = "XYZ" + getRndInteger(100, 100000);
           console.log(JSON.stringify(values, null, 2));
           addStudent(values);
           setSaveToLocalStorage(true);
-          window.alert("Estudante salvo com sucesso!");
+          window.alert(
+            isEditing
+              ? "Estudante editado com sucesso!"
+              : "Estudante salvo com sucesso!"
+          );
         }}
       >
         {({
@@ -116,7 +126,6 @@ const StudentRegisterPage = () => {
                 margin="normal"
                 id="birthday"
                 disableFuture
-                clearable
                 placeholder={"08/10/2000"}
                 label="Data de Nascimento"
                 name={"birthday"}
@@ -344,7 +353,7 @@ const StudentRegisterPage = () => {
               color="primary"
               type="submit"
             >
-              Registrar
+              {isEditing ? "Salvar" : "Registrar"}
             </Button>
             <Teste />
           </form>

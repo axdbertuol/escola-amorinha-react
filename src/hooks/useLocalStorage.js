@@ -6,10 +6,14 @@ const useLocalStorage = () => {
     state: { students },
     addStudent,
     removeStudent,
+    editStudent,
   } = useContext(StudentsContext);
 
   const [saveToLocalStorage, setSaveToLocalStorage] = useState(false);
-
+  const getStudentFromLocalStorage = (id) => {
+    const studsFromLS = JSON.parse(localStorage.getItem("students"));
+    return studsFromLS.find((stud) => stud.id === id);
+  };
   useEffect(() => {
     if (students && saveToLocalStorage) {
       console.log("students in useLocalStorage", students);
@@ -18,7 +22,13 @@ const useLocalStorage = () => {
     }
   }, [students, saveToLocalStorage]);
 
-  return [setSaveToLocalStorage, addStudent, removeStudent];
+  return [
+    setSaveToLocalStorage,
+    getStudentFromLocalStorage,
+    addStudent,
+    removeStudent,
+    editStudent,
+  ];
 };
 
 export default useLocalStorage;

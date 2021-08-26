@@ -19,6 +19,11 @@ const MainRouter = () => {
             <StudentRegisterPage />
           </HomePage>
         </Route>
+        <Route path="/edit/:id">
+          <HomePage>
+            <StudentRegisterPage />
+          </HomePage>
+        </Route>
         <Route path="/">
           <HomePage />
         </Route>

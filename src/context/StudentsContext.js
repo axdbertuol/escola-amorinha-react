@@ -17,6 +17,13 @@ const dataReducer = (state, action) => {
         ...state,
         students: state.students.filter((task) => task.id !== action.payload),
       };
+    case "edit_student":
+      const newStudents = state.students;
+      const index = state.students.indexOf(
+        (student) => student.id === action.payload.id
+      );
+      newStudents[index] = action.payload.data;
+      return { ...state, students: newStudents };
     case "set_students_from_local_storage":
       return {
         ...state,
@@ -47,6 +54,15 @@ const addStudent = (dispatch) => (student) => {
 addStudent.propTypes = {
   tasks: PropTypes.object.isRequired,
 };
+const editStudent = (dispatch) => (id, data) => {
+  // console.log("studs from context", student);
+
+  dispatch({ type: "edit_student", payload: { id, data } });
+};
+
+editStudent.propTypes = {
+  tasks: PropTypes.object.isRequired,
+};
 const removeStudent = (dispatch) => (id) => {
   dispatch({ type: "remove_student", payload: id });
 };
@@ -67,5 +83,5 @@ setStudentsFromLocalStorage.propTypes = {
 export const { Context, Provider } = createDataContext(
   dataReducer, // reducer
   { addStudent, removeStudent, setStudentsFromLocalStorage }, // functions  (actions)
-  { students: [] } // state
+  { students: [], studentIdToEdit: "" } // state
 );

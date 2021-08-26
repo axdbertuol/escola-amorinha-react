@@ -2,6 +2,10 @@ import React from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { InputAdornment, IconButton, TextField } from "@material-ui/core";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
+import Button from "@material-ui/core/Button";
+import { generatePath } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import { Context as StudentsContext } from "../../context/StudentsContext";
 
 const columns = [
@@ -10,20 +14,17 @@ const columns = [
     field: "name",
     headerName: "Nome",
     width: 150,
-    editable: true,
   },
   {
     field: "birthday",
     headerName: "Data Nascimento",
     type: "date",
     width: 110,
-    editable: true,
   },
   {
     field: "sponsorName",
     headerName: "Nome Responsável",
     width: 110,
-    editable: true,
   },
 
   {
@@ -31,20 +32,34 @@ const columns = [
     headerName: "Tel Emergência",
     type: "number",
     width: 110,
-    editable: true,
   },
   {
     field: "classNumber",
     headerName: "Nmr classe",
-    type: "number",
+    type: "string",
     width: 110,
-    editable: true,
+  },
+  {
+    field: "edit",
+    headerName: "Editar",
+    disableClickEventBubbling: true,
+    renderCell: (params) => {
+      let id = params.id;
+
+      return (
+        <Link component={Button} to={{ pathname: `/edit/${id}` }}>
+          Editar
+        </Link>
+      );
+    },
   },
 ];
 
 const StudentListPage = () => {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
+  // const [selectedId, setSelectedId] = React.useState(null);
+
   const {
     state: { students },
     setStudentsFromLocalStorage,
