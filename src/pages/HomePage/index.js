@@ -32,12 +32,15 @@ const HomePage = ({ children }) => {
     <Container maxWidth="sm">
       <Header title={pageTitle} />
       <nav className={classes.root}>
-        <ButtonGroup color="secondary">
-          <Link to={"/register"}>
-            <Button>Registration</Button>
+        <ButtonGroup variant="contained" color="secondary">
+          <Link to={"/"} component={Button}>
+            Home
           </Link>
-          <Link to={"/list"}>
-            <Button>Student List</Button>
+          <Link to={"/register"} component={Button}>
+            Registration
+          </Link>
+          <Link to={"/list"} component={Button}>
+            Student List
           </Link>
         </ButtonGroup>
       </nav>

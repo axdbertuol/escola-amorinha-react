@@ -1,7 +1,5 @@
 import React from "react";
 import { FieldArray, Formik, useFormikContext } from "formik";
-import * as yup from "yup";
-import "yup-phone-lite";
 import { AsYouType } from "libphonenumber-js";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -18,108 +16,21 @@ import InputLabel from "@material-ui/core/InputLabel";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-
+import useStyles from "./StudentRegisterPage.style";
+import validationSchema from "./StudentRegisterPage.schema";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { getRndInteger } from "../../utils/functions";
 
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-const validationSchema = yup.object({
-  id: yup.string(),
-  name: yup
-    .string("Digite o nome")
-    .max(40)
-    .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
-    .required("Campo obrigatório!"),
-  surname: yup
-    .string()
-    .max(40)
-    .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
-    .required("Campo obrigatório!"),
-  birthday: yup.date("dd/MM/yyyy").nullable().required("Campo obrigatório!"),
-  sponsorName: yup
-    .string()
-    .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
-    .required("Campo obrigatório!"),
-  sponsorPhone: yup
-    .string()
-    .phone("BR", "Número inválido")
-    .required("Campo obrigatório!"),
-  sponsorType: yup.string().required("Campo obrigatório!"),
-  emergencyPhone: yup
-    .string()
-    .phone("BR", "Número inválido")
-    .required("Campo obrigatório!"),
-  foodRestriction: yup
-    .object({
-      have: yup.string().required(),
-      description: yup.string().optional(),
-    })
-    .nullable(),
-  authorizeStudentImage: yup.string().required(),
-  authorizedPeople: yup.array().of(
-    yup.object({
-      name: yup
-        .string("Digite o nome")
-        .max(40)
-        .matches(/^[a-zA-Z ]+$/, "Digite um nome válido"),
-      relation: yup
-        .string("Digite uma relação")
-        .max(40)
-        .matches(/^[a-zA-Z ]+$/, "Digite uma relação válida"),
-    })
-  ),
-  classNumber: yup
-    .string()
-    .oneOf(["A", "B", "C", "D"])
-    .required("Campo obrigatório!"),
-});
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: "",
-    border: "1px solid #000",
-    borderRadius: "10px",
-    marginBottom: "5rem",
-    paddingBottom: "5rem",
-    paddingTop: "5rem",
-    padding: "15px",
-    "& .MuiTextField-root": {
-      margin: theme.spacing(2),
-    },
-  },
-  form: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-
-  twoFieldsRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexGrow: 1,
-  },
-  formGroup: {
-    margin: theme.spacing(2),
-    display: "flex",
-    flexDirection: "column",
-    flexWrap: "wrap",
-    minWidth: "15rem",
-  },
-}));
-
-const Teste = () => {
-  const { values, errors } = useFormikContext();
-  React.useEffect(() => {
-    console.log(values, errors);
-  });
-  return null;
-};
+// const Teste = () => {
+//   const { values, errors } = useFormikContext();
+//   React.useEffect(() => {
+//     console.log(values, errors);
+//   });
+//   return null;
+// };
 
 const StudentRegisterPage = () => {
   const classes = useStyles();
@@ -471,7 +382,7 @@ const StudentRegisterPage = () => {
             >
               Registrar
             </Button>
-            <Teste />
+            {/* <Teste /> */}
           </form>
         )}
       </Formik>

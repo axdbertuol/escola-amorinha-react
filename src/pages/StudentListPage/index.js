@@ -4,22 +4,6 @@ import { InputAdornment, IconButton, TextField } from "@material-ui/core";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
 import { Context as StudentsContext } from "../../context/StudentsContext";
 
-const makeStudents = () => {
-  let array = [];
-  for (let index = 0; index < 10; index++) {
-    const student = {
-      id: index,
-      name: "oi" + index,
-      birthday: "11/10/91",
-      sponsorName: "jesus" + index,
-      emergencyPhone: "(99) 98867-1232",
-      classNumber: "1234124",
-    };
-    array.push(student);
-  }
-  return array;
-};
-
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
   {
@@ -58,7 +42,6 @@ const columns = [
   },
 ];
 
-let studentsArray = makeStudents();
 const StudentListPage = () => {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
@@ -71,6 +54,7 @@ const StudentListPage = () => {
     if (students.length === 0 && localStorage.getItem("students").length > 0) {
       setStudentsFromLocalStorage(JSON.parse(localStorage.getItem("students")));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -83,7 +67,7 @@ const StudentListPage = () => {
     }
   }, [query, students]);
   return (
-    <div style={{ height: "800px", width: "100%" }}>
+    <div style={{ height: "600px", width: "100%" }}>
       <TextField
         id="standard-start-adornment"
         placeholder={"Search"}
