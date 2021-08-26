@@ -19,11 +19,31 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import Checkbox from "@material-ui/core/Checkbox";
+
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { getRndInteger } from "../../utils/functions";
 
+const initialValues = {
+  id: "",
+  name: "",
+  surname: "",
+  birthday: null,
+  sponsorName: "",
+  sponsorPhone: "",
+  sponsorType: "pais",
+  emergencyPhone: "",
+  foodRestriction: {
+    have: false,
+    description: "",
+  },
+  authorizeStudentImage: false,
+  authorizedPeople: [{ name: "", relation: "" }],
+  classNumber: "A",
+  additionalInfo: "",
+};
 const Teste = () => {
   const { values, errors } = useFormikContext();
   React.useEffect(() => {
@@ -39,24 +59,7 @@ const StudentRegisterPage = () => {
   return (
     <div className={classes.root}>
       <Formik
-        initialValues={{
-          id: "",
-          name: "",
-          surname: "",
-          birthday: null,
-          sponsorName: "",
-          sponsorPhone: "",
-          sponsorType: "pais",
-          emergencyPhone: "",
-          foodRestriction: {
-            have: "no",
-            description: "",
-          },
-          authorizeStudentImage: "yes",
-          authorizedPeople: [{ name: "", relation: "" }],
-          classNumber: "A",
-          additionalInfo: "",
-        }}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values) => {
           values.id = "XYZ" + getRndInteger(100, 100000);
@@ -215,71 +218,38 @@ const StudentRegisterPage = () => {
               helperText={touched.emergencyPhone ? errors.emergencyPhone : ""}
             />
             <div className={classes.formGroup}>
-              <FormControl component="fieldset" required>
-                <FormLabel component="legend">
-                  Possui alguma restrição alimentar?
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="Possui alguma restrição alimentar?"
-                  name="foodRestriction"
-                  id="foodRestriction"
-                  value={values.foodRestriction.have}
-                  onChange={(e) =>
-                    setFieldValue("foodRestriction", {
-                      ...values.foodRestriction,
-                      have: e.target.value,
-                    })
-                  }
-                >
-                  <FormControlLabel
-                    value={"no"}
-                    control={<Radio />}
-                    label="Não"
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={values.foodRestriction.have}
+                    onChange={handleChange}
+                    name="foodRestriction.have"
+                    color="primary"
                   />
-                  <FormControlLabel
-                    value={"yes"}
-                    control={<Radio />}
-                    label="Sim"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </div>
-            {values.foodRestriction.have === "yes" && (
-              <TextField
-                required
-                id="foodRestrictionList"
-                fullWidth
-                label="Descrição da Restrição Alimentar"
-                multiline
-                rows={4}
+                }
+                label="Possui alguma restrição alimentar?"
               />
-            )}
-            <div className={classes.formGroup}>
-              <FormControl component="fieldset" required>
-                <FormLabel component="legend">
-                  Autoriza fotos e vídeos da criança para uso escolar?
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="Possui alguma restrição alimentar?"
-                  name="authorizeStudentImage"
-                  id="authorizeStudentImage"
-                  value={values.authorizeStudentImage}
-                  onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value={"yes"}
-                    control={<Radio />}
-                    label="Sim"
+              {values.foodRestriction.have && (
+                <TextField
+                  required
+                  id="foodRestrictionList"
+                  fullWidth
+                  label="Descrição da Restrição Alimentar"
+                  multiline
+                  rows={4}
+                />
+              )}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={values.authorizeStudentImage}
+                    onChange={handleChange}
+                    name="authorizeStudentImage"
+                    color="primary"
                   />
-                  <FormControlLabel
-                    value={"no"}
-                    control={<Radio />}
-                    label="Não"
-                  />
-                </RadioGroup>
-              </FormControl>
+                }
+                label="Autoriza o uso da imagem do aluno?"
+              />
             </div>
             <FormControl className={classes.formGroup} component="div">
               <FormLabel component="legend">
@@ -295,8 +265,9 @@ const StudentRegisterPage = () => {
                           const id = "auth-person-" + getRndInteger(0, 100000);
 
                           return (
-                            <div key={id}>
+                            <div>
                               <TextField
+                                key={id + "-name"}
                                 name={`authorizedPeople.${index}.name`}
                                 value={name}
                                 label="Nome"
@@ -304,6 +275,7 @@ const StudentRegisterPage = () => {
                                 onBlur={handleBlur}
                               />
                               <TextField
+                                key={id + "-relation"}
                                 name={`authorizedPeople.${index}.relation`}
                                 value={relation}
                                 label="Relação"

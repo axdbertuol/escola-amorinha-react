@@ -29,11 +29,13 @@ const studentValidationSchema = yup.object({
     .required("Campo obrigatório!"),
   foodRestriction: yup
     .object({
-      have: yup.string().required(),
-      description: yup.string().optional(),
+      have: yup.boolean().default(false),
+      description: yup.ref("foodRestriction.have")
+        ? yup.string().required("Campo obrigatório!")
+        : null,
     })
-    .nullable(),
-  authorizeStudentImage: yup.string().required(),
+    .default({ have: false, description: "" }),
+  authorizeStudentImage: yup.boolean().default(false),
   authorizedPeople: yup.array().of(
     yup.object({
       name: yup
