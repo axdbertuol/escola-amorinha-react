@@ -16,5 +16,6 @@ body {
   color: black !important;
   font-weight: 300;
   line-height: 1.6;
-  background-color: #48cae4;
+  background: rgb(132,57,133);
+background: linear-gradient(90deg, rgba(132,57,133,1) 0%, rgba(178,86,213,1) 48%, rgba(161,105,190,1) 98%);
 }

@@ -18,20 +18,15 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(2),
     },
   },
-  container: {
-    // backgroundColor: theme.palette.primary.contrastText,
-    // overflow: "hidden",
-  },
 }));
 
-const PageWrapper = ({ children, title, size }) => {
-  const [pageTitle, setPageTitle] = useState(title || "App da Escolinha");
+const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
   const classes = useStyles();
   const history = useHistory();
 
   return (
     <Container maxWidth={size || "sm"}>
-      <Header title={pageTitle} />
+      <Header title={title} />
       <nav className={classes.nav}>
         <ButtonGroup variant="contained" color="secondary">
           <Button onClick={() => history.push("/")}>Home</Button>
@@ -41,7 +36,7 @@ const PageWrapper = ({ children, title, size }) => {
           <Button onClick={() => history.push("/list")}>Student List</Button>
         </ButtonGroup>
       </nav>
-      <div className={classes.container}>{children}</div>
+      <div>{children}</div>
     </Container>
   );
 };

@@ -23,6 +23,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { useParams, useHistory, Redirect } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
 
+import ColorRadio from "../../components/ColorRadio";
 import PageWrapper from "../PageWrapper";
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
@@ -84,7 +85,6 @@ const StudentRegisterPage = () => {
                 Math.random().toString(36).substr(2, 5) +
                 "_" +
                 getRndInteger(100, 100000);
-              // console.log("id", values.id);
               console.log(JSON.stringify(values, null, 2));
               addStudent(values);
               window.alert("Estudante salvo com sucesso!");
@@ -201,22 +201,22 @@ const StudentRegisterPage = () => {
                   >
                     <FormControlLabel
                       value="pais"
-                      control={<Radio />}
+                      control={<ColorRadio />}
                       label="Pais"
                     />
                     <FormControlLabel
                       value="tios"
-                      control={<Radio />}
+                      control={<ColorRadio />}
                       label="Tios"
                     />
                     <FormControlLabel
                       value="avós"
-                      control={<Radio />}
+                      control={<ColorRadio />}
                       label="Avós"
                     />
                     <FormControlLabel
                       value="padrinhos"
-                      control={<Radio />}
+                      control={<ColorRadio />}
                       label="Padrinhos"
                     />
                   </RadioGroup>
@@ -260,6 +260,7 @@ const StudentRegisterPage = () => {
                     required
                     id="foodRestriction.description"
                     name="foodRestriction.description"
+                    value={values.foodRestriction.description}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     fullWidth
@@ -332,6 +333,7 @@ const StudentRegisterPage = () => {
                         color="primary"
                         aria-label="add"
                         onClick={() => push({ name: "", relation: "" })}
+                        style={{ marginLeft: "1rem" }}
                       >
                         <AddIcon />
                       </Fab>

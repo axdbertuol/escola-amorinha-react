@@ -5,10 +5,11 @@ import "./header.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    ...theme.typography.h1,
+    ...theme.typography.h2,
     fontFamily: "Montserrat', sans-serif;",
     fontSmooth: "normal",
     textAlign: "center",
+    color: theme.palette.secondary,
 
     // backgroundColor: theme.palette.background.paper,
     // padding: theme.spacing(1),
@@ -23,7 +24,7 @@ const Header = ({ title }) => {
         className={classes.root}
         variant="h3"
         component="h2"
-        color="primary"
+        // color="primary"
       >
         {title}
       </Typography>

@@ -15,13 +15,16 @@ const useStyles = makeStyles((theme) => ({
     border: `5px solid ${theme.palette.primary.dark}`,
     borderRadius: "10px",
     boxShadow: theme.shadows[10],
-    // marginBottom: "5rem",
-    // paddingBottom: "5rem",
-    // paddingTop: "5rem",
-    // padding: "15px",
 
     height: "400px",
     width: "100%",
+  },
+  searchbar: {
+    backgroundColor: "white",
+    borderRadius: "10px",
+    overflow: "hidden",
+    marginBottom: "1rem",
+    width: "50%",
   },
 }));
 
@@ -106,13 +109,7 @@ const StudentListPage = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           color="secondary"
-          style={{
-            backgroundColor: "white",
-            borderRadius: "10px",
-            overflow: "hidden",
-            marginBottom: "1rem",
-            width: "50%",
-          }}
+          className={classes.searchbar}
           variant="filled"
           type="search"
           InputProps={{

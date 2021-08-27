@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.primary.contrastText,
-    border: `5px solid ${theme.palette.primary.dark}`,
+    border: `5px solid ${theme.palette.secondary.light}`,
     borderRadius: "10px",
     marginBottom: "5rem",
     boxShadow: theme.shadows[10],
