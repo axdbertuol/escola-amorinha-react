@@ -21,13 +21,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import { useParams, useHistory, Redirect } from "react-router-dom";
+import CloseIcon from "@material-ui/icons/Close";
 
 import PageWrapper from "../PageWrapper";
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
 import { Context as StudentsContext } from "../../context/StudentsContext";
 import { getRndInteger } from "../../utils/functions";
-import id from "date-fns/esm/locale/id/index.js";
 
 const initialValues = {
   id: "",
@@ -288,17 +288,17 @@ const StudentRegisterPage = () => {
                   name="authorizedPeople"
                   render={({ remove, push }) => (
                     <div>
-                      {values.authorizedPeople.length > 0 &&
+                      {values.authorizedPeople &&
                         values.authorizedPeople.map(
                           ({ name, relation }, index) => {
-                            const id =
-                              "auth-person-" + getRndInteger(0, 100000);
+                            const id = `auth-person-${index}-`;
 
                             return (
                               <div>
                                 <TextField
                                   key={id + "-name"}
                                   name={`authorizedPeople.${index}.name`}
+                                  id={`authorizedPeople.${index}.name`}
                                   value={name}
                                   label="Nome"
                                   onChange={handleChange}
@@ -313,15 +313,15 @@ const StudentRegisterPage = () => {
                                   onBlur={handleBlur}
                                 />
                                 {index !== 0 && (
-                                  <Button
-                                    variant="contained"
+                                  <Fab
+                                    size="small"
                                     color="secondary"
-                                    className={classes.button}
-                                    startIcon={<DeleteIcon />}
+                                    aria-label="close"
+                                    className={classes.marginTop2}
                                     onClick={() => remove(index)}
                                   >
-                                    Delete
-                                  </Button>
+                                    <CloseIcon />
+                                  </Fab>
                                 )}
                               </div>
                             );
@@ -375,7 +375,7 @@ const StudentRegisterPage = () => {
                 color="primary"
                 type="submit"
               >
-                {id.params ? "Salvar" : "Registrar"}
+                {params.id ? "Salvar" : "Registrar"}
               </Button>
               {/* <Teste /> */}
             </form>

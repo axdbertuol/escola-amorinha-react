@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     minWidth: "15rem",
   },
+  marginTop2: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export default useStyles;
