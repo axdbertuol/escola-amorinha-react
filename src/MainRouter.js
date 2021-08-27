@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import React from "react";
 
+import { Provider as StudentsProvider } from "./context/StudentsContext";
 import HomePage from "./pages/HomePage";
 import StudentListPage from "./pages/StudentListPage";
 import StudentRegisterPage from "./pages/StudentRegisterPage";
@@ -8,26 +9,14 @@ import StudentRegisterPage from "./pages/StudentRegisterPage";
 const MainRouter = () => {
   return (
     <Router>
-      <Switch>
-        <Route path="/list">
-          <HomePage>
-            <StudentListPage />
-          </HomePage>
-        </Route>
-        <Route path="/register">
-          <HomePage>
-            <StudentRegisterPage />
-          </HomePage>
-        </Route>
-        <Route path="/edit/:id">
-          <HomePage>
-            <StudentRegisterPage />
-          </HomePage>
-        </Route>
-        <Route path="/">
-          <HomePage />
-        </Route>
-      </Switch>
+      <StudentsProvider>
+        <Switch>
+          <Route exact path="/" component={HomePage}></Route>
+          <Route path="/list" component={StudentListPage}></Route>
+          <Route path="/register" component={StudentRegisterPage}></Route>
+          <Route path="/edit/:id" component={StudentRegisterPage}></Route>
+        </Switch>
+      </StudentsProvider111111111111111111111111111>
     </Router>
   );
 };
