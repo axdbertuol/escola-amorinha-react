@@ -1,14 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { InputAdornment, IconButton, TextField } from "@material-ui/core";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
 import Button from "@material-ui/core/Button";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { Context as StudentsContext } from "../../context/StudentsContext";
+import PageWrapper from "../PageWrapper";
 
 let columns = [
-  { field: "id", headerName: "ID", width: 50 },
+  { field: "id", headerName: "ID", width: 100 },
   {
     field: "name",
     headerName: "Nome",
@@ -39,18 +40,20 @@ let columns = [
     width: 110,
   },
 ];
+
 const StudentListPage = () => {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
   let history = useHistory();
-  // const [selectedId, setSelectedId] = React.useState(null);
+
   columns.push({
     field: "edit",
     headerName: "Editar",
+    width: 100,
     disableClickEventBubbling: true,
     renderCell: (params) => {
       let id = params.id;
-      // return;
+
       return (
         <Button onClick={() => history.push(`/edit/${id}`)}>Editar</Button>
       );
@@ -61,12 +64,12 @@ const StudentListPage = () => {
     state: { students },
   } = useContext(StudentsContext);
 
-  useEffect(() => {
-    console.log(students);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   console.log(students);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (students && query) {
       let searchResults = students.filter(({ name }) => name.match(query));
       console.log(searchResults);
@@ -76,26 +79,30 @@ const StudentListPage = () => {
     }
   }, [query, students]);
   return (
-    <div style={{ height: "600px", width: "100%" }}>
-      <TextField
-        id="standard-start-adornment"
-        placeholder={"Search"}
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        fullWidth
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton aria-label="search">
-                <SearchOutlined />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
+    <PageWrapper title={"Registro de Alunos"} size="md">
+      <div style={{ height: "600px", width: "100%" }}>
+        <TextField
+          id="standard-start-adornment"
+          placeholder={"Search"}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          fullWidth
+          variant="filled"
+          type="search"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton aria-label="search">
+                  <SearchOutlined />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
 
-      <DataGrid columns={columns} rows={query ? results : students} />
-    </div>
+        <DataGrid columns={columns} rows={query ? results : students} />
+      </div>
+    </PageWrapper>
   );
 };
 

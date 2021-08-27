@@ -5,7 +5,7 @@ import Container from "@material-ui/core/Container";
 
 import Header from "../../components/Header";
 
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,23 +25,21 @@ const useStyles = makeStyles((theme) => ({
 //     ...theme.root,
 //   },
 // }));
-const HomePage = ({ children }) => {
-  const [pageTitle, setPageTitle] = useState("Registro de Alunos");
+const PageWrapper = ({ children, title, size }) => {
+  const [pageTitle, setPageTitle] = useState(title || "App da Escolinha");
   const classes = useStyles();
+  const history = useHistory();
+
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth={size || "sm"}>
       <Header title={pageTitle} />
       <nav className={classes.root}>
         <ButtonGroup variant="contained" color="secondary">
-          {/* <Link to={"/"} component={Button}>
-            Home
-          </Link>
-          <Link to={"/register"} component={Button}>
+          <Button onClick={() => history.push("/")}>Home</Button>
+          <Button onClick={() => history.push("/register")}>
             Registration
-          </Link>
-          <Link to={"/list"} component={Button}>
-            Student List
-          </Link> */}
+          </Button>
+          <Button onClick={() => history.push("/list")}>Student List</Button>
         </ButtonGroup>
       </nav>
       {children}
@@ -49,4 +47,4 @@ const HomePage = ({ children }) => {
   );
 };
 
-export default HomePage;
+export default PageWrapper;

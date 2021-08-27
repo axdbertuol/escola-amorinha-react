@@ -27,15 +27,12 @@ const dataReducer = (state, action) => {
       // indexOf not working for some reaSON
       const index = newStudents
         .map((student, index) => {
-          console.log("apareceporra", student.id);
-          debugger;
           if (student.id === action.payload.id) {
             return index;
           }
           return -1;
         })
         .filter((id) => id !== -1);
-      console.log("tacertoisso", index);
       if (index[0] !== -1) {
         newStudents[index] = action.payload.data;
       }

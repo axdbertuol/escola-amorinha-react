@@ -20,9 +20,9 @@ import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
-import { useParams, useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, useHistory, Redirect } from "react-router-dom";
 
+import PageWrapper from "../PageWrapper";
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
 import { Context as StudentsContext } from "../../context/StudentsContext";
@@ -58,318 +58,331 @@ const Teste = () => {
 const StudentRegisterPage = () => {
   let params = useParams();
   let history = useHistory();
-  // const [saveToLocalStorage, setSaveToLocalStorage] = React.useState(false);
   const {
     state: { students },
     addStudent,
     editStudent,
   } = useContext(StudentsContext);
-  // const [isEditing, setIsEditing] = React.useState(Boolean(id));
   const classes = useStyles();
   React.useEffect(() => {
     console.log("students", students);
   }, [students]);
 
   return (
-    <div className={classes.root}>
-      <Formik
-        initialValues={
-          params.id
-            ? students.find((student) => student.id === params.id)
-            : initialValues
-        }
-        validationSchema={validationSchema}
-        onSubmit={(values) => {
-          if (!params.id) {
-            values.id = "XYZ" + getRndInteger(100, 100000);
-            console.log("id", values.id);
-            console.log(JSON.stringify(values, null, 2));
-            addStudent(values);
-          } else if (params.id) {
-            editStudent(values.id, values);
-            console.log("edited student");
+    <PageWrapper title={"Registro de Alunos"}>
+      <div className={classes.root}>
+        <Formik
+          initialValues={
+            params.id
+              ? students.find((student) => student.id === params.id)
+              : initialValues
           }
-          // setSaveToLocalStorage(true);
-        }}
-      >
-        {({
-          values,
-          handleSubmit,
-          handleChange,
-          handleBlur,
-          errors,
-          touched,
-          setFieldValue,
-        }) => (
-          <form
-            className={classes.form}
-            onSubmit={(e) => {
-              // e.preventDefault();
-              handleSubmit(e);
-            }}
-          >
-            <TextField
-              required
-              id="name"
-              name="name"
-              label="Nome"
-              value={values.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={Boolean(errors.name) && touched.name}
-              helperText={touched.name ? errors.name : ""}
-            />
-
-            <TextField
-              required
-              id="surname"
-              name="surname"
-              label="Sobrenome"
-              value={values.surname}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              error={Boolean(errors.surname) && touched.surname}
-              helperText={touched.surname ? errors.surname : ""}
-            />
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="dd/MM/yyyy"
-                margin="normal"
-                id="birthday"
-                disableFuture
-                placeholder={"08/10/2000"}
-                label="Data de Nascimento"
-                name={"birthday"}
-                value={values.birthday}
-                onChange={(date) => setFieldValue("birthday", date)}
-                invalidDateMessage="Data inválida"
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </MuiPickersUtilsProvider>
-            <TextField
-              required
-              id="sponsorName"
-              name="sponsorName"
-              fullWidth
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="Nome do responsável pela criança"
-              value={values.sponsorName}
-              error={Boolean(errors.sponsorName) && touched.sponsorName}
-              helperText={touched.sponsorName ? errors.sponsorName : ""}
-            />
-            <TextField
-              required
-              fullWidth
-              id="sponsorPhone"
-              name="sponsorPhone"
-              value={values.sponsorPhone}
-              placeholder="(48) 99999-9999"
-              onBlur={handleBlur}
-              onInput={(e) => {
-                if (e.target.value.length > 15) {
-                  return;
-                }
-                setFieldValue(
-                  "sponsorPhone",
-                  new AsYouType("BR").input(e.target.value)
-                );
+          validationSchema={validationSchema}
+          onSubmit={(values) => {
+            if (!params.id) {
+              values.id =
+                Math.random().toString(36).substr(2, 5) +
+                "_" +
+                getRndInteger(100, 100000);
+              // console.log("id", values.id);
+              console.log(JSON.stringify(values, null, 2));
+              addStudent(values);
+              window.alert("Estudante salvo com sucesso!");
+            } else if (params.id) {
+              editStudent(values.id, values);
+              console.log("edited student");
+              window.alert("Estudante editado com sucesso!");
+              history.push("/list");
+            }
+          }}
+        >
+          {({
+            values,
+            handleSubmit,
+            handleChange,
+            handleBlur,
+            errors,
+            touched,
+            setFieldValue,
+          }) => (
+            <form
+              className={classes.form}
+              onSubmit={(e) => {
+                // e.preventDefault();
+                handleSubmit(e);
               }}
-              error={Boolean(errors.sponsorPhone) && touched.sponsorPhone}
-              helperText={touched.sponsorName ? errors.sponsorPhone : ""}
-              label="Telefone de Contato do Responsável pela criança"
-            />
-            <div className={classes.formGroup}>
-              <FormControl component="fieldset" required>
+            >
+              <TextField
+                required
+                id="name"
+                name="name"
+                label="Nome"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(errors.name) && touched.name}
+                helperText={touched.name ? errors.name : ""}
+              />
+
+              <TextField
+                required
+                id="surname"
+                name="surname"
+                label="Sobrenome"
+                value={values.surname}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                error={Boolean(errors.surname) && touched.surname}
+                helperText={touched.surname ? errors.surname : ""}
+              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="dd/MM/yyyy"
+                  margin="normal"
+                  id="birthday"
+                  disableFuture
+                  placeholder={"08/10/2000"}
+                  label="Data de Nascimento"
+                  name={"birthday"}
+                  value={values.birthday}
+                  onChange={(date) => setFieldValue("birthday", date)}
+                  invalidDateMessage="Data inválida"
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+              <TextField
+                required
+                id="sponsorName"
+                name="sponsorName"
+                fullWidth
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Nome do responsável pela criança"
+                value={values.sponsorName}
+                error={Boolean(errors.sponsorName) && touched.sponsorName}
+                helperText={touched.sponsorName ? errors.sponsorName : ""}
+              />
+              <TextField
+                required
+                fullWidth
+                id="sponsorPhone"
+                name="sponsorPhone"
+                value={values.sponsorPhone}
+                placeholder="(48) 99999-9999"
+                onBlur={handleBlur}
+                onInput={(e) => {
+                  if (e.target.value.length > 15) {
+                    return;
+                  }
+                  setFieldValue(
+                    "sponsorPhone",
+                    new AsYouType("BR").input(e.target.value)
+                  );
+                }}
+                error={Boolean(errors.sponsorPhone) && touched.sponsorPhone}
+                helperText={touched.sponsorName ? errors.sponsorPhone : ""}
+                label="Telefone de Contato do Responsável pela criança"
+              />
+              <div className={classes.formGroup}>
+                <FormControl component="fieldset" required>
+                  <FormLabel component="legend">
+                    Quem devemos chamar em caso de emergência?
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="Quem devemos chamar em caso de emergência?"
+                    name="sponsorType"
+                    value={values.sponsorType}
+                    onChange={handleChange}
+                  >
+                    <FormControlLabel
+                      value="pais"
+                      control={<Radio />}
+                      label="Pais"
+                    />
+                    <FormControlLabel
+                      value="tios"
+                      control={<Radio />}
+                      label="Tios"
+                    />
+                    <FormControlLabel
+                      value="avós"
+                      control={<Radio />}
+                      label="Avós"
+                    />
+                    <FormControlLabel
+                      value="padrinhos"
+                      control={<Radio />}
+                      label="Padrinhos"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </div>
+              <TextField
+                required
+                fullWidth
+                name="emergencyPhone"
+                id="emergencyPhone"
+                value={values.emergencyPhone}
+                onBlur={handleBlur}
+                onInput={(e) => {
+                  if (e.target.value.length > 15) {
+                    return;
+                  }
+                  setFieldValue(
+                    "emergencyPhone",
+                    new AsYouType("BR").input(e.target.value)
+                  );
+                }}
+                label="Telefone de Emergência"
+                placeholder="(48) 99999-9999"
+                error={Boolean(errors.emergencyPhone) && touched.emergencyPhone}
+                helperText={touched.emergencyPhone ? errors.emergencyPhone : ""}
+              />
+              <div className={classes.formGroup}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={values.foodRestriction.have}
+                      onChange={handleChange}
+                      name="foodRestriction.have"
+                      color="primary"
+                    />
+                  }
+                  label="Possui alguma restrição alimentar?"
+                />
+                {values.foodRestriction.have && (
+                  <TextField
+                    required
+                    id="foodRestriction.description"
+                    name="foodRestriction.description"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    fullWidth
+                    label="Descrição da Restrição Alimentar"
+                    multiline
+                    rows={4}
+                  />
+                )}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={values.authorizeStudentImage}
+                      onChange={handleChange}
+                      name="authorizeStudentImage"
+                      color="primary"
+                    />
+                  }
+                  label="Autoriza o uso da imagem do aluno?"
+                />
+              </div>
+              <FormControl className={classes.formGroup} component="div">
                 <FormLabel component="legend">
-                  Quem devemos chamar em caso de emergência?
+                  Adicionar pessoa autorizada
                 </FormLabel>
-                <RadioGroup
-                  row
-                  aria-label="Quem devemos chamar em caso de emergência?"
-                  name="sponsorType"
-                  value={values.sponsorType}
+                <FieldArray
+                  name="authorizedPeople"
+                  render={({ remove, push }) => (
+                    <div>
+                      {values.authorizedPeople.length > 0 &&
+                        values.authorizedPeople.map(
+                          ({ name, relation }, index) => {
+                            const id =
+                              "auth-person-" + getRndInteger(0, 100000);
+
+                            return (
+                              <div>
+                                <TextField
+                                  key={id + "-name"}
+                                  name={`authorizedPeople.${index}.name`}
+                                  value={name}
+                                  label="Nome"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                />
+                                <TextField
+                                  key={id + "-relation"}
+                                  name={`authorizedPeople.${index}.relation`}
+                                  value={relation}
+                                  label="Relação"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                />
+                                {index !== 0 && (
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    className={classes.button}
+                                    startIcon={<DeleteIcon />}
+                                    onClick={() => remove(index)}
+                                  >
+                                    Delete
+                                  </Button>
+                                )}
+                              </div>
+                            );
+                          }
+                        )}
+                      <Fab
+                        size="small"
+                        color="primary"
+                        aria-label="add"
+                        onClick={() => push({ name: "", relation: "" })}
+                      >
+                        <AddIcon />
+                      </Fab>
+                    </div>
+                  )}
+                />
+              </FormControl>
+              <FormControl className={classes.formGroup}>
+                <InputLabel required id="classNumber">
+                  Turma
+                </InputLabel>
+                <Select
+                  labelId="classNumber"
+                  id="classNumber"
+                  name="classNumber"
+                  value={values.classNumber}
                   onChange={handleChange}
                 >
-                  <FormControlLabel
-                    value="pais"
-                    control={<Radio />}
-                    label="Pais"
-                  />
-                  <FormControlLabel
-                    value="tios"
-                    control={<Radio />}
-                    label="Tios"
-                  />
-                  <FormControlLabel
-                    value="avós"
-                    control={<Radio />}
-                    label="Avós"
-                  />
-                  <FormControlLabel
-                    value="padrinhos"
-                    control={<Radio />}
-                    label="Padrinhos"
-                  />
-                </RadioGroup>
+                  <MenuItem value={"A"}>A</MenuItem>
+                  <MenuItem value={"B"}>B</MenuItem>
+                  <MenuItem value={"C"}>C</MenuItem>
+                  <MenuItem value={"D"}>D</MenuItem>
+                </Select>
               </FormControl>
-            </div>
-            <TextField
-              required
-              fullWidth
-              name="emergencyPhone"
-              id="emergencyPhone"
-              value={values.emergencyPhone}
-              onBlur={handleBlur}
-              onInput={(e) => {
-                if (e.target.value.length > 15) {
-                  return;
-                }
-                setFieldValue(
-                  "emergencyPhone",
-                  new AsYouType("BR").input(e.target.value)
-                );
-              }}
-              label="Telefone de Emergência"
-              placeholder="(48) 99999-9999"
-              error={Boolean(errors.emergencyPhone) && touched.emergencyPhone}
-              helperText={touched.emergencyPhone ? errors.emergencyPhone : ""}
-            />
-            <div className={classes.formGroup}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={values.foodRestriction.have}
-                    onChange={handleChange}
-                    name="foodRestriction.have"
-                    color="primary"
-                  />
-                }
-                label="Possui alguma restrição alimentar?"
-              />
-              {values.foodRestriction.have && (
-                <TextField
-                  required
-                  id="foodRestrictionList"
-                  fullWidth
-                  label="Descrição da Restrição Alimentar"
-                  multiline
-                  rows={4}
-                />
-              )}
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={values.authorizeStudentImage}
-                    onChange={handleChange}
-                    name="authorizeStudentImage"
-                    color="primary"
-                  />
-                }
-                label="Autoriza o uso da imagem do aluno?"
-              />
-            </div>
-            <FormControl className={classes.formGroup} component="div">
-              <FormLabel component="legend">
-                Adicionar pessoa autorizada
-              </FormLabel>
-              <FieldArray
-                name="authorizedPeople"
-                render={({ remove, push }) => (
-                  <div>
-                    {values.authorizedPeople.length > 0 &&
-                      values.authorizedPeople.map(
-                        ({ name, relation }, index) => {
-                          const id = "auth-person-" + getRndInteger(0, 100000);
 
-                          return (
-                            <div>
-                              <TextField
-                                key={id + "-name"}
-                                name={`authorizedPeople.${index}.name`}
-                                value={name}
-                                label="Nome"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                              />
-                              <TextField
-                                key={id + "-relation"}
-                                name={`authorizedPeople.${index}.relation`}
-                                value={relation}
-                                label="Relação"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                              />
-                              {index !== 0 && (
-                                <Button
-                                  variant="contained"
-                                  color="secondary"
-                                  className={classes.button}
-                                  startIcon={<DeleteIcon />}
-                                  onClick={() => remove(index)}
-                                >
-                                  Delete
-                                </Button>
-                              )}
-                            </div>
-                          );
-                        }
-                      )}
-                    <Fab
-                      size="small"
-                      color="primary"
-                      aria-label="add"
-                      onClick={() => push({ name: "", relation: "" })}
-                    >
-                      <AddIcon />
-                    </Fab>
-                  </div>
-                )}
-              />
-            </FormControl>
-            <FormControl className={classes.formGroup}>
-              <InputLabel required id="classNumber">
-                Turma
-              </InputLabel>
-              <Select
-                labelId="classNumber"
-                id="classNumber"
-                name="classNumber"
-                value={values.classNumber}
+              <TextField
+                id="additionalInfo"
+                name="additionalInfo"
+                fullWidth
                 onChange={handleChange}
-              >
-                <MenuItem value={"A"}>A</MenuItem>
-                <MenuItem value={"B"}>B</MenuItem>
-                <MenuItem value={"C"}>C</MenuItem>
-                <MenuItem value={"D"}>D</MenuItem>
-              </Select>
-            </FormControl>
+                onBlur={handleBlur}
+                label="Informações adicionais"
+                value={values.additionalInfo}
+                error={Boolean(errors.additionalInfo) && touched.additionalInfo}
+                helperText={touched.additionalInfo ? errors.additionalInfo : ""}
+              />
 
-            <TextField
-              id="additionalInfo"
-              name="additionalInfo"
-              fullWidth
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="Informações adicionais"
-              value={values.additionalInfo}
-              error={Boolean(errors.additionalInfo) && touched.additionalInfo}
-              helperText={touched.additionalInfo ? errors.additionalInfo : ""}
-            />
-            {/* <Link component={Button} to="/list">
-              Ir para lista
-            </Link> */}
-            <Button onClick={() => history.push("/list")}>Lista</Button>
-            <Button type="submit"> {id.params ? "Salvar" : "Registrar"}</Button>
-            {/* <Teste /> */}
-          </form>
-        )}
-      </Formik>
-    </div>
+              <Button
+                className={classes.formGroup}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                {id.params ? "Salvar" : "Registrar"}
+              </Button>
+              {/* <Teste /> */}
+            </form>
+          )}
+        </Formik>
+      </div>
+    </PageWrapper>
   );
 };
 
