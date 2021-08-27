@@ -22,11 +22,23 @@ const dataReducer = (state, action) => {
         students: state.students.filter((task) => task.id !== action.payload),
       };
     case "edit_student":
-      const newStudents = state.students;
-      const index = state.students.indexOf(
-        (student) => student.id === action.payload.id
-      );
-      newStudents[index] = action.payload.data;
+      // deep copy
+      let newStudents = JSON.parse(JSON.stringify(state.students));
+      // indexOf not working for some reaSON
+      const index = newStudents
+        .map((student, index) => {
+          console.log("apareceporra", student.id);
+          debugger;
+          if (student.id === action.payload.id) {
+            return index;
+          }
+          return -1;
+        })
+        .filter((id) => id !== -1);
+      console.log("tacertoisso", index);
+      if (index[0] !== -1) {
+        newStudents[index] = action.payload.data;
+      }
       return { ...state, students: newStudents };
     case "set_students_from_local_storage":
       return {
@@ -62,10 +74,11 @@ removeStudent.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-const setStudentsFromLocalStorage = (dispatch) => (students) => {
-  console.log(typeof students);
-  console.log("studs from localStorage", students);
-  dispatch({ type: "set_students_from_local_storage", payload: students });
+const setStudentsFromLocalStorage = (dispatch) => () => {
+  if (localStorage.getItem("students")) {
+    const students = JSON.parse(localStorage.getItem("students"));
+    dispatch({ type: "set_students_from_local_storage", payload: students });
+  }
 };
 
 setStudentsFromLocalStorage.propTypes = {

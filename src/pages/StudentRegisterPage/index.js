@@ -58,7 +58,7 @@ const Teste = () => {
 const StudentRegisterPage = () => {
   let params = useParams();
   let history = useHistory();
-  const [saveToLocalStorage, setSaveToLocalStorage] = React.useState(false);
+  // const [saveToLocalStorage, setSaveToLocalStorage] = React.useState(false);
   const {
     state: { students },
     addStudent,
