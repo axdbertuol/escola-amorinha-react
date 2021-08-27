@@ -3,63 +3,59 @@ import { DataGrid } from "@material-ui/data-grid";
 import { InputAdornment, IconButton, TextField } from "@material-ui/core";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
 import Button from "@material-ui/core/Button";
-import { generatePath } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 import { Context as StudentsContext } from "../../context/StudentsContext";
-
-const columns = [
-  { field: "id", headerName: "ID", width: 50 },
-  {
-    field: "name",
-    headerName: "Nome",
-    width: 150,
-  },
-  {
-    field: "birthday",
-    headerName: "Data Nascimento",
-    type: "date",
-    width: 110,
-  },
-  {
-    field: "sponsorName",
-    headerName: "Nome Responsável",
-    width: 110,
-  },
-
-  {
-    field: "emergencyPhone",
-    headerName: "Tel Emergência",
-    type: "number",
-    width: 110,
-  },
-  {
-    field: "classNumber",
-    headerName: "Nmr classe",
-    type: "string",
-    width: 110,
-  },
-  {
-    field: "edit",
-    headerName: "Editar",
-    disableClickEventBubbling: true,
-    renderCell: (params) => {
-      let id = params.id;
-      return;
-      // return (
-      //   <Link component={Button} to={{ pathname: `/edit/${id}` }}>
-      //     Editar
-      //   </Link>
-      // );
-    },
-  },
-];
 
 const StudentListPage = () => {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
+  let history = useHistory();
   // const [selectedId, setSelectedId] = React.useState(null);
+  const columns = [
+    { field: "id", headerName: "ID", width: 50 },
+    {
+      field: "name",
+      headerName: "Nome",
+      width: 150,
+    },
+    {
+      field: "birthday",
+      headerName: "Data Nascimento",
+      type: "date",
+      width: 110,
+    },
+    {
+      field: "sponsorName",
+      headerName: "Nome Responsável",
+      width: 110,
+    },
 
+    {
+      field: "emergencyPhone",
+      headerName: "Tel Emergência",
+      type: "number",
+      width: 110,
+    },
+    {
+      field: "classNumber",
+      headerName: "Nmr classe",
+      type: "string",
+      width: 110,
+    },
+    {
+      field: "edit",
+      headerName: "Editar",
+      disableClickEventBubbling: true,
+      renderCell: (params) => {
+        let id = params.id;
+        // return;
+        return (
+          <Button onClick={() => history.push(`/edit/${id}`)}>Editar</Button>
+        );
+      },
+    },
+  ];
   const {
     state: { students },
   } = useContext(StudentsContext);

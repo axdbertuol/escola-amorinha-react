@@ -56,13 +56,13 @@ const Teste = () => {
 };
 
 const StudentRegisterPage = () => {
-  // const params = useParams();
-  const params = {};
+  let params = useParams();
   let history = useHistory();
   const [saveToLocalStorage, setSaveToLocalStorage] = React.useState(false);
   const {
     state: { students },
     addStudent,
+    editStudent,
   } = useContext(StudentsContext);
   // const [isEditing, setIsEditing] = React.useState(Boolean(id));
   const classes = useStyles();
@@ -80,10 +80,15 @@ const StudentRegisterPage = () => {
         }
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          values.id = "XYZ" + getRndInteger(100, 100000);
-          console.log("id", values.id);
-          console.log(JSON.stringify(values, null, 2));
-          addStudent(values);
+          if (!params.id) {
+            values.id = "XYZ" + getRndInteger(100, 100000);
+            console.log("id", values.id);
+            console.log(JSON.stringify(values, null, 2));
+            addStudent(values);
+          } else if (params.id) {
+            editStudent(values.id, values);
+            console.log("edited student");
+          }
           // setSaveToLocalStorage(true);
         }}
       >
