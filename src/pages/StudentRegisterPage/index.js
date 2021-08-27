@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FieldArray, Formik, useFormikContext } from "formik";
 import { AsYouType } from "libphonenumber-js";
 import DateFnsUtils from "@date-io/date-fns";
@@ -20,11 +20,12 @@ import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { Context as StudentsContext } from "../../context/StudentsContext";
 import { getRndInteger } from "../../utils/functions";
 import id from "date-fns/esm/locale/id/index.js";
 
@@ -55,29 +56,35 @@ const Teste = () => {
 };
 
 const StudentRegisterPage = () => {
-  const params = useParams();
+  // const params = useParams();
+  const params = {};
+  let history = useHistory();
+  const [saveToLocalStorage, setSaveToLocalStorage] = React.useState(false);
+  const {
+    state: { students },
+    addStudent,
+  } = useContext(StudentsContext);
   // const [isEditing, setIsEditing] = React.useState(Boolean(id));
   const classes = useStyles();
-  const [
-    setSaveToLocalStorage,
-    getStudentFromLocalStorage,
-    addStudents,
-    editStudent,
-  ] = useLocalStorage();
+  React.useEffect(() => {
+    console.log("students", students);
+  }, [students]);
 
   return (
     <div className={classes.root}>
       <Formik
         initialValues={
-          params.id ? getStudentFromLocalStorage(params.id) : initialValues
+          params.id
+            ? students.find((student) => student.id === params.id)
+            : initialValues
         }
         validationSchema={validationSchema}
         onSubmit={(values) => {
           values.id = "XYZ" + getRndInteger(100, 100000);
           console.log("id", values.id);
           console.log(JSON.stringify(values, null, 2));
-          addStudents([values]);
-          setSaveToLocalStorage(true);
+          addStudent(values);
+          // setSaveToLocalStorage(true);
         }}
       >
         {({
@@ -348,15 +355,12 @@ const StudentRegisterPage = () => {
               error={Boolean(errors.additionalInfo) && touched.additionalInfo}
               helperText={touched.additionalInfo ? errors.additionalInfo : ""}
             />
-            <Button
-              className={classes.formGroup}
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-              {id.params ? "Salvar" : "Registrar"}
-            </Button>
-            <Teste />
+            {/* <Link component={Button} to="/list">
+              Ir para lista
+            </Link> */}
+            <Button onClick={() => history.push("/list")}>Lista</Button>
+            <Button type="submit"> {id.params ? "Salvar" : "Registrar"}</Button>
+            {/* <Teste /> */}
           </form>
         )}
       </Formik>

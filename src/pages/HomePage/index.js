@@ -33,7 +33,7 @@ const HomePage = ({ children }) => {
       <Header title={pageTitle} />
       <nav className={classes.root}>
         <ButtonGroup variant="contained" color="secondary">
-          <Link to={"/"} component={Button}>
+          {/* <Link to={"/"} component={Button}>
             Home
           </Link>
           <Link to={"/register"} component={Button}>
@@ -41,7 +41,7 @@ const HomePage = ({ children }) => {
           </Link>
           <Link to={"/list"} component={Button}>
             Student List
-          </Link>
+          </Link> */}
         </ButtonGroup>
       </nav>
       {children}

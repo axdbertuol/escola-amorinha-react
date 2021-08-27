@@ -16,7 +16,7 @@ const MainRouter = () => {
           <Route path="/register" component={StudentRegisterPage}></Route>
           <Route path="/edit/:id" component={StudentRegisterPage}></Route>
         </Switch>
-      </StudentsProvider111111111111111111111111111>
+      </StudentsProvider>
     </Router>
   );
 };

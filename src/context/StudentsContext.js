@@ -11,7 +11,11 @@ import PropTypes from "prop-types";
 const dataReducer = (state, action) => {
   switch (action.type) {
     case "add_student":
-      return { ...state, students: [...state.students, ...action.payload] };
+      console.log({
+        ...state,
+        students: [...state.students, action.payload],
+      });
+      return { ...state, students: [...state.students, action.payload] };
     case "remove_student":
       return {
         ...state,
@@ -29,28 +33,17 @@ const dataReducer = (state, action) => {
         ...state,
         students: action.payload,
       };
-    case "handle_task_checked":
-      return {
-        ...state,
-        students: state.students.map((task) => {
-          if (task.id === action.payload.id) {
-            task = { ...task, checked: !task.checked };
-            console.log({ task });
-          }
-          return task;
-        }),
-      };
     default:
       return state;
   }
 };
 
-const addStudents = (dispatch) => (students) => {
-  console.log("studs from context", students);
-  dispatch({ type: "add_student", payload: students });
+const addStudent = (dispatch) => (student) => {
+  console.log("studs from context", student);
+  dispatch({ type: "add_student", payload: student });
 };
 
-addStudents.propTypes = {
+addStudent.propTypes = {
   student: PropTypes.array.isRequired,
 };
 const editStudent = (dispatch) => (id, data) => {
@@ -81,6 +74,6 @@ setStudentsFromLocalStorage.propTypes = {
 
 export const { Context, Provider } = createDataContext(
   dataReducer, // reducer
-  { addStudents, removeStudent, setStudentsFromLocalStorage }, // functions  (actions)
-  { students: [], studentIdToEdit: "" } // state
+  { addStudent, removeStudent, editStudent, setStudentsFromLocalStorage }, // functions  (actions)
+  { students: [] } // state
 );

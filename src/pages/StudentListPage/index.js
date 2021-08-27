@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { InputAdornment, IconButton, TextField } from "@material-ui/core";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
@@ -45,12 +45,12 @@ const columns = [
     disableClickEventBubbling: true,
     renderCell: (params) => {
       let id = params.id;
-
-      return (
-        <Link component={Button} to={{ pathname: `/edit/${id}` }}>
-          Editar
-        </Link>
-      );
+      return;
+      // return (
+      //   <Link component={Button} to={{ pathname: `/edit/${id}` }}>
+      //     Editar
+      //   </Link>
+      // );
     },
   },
 ];
@@ -62,17 +62,10 @@ const StudentListPage = () => {
 
   const {
     state: { students },
-    setStudentsFromLocalStorage,
-  } = React.useContext(StudentsContext);
+  } = useContext(StudentsContext);
 
-  React.useEffect(() => {
-    if (
-      students.length === 0 &&
-      localStorage.getItem("students") &&
-      localStorage.getItem("students").length > 0
-    ) {
-      setStudentsFromLocalStorage(JSON.parse(localStorage.getItem("students")));
-    }
+  useEffect(() => {
+    console.log(students);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
