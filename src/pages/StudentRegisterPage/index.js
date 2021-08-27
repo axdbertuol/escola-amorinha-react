@@ -26,6 +26,7 @@ import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { getRndInteger } from "../../utils/functions";
+import id from "date-fns/esm/locale/id/index.js";
 
 const initialValues = {
   id: "",
@@ -54,29 +55,29 @@ const Teste = () => {
 };
 
 const StudentRegisterPage = () => {
-  const { id } = useParams();
-  const [isEditing, setIsEditing] = React.useState(Boolean(id));
+  const params = useParams();
+  // const [isEditing, setIsEditing] = React.useState(Boolean(id));
   const classes = useStyles();
-  const [setSaveToLocalStorage, getStudentFromLocalStorage, addStudent] =
-    useLocalStorage();
+  const [
+    setSaveToLocalStorage,
+    getStudentFromLocalStorage,
+    addStudents,
+    editStudent,
+  ] = useLocalStorage();
 
   return (
     <div className={classes.root}>
       <Formik
         initialValues={
-          isEditing ? getStudentFromLocalStorage(id) : initialValues
+          params.id ? getStudentFromLocalStorage(params.id) : initialValues
         }
         validationSchema={validationSchema}
         onSubmit={(values) => {
           values.id = "XYZ" + getRndInteger(100, 100000);
+          console.log("id", values.id);
           console.log(JSON.stringify(values, null, 2));
-          addStudent(values);
+          addStudents([values]);
           setSaveToLocalStorage(true);
-          window.alert(
-            isEditing
-              ? "Estudante editado com sucesso!"
-              : "Estudante salvo com sucesso!"
-          );
         }}
       >
         {({
@@ -91,7 +92,7 @@ const StudentRegisterPage = () => {
           <form
             className={classes.form}
             onSubmit={(e) => {
-              e.preventDefault();
+              // e.preventDefault();
               handleSubmit(e);
             }}
           >
@@ -353,7 +354,7 @@ const StudentRegisterPage = () => {
               color="primary"
               type="submit"
             >
-              {isEditing ? "Salvar" : "Registrar"}
+              {id.params ? "Salvar" : "Registrar"}
             </Button>
             <Teste />
           </form>

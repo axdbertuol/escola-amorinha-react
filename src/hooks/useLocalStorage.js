@@ -4,7 +4,7 @@ import { Context as StudentsContext } from "../context/StudentsContext";
 const useLocalStorage = () => {
   const {
     state: { students },
-    addStudent,
+    addStudents,
     removeStudent,
     editStudent,
   } = useContext(StudentsContext);
@@ -25,7 +25,7 @@ const useLocalStorage = () => {
   return [
     setSaveToLocalStorage,
     getStudentFromLocalStorage,
-    addStudent,
+    addStudents,
     removeStudent,
     editStudent,
   ];

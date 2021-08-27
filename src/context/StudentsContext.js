@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 const dataReducer = (state, action) => {
   switch (action.type) {
     case "add_student":
-      return { ...state, students: [...state.students, action.payload] };
+      return { ...state, students: [...state.students, ...action.payload] };
     case "remove_student":
       return {
         ...state,
@@ -45,14 +45,13 @@ const dataReducer = (state, action) => {
   }
 };
 
-const addStudent = (dispatch) => (student) => {
-  console.log("studs from context", student);
-
-  dispatch({ type: "add_student", payload: student });
+const addStudents = (dispatch) => (students) => {
+  console.log("studs from context", students);
+  dispatch({ type: "add_student", payload: students });
 };
 
-addStudent.propTypes = {
-  tasks: PropTypes.object.isRequired,
+addStudents.propTypes = {
+  student: PropTypes.array.isRequired,
 };
 const editStudent = (dispatch) => (id, data) => {
   // console.log("studs from context", student);
@@ -82,6 +81,6 @@ setStudentsFromLocalStorage.propTypes = {
 
 export const { Context, Provider } = createDataContext(
   dataReducer, // reducer
-  { addStudent, removeStudent, setStudentsFromLocalStorage }, // functions  (actions)
+  { addStudents, removeStudent, setStudentsFromLocalStorage }, // functions  (actions)
   { students: [], studentIdToEdit: "" } // state
 );

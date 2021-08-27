@@ -66,7 +66,11 @@ const StudentListPage = () => {
   } = React.useContext(StudentsContext);
 
   React.useEffect(() => {
-    if (students.length === 0 && localStorage.getItem("students").length > 0) {
+    if (
+      students.length === 0 &&
+      localStorage.getItem("students") &&
+      localStorage.getItem("students").length > 0
+    ) {
       setStudentsFromLocalStorage(JSON.parse(localStorage.getItem("students")));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -30,7 +30,7 @@ const studentValidationSchema = yup.object({
   foodRestriction: yup
     .object({
       have: yup.boolean().default(false),
-      description: yup.ref("foodRestriction.have")
+      description: yup.ref("foodRestriction.have").getValue()
         ? yup.string().required("Campo obrigatório!")
         : null,
     })
