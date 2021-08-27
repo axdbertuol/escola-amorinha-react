@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  nav: {
     display: "flex",
     alignItems: "center",
     justifyItems: "center",
@@ -18,13 +18,12 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(2),
     },
   },
+  container: {
+    // backgroundColor: theme.palette.primary.contrastText,
+    // overflow: "hidden",
+  },
 }));
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     backgroundColor: "red",
-//     ...theme.root,
-//   },
-// }));
+
 const PageWrapper = ({ children, title, size }) => {
   const [pageTitle, setPageTitle] = useState(title || "App da Escolinha");
   const classes = useStyles();
@@ -33,7 +32,7 @@ const PageWrapper = ({ children, title, size }) => {
   return (
     <Container maxWidth={size || "sm"}>
       <Header title={pageTitle} />
-      <nav className={classes.root}>
+      <nav className={classes.nav}>
         <ButtonGroup variant="contained" color="secondary">
           <Button onClick={() => history.push("/")}>Home</Button>
           <Button onClick={() => history.push("/register")}>
@@ -42,7 +41,7 @@ const PageWrapper = ({ children, title, size }) => {
           <Button onClick={() => history.push("/list")}>Student List</Button>
         </ButtonGroup>
       </nav>
-      {children}
+      <div className={classes.container}>{children}</div>
     </Container>
   );
 };
