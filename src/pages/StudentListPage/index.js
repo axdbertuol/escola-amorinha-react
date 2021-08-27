@@ -102,10 +102,9 @@ const StudentListPage = () => {
         <TextField
           id="searchbar"
           name="searchbar"
-          placeholder={"Search"}
+          placeholder={"Busque um aluno pelo nome"}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          // fullWidth
           color="secondary"
           style={{
             backgroundColor: "white",
@@ -113,9 +112,7 @@ const StudentListPage = () => {
             overflow: "hidden",
             marginBottom: "1rem",
             width: "50%",
-            // margin: 8,
           }}
-          // margin="dense"
           variant="filled"
           type="search"
           InputProps={{
