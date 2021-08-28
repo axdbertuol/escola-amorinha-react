@@ -14,8 +14,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyItems: "center",
     justifyContent: "center",
+    marginTop: "1rem",
+    marginBottom: "10rem",
     "& > *": {
-      margin: theme.spacing(2),
+      // margin: theme.spacing(2),
     },
   },
 }));
@@ -26,7 +28,6 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
 
   return (
     <Container maxWidth={size || "sm"}>
-      <Header title={title} />
       <nav className={classes.nav}>
         <ButtonGroup variant="contained" color="secondary">
           <Button onClick={() => history.push("/")}>Home</Button>
@@ -36,6 +37,7 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
           <Button onClick={() => history.push("/list")}>Student List</Button>
         </ButtonGroup>
       </nav>
+
       <div>{children}</div>
     </Container>
   );

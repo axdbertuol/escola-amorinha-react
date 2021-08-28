@@ -15,15 +15,16 @@ import FormLabel from "@material-ui/core/FormLabel";
 import InputLabel from "@material-ui/core/InputLabel";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
 import { useParams, useHistory, Redirect } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
+import { Divider } from "@material-ui/core";
 
 import ColorRadio from "../../components/ColorRadio";
+import Header from "../../components/Header";
 import PageWrapper from "../PageWrapper";
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
@@ -45,7 +46,7 @@ const initialValues = {
   },
   authorizeStudentImage: false,
   authorizedPeople: [{ name: "", relation: "" }],
-  classNumber: "A",
+  classNumber: "",
   additionalInfo: "",
 };
 const Teste = () => {
@@ -70,8 +71,10 @@ const StudentRegisterPage = () => {
   }, [students]);
 
   return (
-    <PageWrapper title={"Registro de Alunos"}>
+    <PageWrapper>
       <div className={classes.root}>
+        <Header title="Registro de Aluno" />
+        <Divider variant="middle" />
         <Formik
           initialValues={
             params.id
@@ -154,6 +157,7 @@ const StudentRegisterPage = () => {
                   }}
                 />
               </MuiPickersUtilsProvider>
+
               <TextField
                 required
                 id="sponsorName"
@@ -166,6 +170,23 @@ const StudentRegisterPage = () => {
                 error={Boolean(errors.sponsorName) && touched.sponsorName}
                 helperText={touched.sponsorName ? errors.sponsorName : ""}
               />
+              <FormControl className={classes.formGroup}>
+                <InputLabel required id="classNumber">
+                  Turma
+                </InputLabel>
+                <Select
+                  labelId="classNumber"
+                  id="classNumber"
+                  name="classNumber"
+                  value={values.classNumber}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"A"}>A</MenuItem>
+                  <MenuItem value={"B"}>B</MenuItem>
+                  <MenuItem value={"C"}>C</MenuItem>
+                  <MenuItem value={"D"}>D</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 required
                 fullWidth
@@ -243,6 +264,7 @@ const StudentRegisterPage = () => {
                 error={Boolean(errors.emergencyPhone) && touched.emergencyPhone}
                 helperText={touched.emergencyPhone ? errors.emergencyPhone : ""}
               />
+
               <div className={classes.formGroup}>
                 <FormControlLabel
                   control={
@@ -340,23 +362,6 @@ const StudentRegisterPage = () => {
                     </div>
                   )}
                 />
-              </FormControl>
-              <FormControl className={classes.formGroup}>
-                <InputLabel required id="classNumber">
-                  Turma
-                </InputLabel>
-                <Select
-                  labelId="classNumber"
-                  id="classNumber"
-                  name="classNumber"
-                  value={values.classNumber}
-                  onChange={handleChange}
-                >
-                  <MenuItem value={"A"}>A</MenuItem>
-                  <MenuItem value={"B"}>B</MenuItem>
-                  <MenuItem value={"C"}>C</MenuItem>
-                  <MenuItem value={"D"}>D</MenuItem>
-                </Select>
               </FormControl>
 
               <TextField

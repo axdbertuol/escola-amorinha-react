@@ -3,6 +3,7 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 
+import PageWrapper from "../PageWrapper";
 import Header from "../../components/Header";
 
 import { Link, useHistory } from "react-router-dom";
@@ -24,7 +25,7 @@ const HomePage = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  return <Container maxWidth={"sm"}>Homepage</Container>;
+  return <PageWrapper>Homepage</PageWrapper>;
 };
 
 export default HomePage;
