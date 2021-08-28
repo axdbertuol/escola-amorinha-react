@@ -1,0 +1,13 @@
+.mainContainer {
+    width: 40vw;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-top: 4rem;
+    padding: 3rem 2.5rem;
+    border-radius: 15px;
+    background-color:whitesmoke;
+    box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.6);
+  }
+  
