@@ -31,7 +31,7 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
+  const anchorRef = React.useRef(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -79,8 +79,6 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
               anchorEl={anchorRef.current}
               role={undefined}
               transition
-              style={{ zIndex: "1000" }}
-              disablePortal
             >
               {({ TransitionProps, placement }) => (
                 <Grow
@@ -90,7 +88,7 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
                       placement === "bottom" ? "center top" : "center bottom",
                   }}
                 >
-                  <Paper>
+                  <Paper color="primary">
                     <ClickAwayListener onClickAway={handleClose}>
                       <MenuList
                         autoFocusItem={open}
@@ -98,18 +96,15 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
                         onKeyDown={handleListKeyDown}
                       >
                         <MenuItem
-                          value={"table"}
-                          onClick={(e) => handleListItemClick(e, "table")}
-                        >
-                          Table
-                        </MenuItem>
-                        <MenuItem
-                          value={"default"}
                           onClick={(e) => handleListItemClick(e, "default")}
                         >
                           Default
                         </MenuItem>
-                        {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+                        <MenuItem
+                          onClick={(e) => handleListItemClick(e, "table")}
+                        >
+                          Table
+                        </MenuItem>
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>

@@ -3,7 +3,7 @@ import { DataGrid } from "@material-ui/data-grid";
 import { InputAdornment, IconButton, TextField } from "@material-ui/core";
 import SearchOutlined from "@material-ui/icons/SearchOutlined";
 import Button from "@material-ui/core/Button";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Context as StudentsContext } from "../../context/StudentsContext";
@@ -67,8 +67,9 @@ const StudentListPage = () => {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
   let history = useHistory();
+  const params = useParams();
   const classes = useStyles();
-
+  console.log("params", params);
   columns.push({
     field: "edit",
     headerName: "Editar",
@@ -126,13 +127,17 @@ const StudentListPage = () => {
         />
       </div>
       <div className={classes.root}>
-        <DataGrid
-          color="primary"
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          rows={query ? results : students}
-        />
+        {params.type === "table" ? (
+          <DataGrid
+            color="primary"
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            rows={query ? results : students}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </PageWrapper>
   );

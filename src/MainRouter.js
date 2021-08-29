@@ -14,7 +14,8 @@ const MainRouter = () => {
       <Switch>
         <StudentsProvider>
           <Route exact path="/" component={HomePage}></Route>
-          <Route path="/list" component={StudentListPage}></Route>
+          <Route exact path="/list" component={StudentListPage}></Route>
+          <Route path="/list/:type" component={StudentListPage}></Route>
           <Route path="/register" component={StudentRegisterPage}></Route>
           <Route path="/edit/:id" component={StudentRegisterPage}></Route>
         </StudentsProvider>
