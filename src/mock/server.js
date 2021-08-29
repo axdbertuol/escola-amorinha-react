@@ -3,30 +3,17 @@ import { createServer, Model, Factory } from "miragejs";
 import faker from "faker";
 faker.locale = "pt_BR";
 
+const TURMAS = ["A", "B", "C", "D"];
+const AUTH_PEOPLE = ["pais", "avós", "tios", "padrinhos"];
+
 export function makeServer() {
   return createServer({
     models: {
       student: Model,
+      authorizedPeople: AUTH_PEOPLE,
+      classNumber: TURMAS,
     },
-    // factories: {
-    //   student: Factory.extend({
-    //     id: "",
-    //     name: "",
-    //     surname: "",
-    //     birthday: null,
-    //     sponsorName: "",
-    //     sponsorPhone: "",
-    //     sponsorType: "pais",
-    //     emergencyPhone: "",
-    //     foodRestriction: {
-    //       have: false,
-    //       description: "",
-    //     },
-    //     authorizeStudentImage: false,
-    //     authorizedPeople: [{ name: "", relation: "" }],
-    //     classNumber: "",
-    //     additionalInfo: "",
-    //   }),
+
     factories: {
       student: Factory.extend({
         id() {
@@ -39,19 +26,26 @@ export function makeServer() {
           return faker.name.lastName();
         },
         birthday() {
-          return faker.date.past();
+          const date = faker.date.past(10, new Date(2015, 1, 1));
+          return (
+            date.getDate() +
+            "/" +
+            (date.getMonth() + 1) +
+            "/" +
+            date.getFullYear()
+          );
         },
         sponsorName() {
           return faker.name.firstName();
         },
         sponsorPhone() {
-          return faker.phone.phoneNumber("(##)#####-####");
+          return faker.phone.phoneNumber("(##) 9####-####");
         },
         sponsorType() {
-          return faker.helpers.randomize(["pais", "avós", "tios", "padrinhos"]);
+          return faker.helpers.randomize(AUTH_PEOPLE);
         },
         emergencyPhone() {
-          return faker.phone.phoneNumber("(##)#####-####");
+          return faker.phone.phoneNumber("(##) 9####-####");
         },
         foodRestriction() {
           return { have: () => faker.datatype.boolean(), description: "" };
@@ -63,26 +57,16 @@ export function makeServer() {
           return [
             {
               name: faker.name.firstName(),
-              relation: faker.helpers.randomize([
-                "pais",
-                "avós",
-                "tios",
-                "padrinhos",
-              ]),
+              relation: faker.helpers.randomize(AUTH_PEOPLE),
             },
             {
               name: faker.name.firstName(),
-              relation: faker.helpers.randomize([
-                "pais",
-                "avós",
-                "tios",
-                "padrinhos",
-              ]),
+              relation: faker.helpers.randomize(AUTH_PEOPLE),
             },
           ];
         },
         classNumber() {
-          return faker.helpers.randomize(["A", "B", "C", "D"]);
+          return faker.helpers.randomize(TURMAS);
         },
         additionalInfo() {
           return faker.lorem.sentence();
@@ -91,6 +75,8 @@ export function makeServer() {
     },
     routes() {
       this.namespace = "api";
+      this.get("/turmas");
+      this.get("/auth-people");
       this.get("/students");
       this.get("/students/:id");
       this.post("/students");
