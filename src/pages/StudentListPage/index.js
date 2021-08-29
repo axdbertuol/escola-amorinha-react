@@ -41,23 +41,23 @@ let columns = [
     field: "birthday",
     headerName: "Data Nascimento",
     type: "date",
-    width: 110,
+    width: 150,
   },
   {
     field: "sponsorName",
-    headerName: "Nome Responsável",
+    headerName: "Responsável",
     width: 110,
   },
 
   {
     field: "emergencyPhone",
-    headerName: "Tel Emergência",
-    type: "number",
-    width: 110,
+    headerName: "Tel. Emergência",
+    type: "string",
+    width: 170,
   },
   {
     field: "classNumber",
-    headerName: "Nmr classe",
+    headerName: "Turma",
     type: "string",
     width: 110,
   },
@@ -72,13 +72,15 @@ const StudentListPage = () => {
   columns.push({
     field: "edit",
     headerName: "Editar",
-    width: 100,
+    width: 110,
     disableClickEventBubbling: true,
     renderCell: (params) => {
       let id = params.id;
 
       return (
-        <Button onClick={() => history.push(`/edit/${id}`)}>Editar</Button>
+        <Button variant="contained" onClick={() => history.push(`/edit/${id}`)}>
+          Editar
+        </Button>
       );
     },
   });
@@ -87,15 +89,12 @@ const StudentListPage = () => {
     state: { students },
   } = useContext(StudentsContext);
 
-  // useEffect(() => {
-  //   console.log(students);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   useEffect(() => {
     if (students && query) {
-      let searchResults = students.filter(({ name }) => name.match(query));
-      console.log(searchResults);
+      console.log(students);
+      let searchResults = students.filter(({ name }) => {
+        return name.match(new RegExp(query, "gi"));
+      });
       if (searchResults) {
         setResults(searchResults);
       }

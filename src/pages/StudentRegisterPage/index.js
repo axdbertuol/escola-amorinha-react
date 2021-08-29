@@ -49,13 +49,6 @@ const initialValues = {
   classNumber: "",
   additionalInfo: "",
 };
-const Teste = () => {
-  const { values, errors } = useFormikContext();
-  React.useEffect(() => {
-    console.log(values, errors);
-  });
-  return null;
-};
 
 const StudentRegisterPage = () => {
   let params = useParams();
