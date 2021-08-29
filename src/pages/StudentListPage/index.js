@@ -107,10 +107,11 @@ const StudentListPage = () => {
         <TextField
           id="searchbar"
           name="searchbar"
-          placeholder={"Busque um aluno pelo nome"}
+          // placeholder={"Busque um aluno pelo nome"}
+          label="Busque aqui"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          color="secondary"
+          color="primary"
           className={classes.searchbar}
           variant="filled"
           type="search"

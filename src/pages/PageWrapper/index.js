@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyItems: "center",
     justifyContent: "center",
-    marginTop: "1rem",
-    marginBottom: "10rem",
+    marginTop: "5rem",
+    marginBottom: "5rem",
     "& > *": {
       // margin: theme.spacing(2),
     },
