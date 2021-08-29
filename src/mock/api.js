@@ -1,4 +1,4 @@
-export const populateStudents = async (
+export const populate = async (
   addStudent,
   setClassNumber,
   setAuthPeopleRelation

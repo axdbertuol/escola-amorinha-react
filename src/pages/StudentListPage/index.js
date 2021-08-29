@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Context as StudentsContext } from "../../context/StudentsContext";
 import PageWrapper from "../PageWrapper";
+import useStudentsContext from "../../hooks/useStudentsContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,9 +87,8 @@ const StudentListPage = () => {
     },
   });
 
-  const {
-    state: { students },
-  } = useContext(StudentsContext);
+  const [state] = useStudentsContext();
+  const students = state.students;
 
   useEffect(() => {
     if (students && query) {

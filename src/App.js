@@ -8,7 +8,6 @@ import MainRouter from "./MainRouter";
 import { makeServer } from "./mock/server";
 
 let apiServer = makeServer();
-// server.;
 
 const theme = createTheme({
   palette: {

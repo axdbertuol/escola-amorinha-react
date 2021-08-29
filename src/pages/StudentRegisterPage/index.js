@@ -27,7 +27,7 @@ import Header from "../../components/Header";
 import PageWrapper from "../PageWrapper";
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
-import { Context as StudentsContext } from "../../context/StudentsContext";
+import useStudentsContext from "../../hooks/useStudentsContext";
 import { getRndInteger } from "../../utils/functions";
 
 let initialValues = {
@@ -52,28 +52,12 @@ let initialValues = {
 const StudentRegisterPage = () => {
   let params = useParams();
   let history = useHistory();
-  const {
-    // state: { students, classNumber, authorizedPeopleRelation },
-    state,
-    addStudent,
-    editStudent,
-  } = useContext(StudentsContext);
+  const [state, addStudent, editStudent] = useStudentsContext();
   const classes = useStyles();
 
   React.useEffect(() => {
     console.log("students", state.students);
   }, [state.students]);
-
-  // onMount
-  // React.useEffect(() => {
-  //   if (authorizedPeopleRelation && classNumber) {
-  //     initialValues = {
-  //       ...initialValues,
-  //       classNumber,
-  //       authorizedPeople: { name: "", relation: authorizedPeopleRelation },
-  //     };
-  //   }
-  // }, []);
 
   return (
     <PageWrapper>
@@ -227,26 +211,17 @@ const StudentRegisterPage = () => {
                     value={values.sponsorType}
                     onChange={handleChange}
                   >
-                    <FormControlLabel
-                      value="pais"
-                      control={<ColorRadio />}
-                      label="Pais"
-                    />
-                    <FormControlLabel
-                      value="tios"
-                      control={<ColorRadio />}
-                      label="Tios"
-                    />
-                    <FormControlLabel
-                      value="avós"
-                      control={<ColorRadio />}
-                      label="Avós"
-                    />
-                    <FormControlLabel
-                      value="padrinhos"
-                      control={<ColorRadio />}
-                      label="Padrinhos"
-                    />
+                    {state.authorizedPeopleRelation &&
+                      state.authorizedPeopleRelation.map((relation, index) => (
+                        <FormControlLabel
+                          key={index + "-" + relation}
+                          value={relation}
+                          control={<ColorRadio />}
+                          label={
+                            relation.charAt(0).toUpperCase() + relation.slice(1)
+                          }
+                        />
+                      ))}
                   </RadioGroup>
                 </FormControl>
               </div>
@@ -357,7 +332,8 @@ const StudentRegisterPage = () => {
                                             key={index + relation}
                                             value={relation}
                                           >
-                                            {relation}
+                                            {relation.charAt(0).toUpperCase() +
+                                              relation.slice(1)}
                                           </MenuItem>
                                         )
                                       )}
