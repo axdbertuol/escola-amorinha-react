@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
  * @param {object} action - The action object
  */
 
-const dataReducer = (state, action) => {
+const studentsDataReducer = (state, action) => {
   switch (action.type) {
     case "add_student":
       console.log({
@@ -42,6 +42,16 @@ const dataReducer = (state, action) => {
         ...state,
         students: action.payload,
       };
+    case "set_classNumber":
+      return {
+        ...state,
+        classNumber: action.payload,
+      };
+    case "set_auth_people_relation":
+      return {
+        ...state,
+        authorizedPeopleRelation: action.payload,
+      };
     default:
       return state;
   }
@@ -55,6 +65,7 @@ const addStudent = (dispatch) => (student) => {
 addStudent.propTypes = {
   student: PropTypes.array.isRequired,
 };
+
 const editStudent = (dispatch) => (id, data) => {
   // console.log("studs from context", student);
 
@@ -82,8 +93,29 @@ setStudentsFromLocalStorage.propTypes = {
   tasks: PropTypes.array.isRequired,
 };
 
+const setClassNumber = (dispatch) => (classNumbers) => {
+  if (Array.isArray(classNumbers)) {
+    dispatch({ type: "set_classNumber", payload: classNumbers });
+  }
+};
+const setAuthPeopleRelation = (dispatch) => (authorizedPeopleRelation) => {
+  if (Array.isArray(authorizedPeopleRelation)) {
+    dispatch({
+      type: "set_auth_people_relation",
+      payload: authorizedPeopleRelation,
+    });
+  }
+};
+
 export const { Context, Provider } = createDataContext(
-  dataReducer, // reducer
-  { addStudent, removeStudent, editStudent, setStudentsFromLocalStorage }, // functions  (actions)
-  { students: [] } // state
+  studentsDataReducer, // reducer
+  {
+    addStudent,
+    removeStudent,
+    editStudent,
+    setStudentsFromLocalStorage,
+    setClassNumber,
+    setAuthPeopleRelation,
+  }, // functions  (actions)
+  { students: [], classNumber: [], authorizedPeopleRelation: [] } // state
 );

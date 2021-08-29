@@ -4,17 +4,19 @@ import faker from "faker";
 faker.locale = "pt_BR";
 
 const TURMAS = ["A", "B", "C", "D"];
-const AUTH_PEOPLE = ["pais", "avós", "tios", "padrinhos"];
+const AUTH_PEOPLE_RELATION = ["pais", "avós", "tios", "padrinhos"];
 
 export function makeServer() {
   return createServer({
     models: {
       student: Model,
-      authorizedPeople: AUTH_PEOPLE,
-      classNumber: TURMAS,
+      // authorizedPeopleRelation: Model,
+      // classNumber: Model,
     },
 
     factories: {
+      // authorizedPeopleRelation: Factory.extend(AUTH_PEOPLE_RELATION),
+      // classNumber: Factory.extend(TURMAS),
       student: Factory.extend({
         id() {
           return faker.datatype.uuid();
@@ -42,7 +44,7 @@ export function makeServer() {
           return faker.phone.phoneNumber("(##) 9####-####");
         },
         sponsorType() {
-          return faker.helpers.randomize(AUTH_PEOPLE);
+          return faker.helpers.randomize(AUTH_PEOPLE_RELATION);
         },
         emergencyPhone() {
           return faker.phone.phoneNumber("(##) 9####-####");
@@ -57,11 +59,11 @@ export function makeServer() {
           return [
             {
               name: faker.name.firstName(),
-              relation: faker.helpers.randomize(AUTH_PEOPLE),
+              relation: faker.helpers.randomize(AUTH_PEOPLE_RELATION),
             },
             {
               name: faker.name.firstName(),
-              relation: faker.helpers.randomize(AUTH_PEOPLE),
+              relation: faker.helpers.randomize(AUTH_PEOPLE_RELATION),
             },
           ];
         },
@@ -75,8 +77,12 @@ export function makeServer() {
     },
     routes() {
       this.namespace = "api";
-      this.get("/turmas");
-      this.get("/auth-people");
+      this.get("/turmas", () => {
+        return JSON.stringify(TURMAS);
+      });
+      this.get("/pessoas-autorizadas", () =>
+        JSON.stringify(AUTH_PEOPLE_RELATION)
+      );
       this.get("/students");
       this.get("/students/:id");
       this.post("/students");
@@ -84,6 +90,8 @@ export function makeServer() {
       this.del("/students/:id");
     },
     seeds(server) {
+      // server.create("authorizedPeopleRelation");
+      // server.create("classNumber");
       server.createList("student", 10);
     },
   });

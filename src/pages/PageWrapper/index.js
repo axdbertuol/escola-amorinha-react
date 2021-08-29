@@ -39,7 +39,6 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
     setAnchorEl(null);
   };
   const handleListItemClick = (e, value) => {
-    // console.log(e);
     handleClick(e);
     history.push(`/list/${value}`);
     handleClose();
@@ -62,7 +61,6 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
           <Button onClick={() => history.push("/register")}>
             Registration
           </Button>
-          {/* <Button onClick={() => history.push("/list")}>Student List</Button> */}
           <div>
             <Button
               ref={anchorRef}

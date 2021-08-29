@@ -26,6 +26,8 @@ const HomePage = () => {
   const {
     state: { students },
     addStudent,
+    setClassNumber,
+    setAuthPeopleRelation,
   } = useContext(StudentsContext);
 
   useEffect(() => {
@@ -38,7 +40,23 @@ const HomePage = () => {
           addStudent(student);
         });
       } catch (error) {
-        console.log("fetch error", error);
+        console.log("fetch students error", error);
+      }
+      try {
+        const response = await fetch("/api/turmas");
+        const data = await response.json();
+        console.log("turmas", data);
+        setClassNumber(data);
+      } catch (error) {
+        console.log("fetch turmas error", error);
+      }
+      try {
+        const response = await fetch("/api/pessoas-autorizadas");
+        const data = await response.json();
+        console.log("auth people", data);
+        setAuthPeopleRelation(data);
+      } catch (error) {
+        console.log("fetch auth people error", error);
       }
     };
     if (students.length === 0) {

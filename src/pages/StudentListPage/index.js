@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${theme.palette.primary.dark}`,
     overflow: "hidden",
     marginBottom: "0.2rem",
-    width: "50%",
+    width: "70%",
   },
 }));
 
@@ -92,7 +92,6 @@ const StudentListPage = () => {
 
   useEffect(() => {
     if (students && query) {
-      console.log(students);
       let searchResults = students.filter(({ name }) => {
         return name.match(new RegExp(query, "gi"));
       });
@@ -107,7 +106,6 @@ const StudentListPage = () => {
         <TextField
           id="searchbar"
           name="searchbar"
-          // placeholder={"Busque um aluno pelo nome"}
           label="Busque aqui"
           value={query}
           onChange={(e) => setQuery(e.target.value)}

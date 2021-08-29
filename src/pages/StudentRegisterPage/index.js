@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FieldArray, Formik, useFormikContext } from "formik";
+import { FieldArray, Formik } from "formik";
 import { AsYouType } from "libphonenumber-js";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -7,7 +7,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
-import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -31,7 +30,7 @@ import validationSchema from "./StudentRegisterPage.schema";
 import { Context as StudentsContext } from "../../context/StudentsContext";
 import { getRndInteger } from "../../utils/functions";
 
-const initialValues = {
+let initialValues = {
   id: "",
   name: "",
   surname: "",
@@ -54,14 +53,27 @@ const StudentRegisterPage = () => {
   let params = useParams();
   let history = useHistory();
   const {
-    state: { students },
+    // state: { students, classNumber, authorizedPeopleRelation },
+    state,
     addStudent,
     editStudent,
   } = useContext(StudentsContext);
   const classes = useStyles();
+
   React.useEffect(() => {
-    console.log("students", students);
-  }, [students]);
+    console.log("students", state.students);
+  }, [state.students]);
+
+  // onMount
+  // React.useEffect(() => {
+  //   if (authorizedPeopleRelation && classNumber) {
+  //     initialValues = {
+  //       ...initialValues,
+  //       classNumber,
+  //       authorizedPeople: { name: "", relation: authorizedPeopleRelation },
+  //     };
+  //   }
+  // }, []);
 
   return (
     <PageWrapper>
@@ -71,7 +83,7 @@ const StudentRegisterPage = () => {
         <Formik
           initialValues={
             params.id
-              ? students.find((student) => student.id === params.id)
+              ? state.students.find((student) => student.id === params.id)
               : initialValues
           }
           validationSchema={validationSchema}
@@ -174,10 +186,12 @@ const StudentRegisterPage = () => {
                   value={values.classNumber}
                   onChange={handleChange}
                 >
-                  <MenuItem value={"A"}>A</MenuItem>
-                  <MenuItem value={"B"}>B</MenuItem>
-                  <MenuItem value={"C"}>C</MenuItem>
-                  <MenuItem value={"D"}>D</MenuItem>
+                  {state.classNumber &&
+                    state.classNumber.map((name, index) => (
+                      <MenuItem key={name + index} value={name}>
+                        {name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
               <TextField
@@ -308,9 +322,9 @@ const StudentRegisterPage = () => {
                         values.authorizedPeople.map(
                           ({ name, relation }, index) => {
                             const id = `auth-person-${index}-`;
-
+                            console.log("relation", relation);
                             return (
-                              <div>
+                              <div key={"div" + id}>
                                 <TextField
                                   key={id + "-name"}
                                   name={`authorizedPeople.${index}.name`}
@@ -320,14 +334,35 @@ const StudentRegisterPage = () => {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                 />
-                                <TextField
-                                  key={id + "-relation"}
-                                  name={`authorizedPeople.${index}.relation`}
-                                  value={relation}
-                                  label="Relação"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                />
+
+                                <FormControl
+                                  className={classes.marginTop2}
+                                  style={{ minWidth: "15rem" }}
+                                >
+                                  <InputLabel required id={`${id}-relation`}>
+                                    Relação
+                                  </InputLabel>
+                                  <Select
+                                    labelId={`${id}-relation`}
+                                    id={`authorizedPeople.${index}.relation`}
+                                    name={`authorizedPeople.${index}.relation`}
+                                    value={relation}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                  >
+                                    {state.authorizedPeopleRelation &&
+                                      state.authorizedPeopleRelation.map(
+                                        (relation, index) => (
+                                          <MenuItem
+                                            key={index + relation}
+                                            value={relation}
+                                          >
+                                            {relation}
+                                          </MenuItem>
+                                        )
+                                      )}
+                                  </Select>
+                                </FormControl>
                                 {index !== 0 && (
                                   <Fab
                                     size="small"

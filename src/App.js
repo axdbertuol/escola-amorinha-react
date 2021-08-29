@@ -23,12 +23,11 @@ const theme = createTheme({
 
 function App() {
   useEffect(() => {
-    // server.create("student");
-    console.log("server", apiServer.db.dump());
     return () => {
       apiServer.shutdown();
     };
   }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <MainRouter />
