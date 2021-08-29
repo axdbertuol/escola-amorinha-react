@@ -4,20 +4,21 @@ import React from "react";
 import { Provider as StudentsProvider } from "./context/StudentsContext";
 import HomePage from "./pages/HomePage";
 import PageWrapper from "./pages/PageWrapper";
+
 import StudentListPage from "./pages/StudentListPage";
 import StudentRegisterPage from "./pages/StudentRegisterPage";
 
 const MainRouter = () => {
   return (
     <Router>
-      <StudentsProvider>
-        <Switch>
+      <Switch>
+        <StudentsProvider>
           <Route exact path="/" component={HomePage}></Route>
           <Route path="/list" component={StudentListPage}></Route>
           <Route path="/register" component={StudentRegisterPage}></Route>
           <Route path="/edit/:id" component={StudentRegisterPage}></Route>
-        </Switch>
-      </StudentsProvider>
+        </StudentsProvider>
+      </Switch>
     </Router>
   );
 };

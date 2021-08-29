@@ -3,8 +3,6 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 
-import Header from "../../components/Header";
-
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
