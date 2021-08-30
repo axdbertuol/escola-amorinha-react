@@ -9,7 +9,7 @@ import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,10 +57,13 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
     <Container maxWidth={size || "sm"}>
       <nav className={classes.nav}>
         <ButtonGroup variant="contained" color="secondary">
-          <Button onClick={() => history.push("/")}>Home</Button>
-          <Button onClick={() => history.push("/register")}>
-            Registration
-          </Button>
+          {/* <Button onClick={() => history.push("/")}>Home</Button> */}
+
+          <NavLink to="/" component={Button}>
+            Home
+          </NavLink>
+          <NavLink to="/register">Register</NavLink>
+          <NavLink to="/list">List</NavLink>
           <div>
             <Button
               ref={anchorRef}

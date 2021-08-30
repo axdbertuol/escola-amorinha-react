@@ -29,4 +29,5 @@ export const populate = async (
   } catch (error) {
     console.log("fetch auth people error", error);
   }
+  return true;
 };

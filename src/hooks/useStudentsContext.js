@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context as StudentsContext } from "../context/StudentsContext";
 import { populate } from "../mock/api";
 
@@ -11,10 +11,12 @@ const useStudentsContext = () => {
     setClassNumber,
     setAuthPeopleRelation,
   } = useContext(StudentsContext);
+  const [didPopulate, setDidPopulate] = useState(false);
 
   useEffect(() => {
-    if (state.students.length === 0) {
+    if (state.students && state.students.length === 0) {
       populate(addStudent, setClassNumber, setAuthPeopleRelation);
+      setDidPopulate(true);
     }
   }, []);
 
@@ -25,6 +27,7 @@ const useStudentsContext = () => {
     editStudent,
     setClassNumber,
     setAuthPeopleRelation,
+    didPopulate,
   };
 };
 

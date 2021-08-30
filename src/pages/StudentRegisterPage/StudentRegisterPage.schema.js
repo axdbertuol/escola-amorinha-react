@@ -6,17 +6,17 @@ const studentValidationSchema = yup.object({
   name: yup
     .string("Digite o nome")
     .max(40)
-    .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
+    .matches(/^[a-záàâãéèêíïóôõöúçñ ]+$/i, "Digite um nome válido")
     .required("Campo obrigatório!"),
   surname: yup
     .string()
     .max(40)
-    .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
+    .matches(/^[a-záàâãéèêíïóôõöúçñ ]+$/i, "Digite um nome válido")
     .required("Campo obrigatório!"),
   birthday: yup.date("dd/MM/yyyy").nullable().required("Campo obrigatório!"),
   sponsorName: yup
     .string()
-    .matches(/^[a-zA-Z ]+$/, "Digite um nome válido")
+    .matches(/^[a-záàâãéèêíïóôõöúçñ ]+$/i, "Digite um nome válido")
     .required("Campo obrigatório!"),
   sponsorPhone: yup
     .string()
