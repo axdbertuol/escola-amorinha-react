@@ -6,6 +6,7 @@ const useStudentsContext = () => {
   const {
     state,
     addStudent,
+    removeStudent,
     editStudent,
     setClassNumber,
     setAuthPeopleRelation,
@@ -17,13 +18,14 @@ const useStudentsContext = () => {
     }
   }, []);
 
-  return [
+  return {
     state,
     addStudent,
+    removeStudent,
     editStudent,
     setClassNumber,
     setAuthPeopleRelation,
-  ];
+  };
 };
 
 export default useStudentsContext;

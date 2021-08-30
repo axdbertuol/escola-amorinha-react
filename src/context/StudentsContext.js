@@ -17,6 +17,10 @@ const studentsDataReducer = (state, action) => {
       });
       return { ...state, students: [...state.students, action.payload] };
     case "remove_student":
+      console.log(
+        "removendo ",
+        state.students.filter((task) => task.id !== action.payload)
+      );
       return {
         ...state,
         students: state.students.filter((task) => task.id !== action.payload),
@@ -37,11 +41,6 @@ const studentsDataReducer = (state, action) => {
         newStudents[index] = action.payload.data;
       }
       return { ...state, students: newStudents };
-    case "delete_student":
-      return {
-        ...state,
-        students: state.students.filter(({ id }) => id !== action.payload),
-      };
     case "set_students_from_local_storage":
       return {
         ...state,
@@ -63,8 +62,10 @@ const studentsDataReducer = (state, action) => {
 };
 
 const addStudent = (dispatch) => (student) => {
-  console.log("studs from context", student);
-  dispatch({ type: "add_student", payload: student });
+  // console.log("studs from context", student);
+  if (typeof student == "object" || Array.isArray(student)) {
+    dispatch({ type: "add_student", payload: student });
+  }
 };
 
 addStudent.propTypes = {
@@ -80,13 +81,6 @@ editStudent.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-const deleteStudent = (dispatch) => (id) => {
-  dispatch({ type: "delete_student", payload: id });
-};
-
-deleteStudent.propTypes = {
-  id: PropTypes.string.isRequired,
-};
 const removeStudent = (dispatch) => (id) => {
   dispatch({ type: "remove_student", payload: id });
 };

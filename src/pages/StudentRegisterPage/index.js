@@ -52,7 +52,7 @@ let initialValues = {
 const StudentRegisterPage = () => {
   let params = useParams();
   let history = useHistory();
-  const [state, addStudent, editStudent] = useStudentsContext();
+  const { state, addStudent, editStudent } = useStudentsContext();
   const classes = useStyles();
 
   React.useEffect(() => {

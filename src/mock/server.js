@@ -90,8 +90,6 @@ export function makeServer() {
       this.del("/students/:id");
     },
     seeds(server) {
-      // server.create("authorizedPeopleRelation");
-      // server.create("classNumber");
       server.createList("student", 10);
     },
   });
