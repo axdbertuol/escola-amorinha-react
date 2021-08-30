@@ -60,7 +60,7 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
   return (
     <>
       <nav className={classes.nav}>
-        <IconButton>
+        <IconButton color="primary">
           <PersonTwoToneIcon />
         </IconButton>
         <Divider light flexItem orientation="vertical" />
