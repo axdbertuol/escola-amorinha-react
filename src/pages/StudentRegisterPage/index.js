@@ -82,7 +82,6 @@ const StudentRegisterPage = () => {
               window.alert("Estudante salvo com sucesso!");
             } else if (params.id) {
               editStudent(values.id, values);
-              console.log("edited student");
               window.alert("Estudante editado com sucesso!");
               history.push("/list");
             }

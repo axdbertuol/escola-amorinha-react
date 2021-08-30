@@ -118,7 +118,7 @@ const StudentListPage = () => {
             {
               icon: tableIcons.Detail,
               tooltip: "Ver Detalhes",
-              onClick: (event, rowData) => history.push(`/edit/${rowData.id}`),
+              // onClick: (event, rowData) => history.push(`/edit/${rowData.id}`),
             },
             {
               icon: tableIcons.Edit,
