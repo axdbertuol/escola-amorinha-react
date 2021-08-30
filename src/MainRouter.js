@@ -3,7 +3,6 @@ import React from "react";
 
 import { Provider as StudentsProvider } from "./context/StudentsContext";
 import HomePage from "./pages/HomePage";
-import PageWrapper from "./pages/PageWrapper";
 
 import StudentListPage from "./pages/StudentListPage";
 import StudentRegisterPage from "./pages/StudentRegisterPage";
