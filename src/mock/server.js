@@ -94,3 +94,5 @@ export function makeServer() {
     },
   });
 }
+
+export const apiServer = makeServer();

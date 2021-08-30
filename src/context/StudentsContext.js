@@ -1,6 +1,6 @@
 import createDataContext from "./createDataContext";
 import PropTypes from "prop-types";
-
+import { deleteStudent, addStudent as addStudentDB } from "../mock/api";
 /**
  * The data reducer
  *
@@ -64,6 +64,7 @@ const studentsDataReducer = (state, action) => {
 const addStudent = (dispatch) => (student) => {
   // console.log("studs from context", student);
   if (typeof student == "object" || Array.isArray(student)) {
+    // addStudentDB(student);
     dispatch({ type: "add_student", payload: student });
   }
 };
@@ -82,6 +83,8 @@ editStudent.propTypes = {
 };
 
 const removeStudent = (dispatch) => (id) => {
+  // remove from db
+  deleteStudent(id);
   dispatch({ type: "remove_student", payload: id });
 };
 removeStudent.propTypes = {

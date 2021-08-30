@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
     marginBottom: "5rem",
     boxShadow: theme.shadows[10],
-
+    marginTop: "5rem",
     // height: "500px",
     width: "100%",
   },

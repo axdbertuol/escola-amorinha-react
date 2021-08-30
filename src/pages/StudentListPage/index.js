@@ -86,21 +86,9 @@ const StudentListPage = () => {
   const {
     state: { students },
     removeStudent,
-    didPopulate,
+    // didPopulate,
   } = useStudentsContext();
   const tableRef = React.createRef();
-  // const students = state.students;
-
-  // useEffect(() => {
-  //   if (students && query) {
-  //     let searchResults = students.filter(({ name }) => {
-  //       return name.match(new RegExp(query, "gi"));
-  //     });
-  //     if (searchResults) {
-  //       setResults(searchResults);
-  //     }
-  //   }
-  // }, [query, students]);
 
   return (
     <PageWrapper title={"Lista de Alunos"} size="lg">
@@ -139,10 +127,6 @@ const StudentListPage = () => {
               },
             },
           ]}
-          // options={{
-          //   search: true,
-          //   searchText: "Procurar",
-          // }}
         />
       </div>
     </PageWrapper>
