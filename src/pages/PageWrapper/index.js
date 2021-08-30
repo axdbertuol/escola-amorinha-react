@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import Fade from "@material-ui/core/Fade";
 import PersonTwoToneIcon from "@material-ui/icons/PersonTwoTone";
-
+import MenuIcon from "@material-ui/icons/Menu";
 import { useHistory, NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "../../components/Link";
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottomLeftRadius: "5px",
     overflow: "hidden",
     // alignItems: "center",
-    width: "25rem",
+    width: "30rem",
     margin: "0 auto",
     backgroundColor: "transparent",
     boxShadow: theme.shadows["10"],
@@ -47,15 +47,6 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
   const classes = useStyles();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <>
@@ -69,6 +60,9 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
           <Link to="/register">Register</Link>
           <Link to="/list">List</Link>
         </div>
+        <IconButton color="primary">
+          <MenuIcon color="secondary" />
+        </IconButton>
       </nav>
       <Container maxWidth={size || "sm"}>
         <div>{children}</div>
