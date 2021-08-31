@@ -41,11 +41,8 @@ const studentValidationSchema = yup.object({
       name: yup
         .string("Digite o nome")
         .max(40)
-        .matches(/^[a-zA-Z ]+$/, "Digite um nome válido"),
-      relation: yup
-        .string("Digite uma relação")
-        .max(40)
-        .matches(/^[a-zA-Z ]+$/, "Digite uma relação válida"),
+        .matches(/^[a-záàâãéèêíïóôõöúçñ ]+$/i, "Digite um nome válido"),
+      relation: yup.string("Digite uma relação"),
     })
   ),
   classNumber: yup

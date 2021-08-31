@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FieldArray, Formik } from "formik";
+import { FieldArray, Formik, useFormikContext } from "formik";
 import { AsYouType } from "libphonenumber-js";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -28,13 +28,14 @@ import PageWrapper from "../PageWrapper";
 import useStyles from "./StudentRegisterPage.style";
 import validationSchema from "./StudentRegisterPage.schema";
 import useStudentsContext from "../../hooks/useStudentsContext";
-import { getRndInteger } from "../../utils/functions";
+import { getRndInteger, parseDate } from "../../utils/functions";
 
 let initialValues = {
   id: "",
   name: "",
   surname: "",
   birthday: null,
+  classNumber: "",
   sponsorName: "",
   sponsorPhone: "",
   sponsorType: "pais",
@@ -45,10 +46,16 @@ let initialValues = {
   },
   authorizeStudentImage: false,
   authorizedPeople: [{ name: "", relation: "" }],
-  classNumber: "",
   additionalInfo: "",
 };
 
+const Teste = () => {
+  const { values, errors } = useFormikContext();
+  React.useEffect(() => {
+    console.log(values, errors);
+  });
+  return null;
+};
 const StudentRegisterPage = () => {
   let params = useParams();
   let history = useHistory();
@@ -296,7 +303,7 @@ const StudentRegisterPage = () => {
                         values.authorizedPeople.map(
                           ({ name, relation }, index) => {
                             const id = `auth-person-${index}-`;
-                            console.log("relation", relation);
+                            // console.log("relation", relation);
                             return (
                               <div key={"div" + id}>
                                 <TextField
@@ -387,7 +394,7 @@ const StudentRegisterPage = () => {
               >
                 {params.id ? "Salvar" : "Registrar"}
               </Button>
-              {/* <Teste /> */}
+              <Teste />
             </form>
           )}
         </Formik>

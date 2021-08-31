@@ -45,6 +45,7 @@ export const populate = async (
     const data = await response.json();
     console.log("randomStudents", data);
     data.students.forEach((student) => {
+      console.log("student in api", student);
       addStudent(student);
     });
   } catch (error) {

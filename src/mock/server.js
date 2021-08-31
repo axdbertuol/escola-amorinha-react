@@ -18,42 +18,8 @@ export function makeServer() {
       // authorizedPeopleRelation: Factory.extend(AUTH_PEOPLE_RELATION),
       // classNumber: Factory.extend(TURMAS),
       student: Factory.extend({
-        id() {
-          return faker.datatype.uuid();
-        },
-        name() {
-          return faker.name.firstName();
-        },
-        surname() {
-          return faker.name.lastName();
-        },
-        birthday() {
-          const date = faker.date.past(10, new Date(2015, 1, 1));
-          return (
-            date.getDate() +
-            "/" +
-            (date.getMonth() + 1) +
-            "/" +
-            date.getFullYear()
-          );
-        },
-        sponsorName() {
-          return faker.name.firstName();
-        },
-        sponsorPhone() {
-          return faker.phone.phoneNumber("(##) 9####-####");
-        },
-        sponsorType() {
-          return faker.helpers.randomize(AUTH_PEOPLE_RELATION);
-        },
-        emergencyPhone() {
-          return faker.phone.phoneNumber("(##) 9####-####");
-        },
-        foodRestriction() {
-          return { have: () => faker.datatype.boolean(), description: "" };
-        },
-        authorizeStudentImage() {
-          return faker.datatype.boolean();
+        additionalInfo() {
+          return faker.lorem.sentence();
         },
         authorizedPeople() {
           return [
@@ -67,11 +33,40 @@ export function makeServer() {
             },
           ];
         },
+
+        authorizeStudentImage() {
+          return faker.datatype.boolean();
+        },
+        foodRestriction() {
+          return { have: () => faker.datatype.boolean(), description: "" };
+        },
+        emergencyPhone() {
+          return faker.phone.phoneNumber("(##) 9####-####");
+        },
+        sponsorType() {
+          return faker.helpers.randomize(AUTH_PEOPLE_RELATION);
+        },
+        sponsorPhone() {
+          return faker.phone.phoneNumber("(##) 9####-####");
+        },
+        sponsorName() {
+          return faker.name.firstName();
+        },
         classNumber() {
           return faker.helpers.randomize(TURMAS);
         },
-        additionalInfo() {
-          return faker.lorem.sentence();
+        birthday() {
+          const date = faker.date.past(10, new Date(2015, 1, 1));
+          return date;
+        },
+        name() {
+          return faker.name.firstName();
+        },
+        surname() {
+          return faker.name.lastName();
+        },
+        id() {
+          return faker.datatype.uuid();
         },
       }),
     },

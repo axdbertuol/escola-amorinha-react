@@ -53,6 +53,7 @@ let columns = [
     field: "birthday",
     title: "Data Nascimento",
     type: "date",
+    dateSetting: { locale: "BR" },
     width: 180,
   },
   {
@@ -86,9 +87,17 @@ const StudentListPage = () => {
   const {
     state: { students },
     removeStudent,
-    // didPopulate,
+    didPopulate,
   } = useStudentsContext();
   const tableRef = React.createRef();
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  // React.useEffect(() => {
+  //   console.log("didPopulate", didPopulate);
+  //   if (didPopulate) {
+  //     setIsLoading(false);
+  //   }
+  // }, [didPopulate, isLoading]);
 
   return (
     <PageWrapper title={"Lista de Alunos"} size="lg">
@@ -99,6 +108,7 @@ const StudentListPage = () => {
             Pagination: PatchedPagination,
           }}
           icons={tableIcons}
+          isLoading={didPopulate}
           columns={columns}
           data={students}
           title={"Tabela de Estudantes"}
@@ -106,7 +116,8 @@ const StudentListPage = () => {
             {
               icon: tableIcons.Detail,
               tooltip: "Ver Detalhes",
-              // onClick: (event, rowData) => history.push(`/edit/${rowData.id}`),
+              onClick: (event, rowData) =>
+                history.push(`/student-profile/${rowData.id}`),
             },
             {
               icon: tableIcons.Edit,
@@ -121,7 +132,9 @@ const StudentListPage = () => {
                   "Deseja mesmo remover " + rowData.name + "?"
                 );
                 if (shouldDelete) {
+                  // setIsLoading(true);
                   removeStudent(rowData.id);
+                  // setIsLoading(false);
                   window.alert("Estudante deletado com sucesso");
                 }
               },

@@ -82,9 +82,9 @@ editStudent.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-const removeStudent = (dispatch) => (id) => {
+const removeStudent = (dispatch) => async (id) => {
   // remove from db
-  deleteStudent(id);
+  await deleteStudent(id);
   dispatch({ type: "remove_student", payload: id });
 };
 removeStudent.propTypes = {

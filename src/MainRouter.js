@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 
 import StudentListPage from "./pages/StudentListPage";
 import StudentRegisterPage from "./pages/StudentRegisterPage";
+import StudentDetailPage from "./pages/StudentDetailPage";
 
 const MainRouter = () => {
   return (
@@ -14,8 +15,12 @@ const MainRouter = () => {
         <StudentsProvider>
           <Route exact path="/" component={HomePage}></Route>
           <Route exact path="/list" component={StudentListPage}></Route>
-          <Route path="/list/:type" component={StudentListPage}></Route>
           <Route exact path="/register" component={StudentRegisterPage}></Route>
+          <Route
+            path="/student-profile/:id"
+            component={StudentDetailPage}
+          ></Route>
+          <Route path="/list/:type" component={StudentListPage}></Route>
           <Route path="/edit/:id" component={StudentRegisterPage}></Route>
         </StudentsProvider>
       </Switch>

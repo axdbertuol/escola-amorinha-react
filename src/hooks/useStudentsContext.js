@@ -11,11 +11,14 @@ const useStudentsContext = () => {
     setClassNumber,
     setAuthPeopleRelation,
   } = useContext(StudentsContext);
-  // const [didPopulate, setDidPopulate] = useState(false);
+  const [didPopulate, setDidPopulate] = useState(false);
 
   useEffect(() => {
     if (state.students && state.students.length === 0) {
-      populate(addStudent, setClassNumber, setAuthPeopleRelation);
+      (async () => {
+        await populate(addStudent, setClassNumber, setAuthPeopleRelation);
+      })();
+      setDidPopulate(true);
     }
   }, []);
 
@@ -26,6 +29,7 @@ const useStudentsContext = () => {
     editStudent,
     setClassNumber,
     setAuthPeopleRelation,
+    didPopulate,
   };
 };
 

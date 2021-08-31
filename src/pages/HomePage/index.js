@@ -25,7 +25,7 @@ const HomePage = () => {
   const history = useHistory();
   useStudentsContext();
 
-  return <PageWrapper>Homepage</PageWrapper>;
+  return <PageWrapper></PageWrapper>;
 };
 
 export default HomePage;
