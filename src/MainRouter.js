@@ -1,8 +1,16 @@
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import React, { useContext } from "react";
 
 import { Provider as StudentsProvider } from "./context/StudentsContext";
-import { Provider as AuthProvider } from "./context/AuthContext";
+import {
+  Provider as AuthProvider,
+  Context as AuthContext,
+} from "./context/AuthContext";
 import HomePage from "./pages/HomePage";
 
 import StudentListPage from "./pages/StudentListPage";
@@ -10,29 +18,63 @@ import StudentRegisterPage from "./pages/StudentRegisterPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
 import LoginPage from "./pages/LoginPage";
 
+// A wrapper for <Route> that redirects to the login
+// screen if you're not yet authenticated.
+function PrivateRoute({ children, ...rest }) {
+  const {
+    state: { user },
+    verifyUser,
+  } = useContext(AuthContext);
+
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        user && user.email && user.password ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
 const MainRouter = () => {
   return (
     <Router>
-      <Switch>
-        <AuthProvider>
+      <AuthProvider>
+        <Switch>
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
           <StudentsProvider>
-            <Route exact path="/" component={HomePage}></Route>
-            <Route exact path="/list" component={StudentListPage}></Route>
-            <Route
-              exact
-              path="/register"
-              component={StudentRegisterPage}
-            ></Route>
-            <Route exact path="/login" component={LoginPage}></Route>
-            <Route
-              path="/student-profile/:id"
-              component={StudentDetailPage}
-            ></Route>
-            <Route path="/list/:type" component={StudentListPage}></Route>
-            <Route path="/edit/:id" component={StudentRegisterPage}></Route>
+            <PrivateRoute exact path="/">
+              <HomePage />
+            </PrivateRoute>
+            <PrivateRoute exact path="/list">
+              <StudentListPage />
+            </PrivateRoute>
+            <PrivateRoute exact path="/register">
+              <StudentRegisterPage />
+            </PrivateRoute>
+            <PrivateRoute path="/student-profile/:id">
+              <StudentDetailPage />
+            </PrivateRoute>
+            <PrivateRoute path="/list/:type">
+              <StudentListPage />
+            </PrivateRoute>
+            <PrivateRoute path="/edit/:id">
+              <StudentRegisterPage />
+            </PrivateRoute>
           </StudentsProvider>
-        </AuthProvider>
-      </Switch>
+        </Switch>
+      </AuthProvider>
     </Router>
   );
 };

@@ -63,8 +63,8 @@ const LoginPage = () => {
     },
     validationSchema: userValidationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-      if (verifyUser(values)) {
+      verifyUser(values);
+      if (user.password && user.email) {
         history.push("/");
       } else {
         alert("Email ou senha incorreto(s)");

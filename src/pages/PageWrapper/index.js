@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Container from "@material-ui/core/Container";
 import PersonTwoToneIcon from "@material-ui/icons/PersonTwoTone";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -10,6 +10,7 @@ import { Divider, IconButton } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import Link from "../../components/Link";
 import Navbar from "../../components/Navbar";
+import { Context as AuthContext } from "../../context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   nav: {
@@ -56,10 +57,19 @@ const makeIcons = (history) => {
 const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
   const classes = useStyles();
   let history = useHistory();
+  const {
+    state: { user },
+  } = useContext(AuthContext);
 
+  const subtitle = `${user.job} ${user.name}`;
   return (
     <>
-      <Navbar title={title} titleRoute={"/"} icons={makeIcons(history)} />
+      <Navbar
+        title={title}
+        titleRoute={"/"}
+        subtitle={subtitle}
+        icons={makeIcons(history)}
+      />
       <Container maxWidth={size || "sm"}>
         <div>{children}</div>
       </Container>

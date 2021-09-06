@@ -26,7 +26,6 @@ const HomePage = () => {
   const history = useHistory();
   const {
     state: { user },
-    verifyUser,
   } = useContext(AuthContext);
 
   useStudentsContext();

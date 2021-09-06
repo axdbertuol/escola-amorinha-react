@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = ({ title, titleRoute, icons }) => {
+const Navbar = ({ title, titleRoute, subtitle, icons }) => {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -71,10 +71,9 @@ const Navbar = ({ title, titleRoute, icons }) => {
           >
             <MenuIcon />
           </IconButton>
-          {/* <Typography className={classes.title}>
-            {title}
-          </Typography> */}
+
           <Link to={titleRoute}>{title}</Link>
+          <Typography className={classes.title}>{subtitle}</Typography>
 
           <div className={classes.links}>{icons && icons}</div>
         </Toolbar>
