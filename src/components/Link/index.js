@@ -7,14 +7,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     textDecoration: "none",
-    backgroundColor: theme.palette.primary.dark,
+    // backgroundColor: theme.palette.primary.dark,
     flexGrow: 1,
     padding: "1rem",
     justifyItems: "center",
     fontFamily: "Roboto, sans-serif",
-    fontWeight: "400",
+    fontWeight: "600",
     borderLeftRadius: "5px",
     textAlign: "center",
+    color: theme.palette.secondary.light,
     // borderRight: "1px solid #000",
   },
   active: {
@@ -33,9 +34,8 @@ const Link = ({ children, to, color }) => {
     >
       <Typography
         style={{
-          margin: "auto",
-          color: "white",
           letterSpacing: "5px",
+          color: "secondary",
         }}
       >
         {children}

@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     border: `5px solid ${theme.palette.primary.dark}`,
     borderRadius: "10px",
     marginBottom: "5rem",
+    marginTop: "1rem",
     boxShadow: theme.shadows[10],
 
     padding: "15px",

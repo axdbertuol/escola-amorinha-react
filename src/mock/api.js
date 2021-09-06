@@ -10,13 +10,24 @@ export const addStudent = async (student) => {
   try {
     const response = await fetch("/api/students", {
       method: "POST",
-      data: student,
+      body: JSON.stringify(student),
     });
     const data = await response.json();
     console.log("addStudent", data);
   } catch (error) {
     console.log("fetch students error", error);
   }
+};
+
+export const verifyUser = async (user) => {
+  try {
+    const response = await fetch("/api/auth-user", {
+      method: "POST",
+      body: JSON.stringify(user),
+    });
+    const data = await response.json();
+    return data.user;
+  } catch (error) {}
 };
 
 export const populate = async (

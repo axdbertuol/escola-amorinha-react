@@ -5,18 +5,35 @@ faker.locale = "pt_BR";
 
 const TURMAS = ["A", "B", "C", "D"];
 const AUTH_PEOPLE_RELATION = ["pais", "avós", "tios", "padrinhos"];
+const JOBS = ["Professor", "Coordenador", "Diretor"];
 
 export function makeServer() {
   return createServer({
     models: {
       student: Model,
-      // authorizedPeopleRelation: Model,
-      // classNumber: Model,
+      user: Model,
     },
 
     factories: {
-      // authorizedPeopleRelation: Factory.extend(AUTH_PEOPLE_RELATION),
-      // classNumber: Factory.extend(TURMAS),
+      user: Factory.extend({
+        name() {
+          return faker.name.firstName();
+        },
+        email() {
+          return faker.internet.email();
+        },
+        job() {
+          return faker.helpers.randomize(JOBS);
+        },
+        classNumbers() {
+          return this.job === "Coordenador" || this.job === "Professor"
+            ? [faker.helpers.randomize(TURMAS), faker.helpers.randomize(TURMAS)]
+            : null;
+        },
+        password() {
+          return faker.internet.password();
+        },
+      }),
       student: Factory.extend({
         additionalInfo() {
           return faker.lorem.sentence();
@@ -78,6 +95,14 @@ export function makeServer() {
       this.get("/pessoas-autorizadas", () =>
         JSON.stringify(AUTH_PEOPLE_RELATION)
       );
+      this.post("/auth-user", (schema, request) => {
+        let user = JSON.parse(request.requestBody);
+
+        return schema.users.findBy({
+          password: user.password,
+          email: user.email,
+        });
+      });
       this.get("/students");
       this.get("/students/:id");
       this.post("/students");
@@ -85,6 +110,14 @@ export function makeServer() {
       this.del("/students/:id");
     },
     seeds(server) {
+      server.create("user", {
+        name: "Alexandre",
+        email: "alexandre@teste.com",
+        password: "12345",
+        classNumbers: ["A", "B"],
+        job: "Professor",
+      });
+      server.createList("user", 9);
       server.createList("student", 10);
     },
   });

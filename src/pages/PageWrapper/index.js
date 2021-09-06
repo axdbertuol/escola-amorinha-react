@@ -4,7 +4,7 @@ import PersonTwoToneIcon from "@material-ui/icons/PersonTwoTone";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import { Divider, IconButton } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -38,16 +38,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const makeIcons = (history) => {
-
   return (
     <>
-      <IconButton color="secondary" onClick={() => history.push('/register')}>
+      <IconButton color="secondary" onClick={() => history.push("/register")}>
         <PersonAddIcon />
       </IconButton>
-      <IconButton color="secondary" onClick={() => history.push('/list')}>
+      <IconButton color="secondary" onClick={() => history.push("/list")}>
         <ListAltIcon />
       </IconButton>
-      <IconButton color="secondary" onClick={() => history.push('/list')}>
+      <IconButton color="secondary" onClick={() => history.push("/list")}>
         <AccountCircle />
       </IconButton>
     </>
@@ -58,10 +57,9 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
   const classes = useStyles();
   let history = useHistory();
 
-
   return (
     <>
-      <Navbar title={title} icons={makeIcons(history)} />
+      <Navbar title={title} titleRoute={"/"} icons={makeIcons(history)} />
       <Container maxWidth={size || "sm"}>
         <div>{children}</div>
       </Container>
