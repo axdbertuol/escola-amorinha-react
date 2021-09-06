@@ -78,9 +78,7 @@ let columns = [
 ];
 
 const StudentListPage = () => {
-  // const [query, setQuery] = React.useState("");
-  // const [results, setResults] = React.useState([]);
-  // const [rowDeletedId, setRowDeletedId] = React.useState(undefined);
+
   let history = useHistory();
   const params = useParams();
   const classes = useStyles();
@@ -92,15 +90,10 @@ const StudentListPage = () => {
   const tableRef = React.createRef();
   const [isLoading, setIsLoading] = React.useState(true);
 
-  // React.useEffect(() => {
-  //   console.log("didPopulate", didPopulate);
-  //   if (didPopulate) {
-  //     setIsLoading(false);
-  //   }
-  // }, [didPopulate, isLoading]);
+
 
   return (
-    <PageWrapper title={"Lista de Alunos"} size="lg">
+    <PageWrapper  size="lg">
       <div className={classes.root}>
         <MaterialTable
           tableRef={tableRef}

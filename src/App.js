@@ -13,7 +13,7 @@ const theme = createTheme({
       main: purple[500],
     },
     secondary: {
-      main: red["50"],
+      main: red["100"],
     },
   },
 });

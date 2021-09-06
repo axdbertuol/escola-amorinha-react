@@ -70,9 +70,7 @@ const StudentDetailPage = () => {
   const classes = useStyles();
   const [currentStudent, setCurrentStudent] = useState(null);
   const {
-    state: { students },
-    removeStudent,
-    // didPopulate,
+    state: { students }
   } = useStudentsContext();
 
 

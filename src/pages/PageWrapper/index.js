@@ -3,8 +3,13 @@ import Container from "@material-ui/core/Container";
 import PersonTwoToneIcon from "@material-ui/icons/PersonTwoTone";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
-import Link from "../../components/Link";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import ListAltIcon from "@material-ui/icons/ListAlt";
 import { Divider, IconButton } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import Link from "../../components/Link";
+import Navbar from "../../components/Navbar";
 
 const useStyles = makeStyles((theme) => ({
   nav: {
@@ -32,26 +37,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
-  const classes = useStyles();
-  // const history = useHistory();
+const makeIcons = (history) => {
 
   return (
     <>
-      <nav className={classes.nav}>
-        <IconButton color="primary">
-          <PersonTwoToneIcon />
-        </IconButton>
-        <Divider light flexItem orientation="vertical" />
-        <div className={classes.links}>
-          <Link to="/">Home</Link>
-          <Link to="/register">Register</Link>
-          <Link to="/list">List</Link>
-        </div>
-        <IconButton color="primary">
-          <MenuIcon color="secondary" />
-        </IconButton>
-      </nav>
+      <IconButton color="secondary" onClick={() => history.push('/register')}>
+        <PersonAddIcon />
+      </IconButton>
+      <IconButton color="secondary" onClick={() => history.push('/list')}>
+        <ListAltIcon />
+      </IconButton>
+      <IconButton color="secondary" onClick={() => history.push('/list')}>
+        <AccountCircle />
+      </IconButton>
+    </>
+  );
+};
+
+const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
+  const classes = useStyles();
+  let history = useHistory();
+
+
+  return (
+    <>
+      <Navbar title={title} icons={makeIcons(history)} />
       <Container maxWidth={size || "sm"}>
         <div>{children}</div>
       </Container>
