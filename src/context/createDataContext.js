@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useReducer } from "react";
 
-// automating context creation
+// automating context creation with dispatch -> Redux-like
 export default (reducer, actions, initialState) => {
   const Context = React.createContext();
 

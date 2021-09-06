@@ -1,17 +1,7 @@
-import React, { useState } from "react";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
+import React from "react";
 import Container from "@material-ui/core/Container";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import Fade from "@material-ui/core/Fade";
 import PersonTwoToneIcon from "@material-ui/icons/PersonTwoTone";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useHistory, NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "../../components/Link";
 import { Divider, IconButton } from "@material-ui/core";
@@ -24,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     borderBottomRightRadius: "5px",
     borderBottomLeftRadius: "5px",
     overflow: "hidden",
-    // alignItems: "center",
     width: "30rem",
     margin: "0 auto",
     backgroundColor: "transparent",
@@ -45,8 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
   const classes = useStyles();
-  const history = useHistory();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const history = useHistory();
 
   return (
     <>

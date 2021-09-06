@@ -75,9 +75,7 @@ const StudentDetailPage = () => {
     // didPopulate,
   } = useStudentsContext();
 
-  // const renderGridRows = () => {
-  //   const ordered = Object.
-  // }
+
   useEffect(() => {
     if (!currentStudent) {
       const student = students.find(({ id }) => id === params.id);
