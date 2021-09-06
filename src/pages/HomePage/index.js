@@ -31,11 +31,11 @@ const HomePage = () => {
 
   useStudentsContext();
 
-  useEffect(() => {
-    verifyUser({ email: "alexandre@teste.com", password: "12345" });
-  }, []);
+  // useEffect(() => {
+  //   verifyUser({ email: "alexandre@teste.com", password: "12345" });
+  // }, []);
 
-  return <PageWrapper></PageWrapper>;
+  return <PageWrapper>Bem vindo {user.name}</PageWrapper>;
 };
 
 export default HomePage;

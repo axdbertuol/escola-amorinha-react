@@ -35,7 +35,9 @@ const verifyUser = (dispatch) => async (user) => {
   console.log("data", data);
   if (data) {
     dispatch({ type: "add_user", payload: data });
+    return true;
   }
+  return false;
 };
 
 verifyUser.propTypes = {

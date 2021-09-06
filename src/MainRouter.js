@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import StudentListPage from "./pages/StudentListPage";
 import StudentRegisterPage from "./pages/StudentRegisterPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
+import LoginPage from "./pages/LoginPage";
 
 const MainRouter = () => {
   return (
@@ -22,6 +23,7 @@ const MainRouter = () => {
               path="/register"
               component={StudentRegisterPage}
             ></Route>
+            <Route exact path="/login" component={LoginPage}></Route>
             <Route
               path="/student-profile/:id"
               component={StudentDetailPage}
