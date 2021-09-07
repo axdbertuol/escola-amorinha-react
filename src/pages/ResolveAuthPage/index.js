@@ -8,8 +8,6 @@ import { Context as AuthContext } from "../../context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // display: "flex",
-    // alignContent: "center",
     position: "absolute",
     top: "40%",
     left: "50%",

@@ -18,16 +18,7 @@ const useStyles = makeStyles((theme) => ({
     // marginBottom: "5rem",
     boxShadow: theme.shadows[10],
   },
-  image: {
-    width: 128,
-    height: 128,
-  },
-  img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
-  },
+
   label: {
     fontWeight: "500",
   },
@@ -37,13 +28,16 @@ const GridRow = ({ label, value, labelStyle, colorAlternate = false }) => {
     <Grid
       container
       direction="row"
-      xs={12}
+      xs={8}
       style={{
         backgroundColor: colorAlternate ? colors.grey[200] : colors.grey[400],
+        justifyContent: "center",
+        alignContent: "center",
+        padding: "10px",
       }}
       justifyContent="flex-start"
     >
-      <Grid item xs={4}>
+      <Grid item xs={2}>
         <Typography variant="body2" className={labelStyle}>
           {label}
         </Typography>
@@ -64,11 +58,34 @@ const UserProfilePage = () => {
   return (
     <PageWrapper size="md">
       <Paper className={classes.paper}>
-        <Grid container direction="row" spacing={2}>
-          <GridRow label={"Nome"} value={user.name} />
-          <GridRow label={"E-mail"} value={user.email} colorAlternate />
-          <GridRow label={"Cargo"} value={user.job} />
-          <GridRow label={"Turmas"} value={user.classNumbers} colorAlternate />
+        <Grid
+          container
+          direction="row"
+          spacing={2}
+          style={{ justifyContent: "center", margin: "1rem" }}
+        >
+          <GridRow
+            label={"Nome"}
+            labelStyle={classes.label}
+            value={user.name}
+          />
+          <GridRow
+            label={"E-mail"}
+            labelStyle={classes.label}
+            value={user.email}
+            colorAlternate
+          />
+          <GridRow
+            label={"Cargo"}
+            labelStyle={classes.label}
+            value={user.job}
+          />
+          <GridRow
+            label={"Turmas"}
+            labelStyle={classes.label}
+            value={user.classNumbers.join()}
+            colorAlternate
+          />
         </Grid>
       </Paper>
     </PageWrapper>

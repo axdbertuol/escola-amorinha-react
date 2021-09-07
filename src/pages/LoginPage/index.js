@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 const LoginPage = () => {
   const classes = useStyles();
   let history = useHistory();
-  // const [didCheckAuthToken] = useCheckAuthToken();
   const {
     state: { user, token },
     authenticateUser,
