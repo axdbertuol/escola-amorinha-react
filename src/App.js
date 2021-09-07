@@ -6,7 +6,7 @@ import red from "@material-ui/core/colors/red";
 import purple from "@material-ui/core/colors/purple";
 import MainRouter from "./MainRouter";
 import { apiServer } from "./mock/server";
-
+import { Provider as AuthProvider } from "./context/AuthContext";
 const theme = createTheme({
   palette: {
     primary: {
@@ -20,7 +20,6 @@ const theme = createTheme({
 
 function App() {
   useEffect(() => {
-    console.log(apiServer.schema.db.dump());
     return () => {
       apiServer.shutdown();
     };
@@ -28,7 +27,9 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <MainRouter />
+      <AuthProvider>
+        <MainRouter />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

@@ -1,5 +1,5 @@
 import { createServer, Model, Factory } from "miragejs";
-
+import jwt from "jsonwebtoken";
 import faker from "faker";
 faker.locale = "pt_BR";
 
@@ -32,6 +32,9 @@ export function makeServer() {
         },
         password() {
           return faker.internet.password();
+        },
+        id() {
+          return faker.datatype.uuid();
         },
       }),
       student: Factory.extend({
@@ -89,6 +92,30 @@ export function makeServer() {
     },
     routes() {
       this.namespace = "api";
+      this.get("/auth-token/:id", (schema, request) => {
+        let userId = request.params.id;
+        console.log("userId", userId);
+        const token = jwt.sign({ id: userId }, "my_secret_key");
+        return JSON.stringify(token);
+      });
+      this.get("/auth-token-verify/:token", (schema, request) => {
+        let token = request.params.token;
+        let user;
+        jwt.verify(token, "my_secret_key", async (err, payload) => {
+          console.log("payload", payload);
+          const { id } = payload;
+          try {
+            user = schema.users.findBy({ id });
+            if (user) {
+              // return true;
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        });
+        console.log("user", user);
+        return JSON.stringify({ user });
+      });
       this.get("/turmas", () => {
         return JSON.stringify(TURMAS);
       });
@@ -116,6 +143,7 @@ export function makeServer() {
         password: "12345",
         classNumbers: ["A", "B"],
         job: "Professor",
+        id: "e01xc234",
       });
       server.createList("user", 9);
       server.createList("student", 10);

@@ -4,7 +4,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Provider as StudentsProvider } from "./context/StudentsContext";
 import {
@@ -12,30 +12,31 @@ import {
   Context as AuthContext,
 } from "./context/AuthContext";
 import HomePage from "./pages/HomePage";
-
+import useCheckAuthToken from "./hooks/useCheckAuthToken";
 import StudentListPage from "./pages/StudentListPage";
 import StudentRegisterPage from "./pages/StudentRegisterPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
 import LoginPage from "./pages/LoginPage";
+import ResolveAuthPage from "./pages/ResolveAuthPage";
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 function PrivateRoute({ children, ...rest }) {
+  // const [didCheckAuthToken] = useCheckAuthToken();
   const {
-    state: { user },
-    verifyUser,
+    state: { token },
   } = useContext(AuthContext);
-
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        user && user.email && user.password ? (
+        localStorage.getItem("token") && token ? (
           children
         ) : (
+          //redirect to ResolveAuthPage
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/",
               state: { from: location },
             }}
           />
@@ -46,35 +47,40 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 const MainRouter = () => {
+  // const {
+  //   state: { token },
+  // } = useContext(AuthContext);
+
   return (
     <Router>
-      <AuthProvider>
-        <Switch>
-          <Route exact path="/login">
-            <LoginPage />
-          </Route>
-          <StudentsProvider>
-            <PrivateRoute exact path="/">
-              <HomePage />
-            </PrivateRoute>
-            <PrivateRoute exact path="/list">
-              <StudentListPage />
-            </PrivateRoute>
-            <PrivateRoute exact path="/register">
-              <StudentRegisterPage />
-            </PrivateRoute>
-            <PrivateRoute path="/student-profile/:id">
-              <StudentDetailPage />
-            </PrivateRoute>
-            <PrivateRoute path="/list/:type">
-              <StudentListPage />
-            </PrivateRoute>
-            <PrivateRoute path="/edit/:id">
-              <StudentRegisterPage />
-            </PrivateRoute>
-          </StudentsProvider>
-        </Switch>
-      </AuthProvider>
+      <Switch>
+        <Route exact path="/">
+          <ResolveAuthPage />
+        </Route>
+        <Route exact path="/login">
+          <LoginPage />
+        </Route>
+        <StudentsProvider>
+          <PrivateRoute exact path="/home">
+            <HomePage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/list">
+            <StudentListPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/register">
+            <StudentRegisterPage />
+          </PrivateRoute>
+          <PrivateRoute path="/student-profile/:id">
+            <StudentDetailPage />
+          </PrivateRoute>
+          <PrivateRoute path="/list/:type">
+            <StudentListPage />
+          </PrivateRoute>
+          <PrivateRoute path="/edit/:id">
+            <StudentRegisterPage />
+          </PrivateRoute>
+        </StudentsProvider>
+      </Switch>
     </Router>
   );
 };

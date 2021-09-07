@@ -15,6 +15,7 @@ import Container from "@material-ui/core/Container";
 import { useFormik, Formik, useFormikContext } from "formik";
 import { useHistory } from "react-router-dom";
 
+import useCheckAuthToken from "../../hooks/useCheckAuthToken";
 import { Context as AuthContext } from "../../context/AuthContext";
 import userValidationSchema from "./schema";
 
@@ -51,11 +52,17 @@ const useStyles = makeStyles((theme) => ({
 const LoginPage = () => {
   const classes = useStyles();
   let history = useHistory();
-
+  // const [didCheckAuthToken] = useCheckAuthToken();
   const {
     state: { user },
-    verifyUser,
+    authenticateUser,
   } = useContext(AuthContext);
+
+  // React.useEffect(() => {
+  //   if (didCheckAuthToken) {
+  //     history.push("/");
+  //   }
+  // }, [didCheckAuthToken]);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -63,7 +70,7 @@ const LoginPage = () => {
     },
     validationSchema: userValidationSchema,
     onSubmit: (values) => {
-      verifyUser(values);
+      authenticateUser(values);
       if (user.password && user.email) {
         history.push("/");
       } else {
