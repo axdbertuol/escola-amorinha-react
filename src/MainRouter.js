@@ -22,7 +22,6 @@ import UserProfilePage from "./pages/UserProfilePage";
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 function PrivateRoute({ children, ...rest }) {
-  // const [didCheckAuthToken] = useCheckAuthToken();
   const {
     state: { token },
   } = useContext(AuthContext);
@@ -30,7 +29,7 @@ function PrivateRoute({ children, ...rest }) {
     <Route
       {...rest}
       render={({ location }) =>
-        localStorage.getItem("token") && token ? (
+        localStorage.getItem("token") && token !== null ? (
           children
         ) : (
           //redirect to ResolveAuthPage
@@ -47,10 +46,6 @@ function PrivateRoute({ children, ...rest }) {
 }
 
 const MainRouter = () => {
-  // const {
-  //   state: { token },
-  // } = useContext(AuthContext);
-
   return (
     <Router>
       <Switch>

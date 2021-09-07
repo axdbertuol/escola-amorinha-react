@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,7 +15,6 @@ import Container from "@material-ui/core/Container";
 import { useFormik, Formik, useFormikContext } from "formik";
 import { useHistory } from "react-router-dom";
 
-import useCheckAuthToken from "../../hooks/useCheckAuthToken";
 import { Context as AuthContext } from "../../context/AuthContext";
 import userValidationSchema from "./schema";
 
@@ -54,9 +53,20 @@ const LoginPage = () => {
   let history = useHistory();
   // const [didCheckAuthToken] = useCheckAuthToken();
   const {
-    state: { user },
+    state: { user, token },
     authenticateUser,
+    tryLocalSignin,
   } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      tryLocalSignin();
+      setTimeout(() => {}, 1000);
+      if (token !== null) {
+        history.push("/home");
+      }
+    }
+  }, [history, tryLocalSignin, token]);
 
   const formik = useFormik({
     initialValues: {

@@ -39,7 +39,6 @@ const GridRow = ({ label, value, labelStyle, colorAlternate = false }) => {
       direction="row"
       xs={12}
       style={{
-        // padding: "10px",
         backgroundColor: colorAlternate ? colors.grey[200] : colors.grey[400],
       }}
       justifyContent="flex-start"
