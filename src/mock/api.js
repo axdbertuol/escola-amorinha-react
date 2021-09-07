@@ -13,7 +13,7 @@ export const addStudent = async (student) => {
       body: JSON.stringify(student),
     });
     const data = await response.json();
-    console.log("addStudent", data);
+    // console.log("addStudent", data);
   } catch (error) {
     console.log("fetch students error", error);
   }
@@ -30,6 +30,25 @@ export const verifyUser = async (user) => {
   } catch (error) {}
 };
 
+export const getAuthToken = async (id) => {
+  try {
+    const response = await fetch(`/api/auth-token/${id}`);
+    const token = await response.json();
+    return token;
+  } catch (error) {
+    console.log("fetch token error", error);
+  }
+};
+export const verifyAuthToken = async (token) => {
+  try {
+    const response = await fetch(`/api/auth-token-verify/${token}`);
+    const data = await response.json();
+    return data.user;
+  } catch (error) {
+    console.log("verify token error", error);
+  }
+};
+
 export const populate = async (
   addStudent,
   setClassNumber,
@@ -38,7 +57,7 @@ export const populate = async (
   try {
     const response = await fetch("/api/turmas");
     const data = await response.json();
-    console.log("turmas", data);
+    // console.log("turmas", data);
     setClassNumber(data);
   } catch (error) {
     console.log("fetch turmas error", error);
@@ -46,7 +65,7 @@ export const populate = async (
   try {
     const response = await fetch("/api/pessoas-autorizadas");
     const data = await response.json();
-    console.log("auth people", data);
+    // console.log("auth people", data);
     setAuthPeopleRelation(data);
   } catch (error) {
     console.log("fetch auth people error", error);
@@ -54,9 +73,9 @@ export const populate = async (
   try {
     const response = await fetch("/api/students");
     const data = await response.json();
-    console.log("randomStudents", data);
+    // console.log("randomStudents", data);
     data.students.forEach((student) => {
-      console.log("student in api", student);
+      // console.log("student in api", student);
       addStudent(student);
     });
   } catch (error) {

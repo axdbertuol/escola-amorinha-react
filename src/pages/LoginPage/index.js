@@ -58,11 +58,6 @@ const LoginPage = () => {
     authenticateUser,
   } = useContext(AuthContext);
 
-  // React.useEffect(() => {
-  //   if (didCheckAuthToken) {
-  //     history.push("/");
-  //   }
-  // }, [didCheckAuthToken]);
   const formik = useFormik({
     initialValues: {
       email: "",

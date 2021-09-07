@@ -12,7 +12,6 @@ import {
   Context as AuthContext,
 } from "./context/AuthContext";
 import HomePage from "./pages/HomePage";
-import useCheckAuthToken from "./hooks/useCheckAuthToken";
 import StudentListPage from "./pages/StudentListPage";
 import StudentRegisterPage from "./pages/StudentRegisterPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
