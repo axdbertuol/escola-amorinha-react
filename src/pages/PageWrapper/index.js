@@ -47,7 +47,7 @@ const makeIcons = (history) => {
       <IconButton color="secondary" onClick={() => history.push("/list")}>
         <ListAltIcon />
       </IconButton>
-      <IconButton color="secondary" onClick={() => history.push("/list")}>
+      <IconButton color="secondary" onClick={() => history.push("/profile")}>
         <AccountCircle />
       </IconButton>
     </>

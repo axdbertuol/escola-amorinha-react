@@ -17,6 +17,7 @@ import StudentRegisterPage from "./pages/StudentRegisterPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
 import LoginPage from "./pages/LoginPage";
 import ResolveAuthPage from "./pages/ResolveAuthPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
@@ -68,6 +69,9 @@ const MainRouter = () => {
           </PrivateRoute>
           <PrivateRoute exact path="/register">
             <StudentRegisterPage />
+          </PrivateRoute>
+          <PrivateRoute exact path="/profile">
+            <UserProfilePage />
           </PrivateRoute>
           <PrivateRoute path="/student-profile/:id">
             <StudentDetailPage />

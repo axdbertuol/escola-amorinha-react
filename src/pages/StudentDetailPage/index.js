@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     flexGrow: 1,
     padding: theme.spacing(2),
-    // margin: "auto",
+    marginTop: "1rem",
     // maxWidth: 500,
     backgroundColor: theme.palette.secondary.main,
     border: `5px solid ${theme.palette.primary.dark}`,
@@ -70,9 +70,8 @@ const StudentDetailPage = () => {
   const classes = useStyles();
   const [currentStudent, setCurrentStudent] = useState(null);
   const {
-    state: { students }
+    state: { students },
   } = useStudentsContext();
-
 
   useEffect(() => {
     if (!currentStudent) {
