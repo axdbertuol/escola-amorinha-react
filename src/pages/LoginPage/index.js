@@ -59,8 +59,9 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      tryLocalSignin();
-      setTimeout(() => {}, 1000);
+      setTimeout(async () => {
+        await tryLocalSignin();
+      }, 1000);
       if (token !== null) {
         history.push("/home");
       }
@@ -73,19 +74,19 @@ const LoginPage = () => {
       password: "",
     },
     validationSchema: userValidationSchema,
-    onSubmit: (values) => {
-      authenticateUser(values);
-      if (user.password && user.email) {
+    onSubmit: async (values) => {
+      try {
+        await authenticateUser(values);
         history.push("/");
-      } else {
+      } catch (error) {
+        console.log("error", error);
         alert("Email ou senha incorreto(s)");
       }
     },
   });
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+    <Container maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

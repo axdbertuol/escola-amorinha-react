@@ -66,7 +66,7 @@ const StudentRegisterPage = () => {
   } = useContext(AuthContext);
   const classes = useStyles();
 
-  if (user.job === "Professor" || user.job === "Coordenador") {
+  if (user.job === "Professor" || (user.job === "Coordenador" && !params.id)) {
     return <Redirect to={"/home"} />;
   }
   return (

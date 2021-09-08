@@ -178,6 +178,22 @@ export function makeServer() {
         job: "Professor",
         id: "e01xc234",
       });
+      server.create("user", {
+        name: "Janio",
+        email: "janio@teste.com",
+        password: "12345",
+        classNumbers: ["A", "B", "C", "D"],
+        job: "Coordenador",
+        id: "e01xc235",
+      });
+      server.create("user", {
+        name: "Bosco",
+        email: "bosco@teste.com",
+        password: "12345",
+        classNumbers: ["A", "B", "C", "D"],
+        job: "Diretor",
+        id: "e01xc236",
+      });
       server.createList("user", 9);
       server.createList("student", 10);
     },
