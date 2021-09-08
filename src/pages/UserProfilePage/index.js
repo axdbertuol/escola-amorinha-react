@@ -143,7 +143,6 @@ const UserProfilePage = () => {
   } = useContext(AuthContext);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  // const [currPassword, setCurrPassword] = React.useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -160,7 +159,6 @@ const UserProfilePage = () => {
     { label: "Email", value: user.email },
     { label: "Cargo", value: user.job },
     { label: "Turmas", value: user.classNumbers.join() },
-    // {label: "Nome", value: user.name}
   ];
 
   return (
