@@ -1,7 +1,19 @@
 import React, { useContext } from "react";
-import { Grid, Paper, ButtonBase, Typography, colors } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  ButtonBase,
+  Typography,
+  colors,
+  Divider,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 import PageWrapper from "../PageWrapper";
 import { Context as AuthContext } from "../../context/AuthContext";
 
@@ -12,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     marginTop: "1rem",
     // maxWidth: 500,
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.light,
+    color: theme.palette.primary.main,
     border: `5px solid ${theme.palette.primary.dark}`,
     borderRadius: "10px",
     // marginBottom: "5rem",
@@ -55,39 +68,35 @@ const UserProfilePage = () => {
   } = useContext(AuthContext);
   const classes = useStyles();
 
+  const rows = [
+    { label: "Nome", value: user.name },
+    { label: "Email", value: user.email },
+    { label: "Job", value: user.job },
+    { label: "Turmas", value: user.classNumbers.join() },
+    // {label: "Nome", value: user.name}
+  ];
+
   return (
-    <PageWrapper size="md">
-      <Paper className={classes.paper}>
-        <Grid
-          container
-          direction="row"
-          spacing={2}
-          style={{ justifyContent: "center", margin: "1rem" }}
+    <PageWrapper size="sm">
+      <TableContainer className={classes.paper} component={Paper}>
+        <Typography
+          variant="h3"
+          style={{ textAlign: "center", marginBottom: "1rem" }}
         >
-          <GridRow
-            label={"Nome"}
-            labelStyle={classes.label}
-            value={user.name}
-          />
-          <GridRow
-            label={"E-mail"}
-            labelStyle={classes.label}
-            value={user.email}
-            colorAlternate
-          />
-          <GridRow
-            label={"Cargo"}
-            labelStyle={classes.label}
-            value={user.job}
-          />
-          <GridRow
-            label={"Turmas"}
-            labelStyle={classes.label}
-            value={user.classNumbers.join()}
-            colorAlternate
-          />
-        </Grid>
-      </Paper>
+          Profile
+        </Typography>
+        <Divider />
+        <Table>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.label}>
+                <TableCell className={classes.label}>{row.label}</TableCell>
+                <TableCell>{row.value}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </PageWrapper>
   );
 };
