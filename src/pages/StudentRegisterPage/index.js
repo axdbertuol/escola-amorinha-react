@@ -25,8 +25,8 @@ import { Divider } from "@material-ui/core";
 import ColorRadio from "../../components/ColorRadio";
 import Header from "../../components/Header";
 import PageWrapper from "../PageWrapper";
-import useStyles from "./StudentRegisterPage.style";
-import validationSchema from "./StudentRegisterPage.schema";
+import useStyles from "./style";
+import validationSchema from "./schema";
 import useStudentsContext from "../../hooks/useStudentsContext";
 import { getRndInteger, parseDate } from "../../utils/functions";
 

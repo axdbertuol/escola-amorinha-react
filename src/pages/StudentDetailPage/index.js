@@ -1,68 +1,25 @@
-import { Grid, Paper, ButtonBase, Typography, colors } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  ButtonBase,
+  Typography,
+  colors,
+  Divider,
+} from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 import useStudentsContext from "../../hooks/useStudentsContext";
 import PageWrapper from "../PageWrapper";
 import { getLabel, parseDate } from "../../utils/functions";
-
-const useStyles = makeStyles((theme) => ({
-  root: {},
-  paper: {
-    flexGrow: 1,
-    padding: theme.spacing(2),
-    marginTop: "1rem",
-    // maxWidth: 500,
-    backgroundColor: theme.palette.secondary.main,
-    border: `5px solid ${theme.palette.primary.dark}`,
-    borderRadius: "10px",
-    // marginBottom: "5rem",
-    boxShadow: theme.shadows[10],
-  },
-  image: {
-    width: 128,
-    height: 128,
-  },
-  img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
-  },
-  label: {
-    fontWeight: "500",
-  },
-}));
-
-const GridRow = ({ label, value, labelStyle, colorAlternate = false }) => {
-  console.log("cheguei");
-  return (
-    <Grid
-      container
-      direction="row"
-      xs
-      style={{
-        // padding: "10px",
-        backgroundColor: colorAlternate ? colors.grey[200] : colors.grey[400],
-      }}
-      spacing={2}
-      gutterBottom
-      justifyContent="flex-start"
-      flexGrow={"0"}
-    >
-      <Grid item xs={4}>
-        <Typography variant="body2" className={labelStyle}>
-          {label}
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="body2">{value || ""}</Typography>
-      </Grid>
-    </Grid>
-  );
-};
+import useStyles from "./style";
 
 const StudentDetailPage = () => {
   let history = useHistory();
@@ -80,78 +37,51 @@ const StudentDetailPage = () => {
         setCurrentStudent(student);
       }
     }
-  }, []);
+  }, [currentStudent, params.id, students]);
 
   return (
-    <PageWrapper size="md">
-      {currentStudent ? (
-        <Paper className={classes.paper}>
-          <Grid container spacing={2}>
-            <Grid item>
-              <ButtonBase className={classes.image}>
-                <img
-                  className={classes.img}
-                  alt="complex"
-                  src="https://picsum.photos/200"
-                />
-              </ButtonBase>
-            </Grid>
-            <Grid item xs direction={"row"} container>
-              <Grid
-                item
-                container
-                xs={10}
-                direction="row"
-                spacing={2}
-                justifyContent={"flex-start"}
-                style={{ padding: "1rem" }}
-              >
-                <Grid item xs>
-                  {Object.entries(currentStudent).map((entry, index) => {
-                    console.log("oi", entry);
-                    let label = entry[0];
-                    let value = entry[1];
-                    if (label === "tableData") return null;
-                    if (typeof value === "boolean") {
-                      value = value ? "Sim" : "Não";
-                    } else if (label === "foodRestriction") {
-                      value = value.description || "Não";
-                    } else if (label === "authorizedPeople" && value[0]) {
-                      value = value
-                        .map(({ name, relation }) =>
-                          name ? `${name} - ${relation}` : ""
-                        )
-                        .join(", ");
-                    } else if (label === "birthday") {
-                      value = parseDate(new Date(value));
-                    }
-                    return (
-                      <GridRow
-                        label={getLabel(label)}
-                        value={value}
-                        labelStyle={classes.label}
-                        colorAlternate={index % 2 === 0}
-                        key={label + "-" + index}
-                      />
-                    );
-                  })}
-                </Grid>
-              </Grid>
-              <Grid item xs>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => history.goBack()}
-                >
-                  Voltar
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Paper>
-      ) : (
-        ""
-      )}
+    <PageWrapper size="sm">
+      <TableContainer className={classes.paper} component={Paper}>
+        <Typography
+          variant="h3"
+          style={{ textAlign: "center", marginBottom: "1rem" }}
+        >
+          Dados do Estudante
+        </Typography>
+        <Divider />
+        <Table>
+          <TableBody>
+            {currentStudent &&
+              Object.entries(currentStudent).map((entry, index) => {
+                console.log("oi", entry);
+                let label = entry[0];
+                let value = entry[1];
+                if (label === "tableData") return null;
+                if (typeof value === "boolean") {
+                  value = value ? "Sim" : "Não";
+                } else if (label === "foodRestriction") {
+                  value = value.description || "Não";
+                } else if (label === "authorizedPeople" && value[0]) {
+                  value = value
+                    .map(({ name, relation }) =>
+                      name ? `${name} - ${relation}` : ""
+                    )
+                    .join(", ");
+                } else if (label === "birthday") {
+                  value = parseDate(new Date(value));
+                }
+                return (
+                  <TableRow key={getLabel(label)}>
+                    <TableCell className={classes.label}>
+                      {getLabel(label)}
+                    </TableCell>
+                    <TableCell>{value}</TableCell>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </PageWrapper>
   );
 };

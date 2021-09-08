@@ -1,4 +1,4 @@
-import { createServer, Model, Factory } from "miragejs";
+import { createServer, Model, Factory, Response } from "miragejs";
 import jwt from "jsonwebtoken";
 import faker from "faker";
 faker.locale = "pt_BR";
@@ -129,6 +129,39 @@ export function makeServer() {
           password: user.password,
           email: user.email,
         });
+      });
+
+      this.post("/check-password", (schema, request) => {
+        let { passwordToCheck, id } = JSON.parse(request.requestBody);
+
+        try {
+          let user = schema.users.findBy({
+            id,
+          });
+
+          return user.password === passwordToCheck
+            ? new Response(201, {}, { status: 201 })
+            : new Response(
+                400,
+                {},
+                { status: 400, errors: ["Wrong password"] }
+              );
+        } catch (error) {
+          console.log("check-password error", error);
+        }
+      });
+      this.post("/change-password", (schema, request) => {
+        let { newPassword, id } = JSON.parse(request.requestBody);
+
+        try {
+          let user = schema.users.findBy({
+            id,
+          });
+          user.update({ password: newPassword });
+          return new Response(201, {}, { status: 201 });
+        } catch (error) {
+          console.log("change-password error", error);
+        }
       });
       this.get("/students");
       this.get("/students/:id");
