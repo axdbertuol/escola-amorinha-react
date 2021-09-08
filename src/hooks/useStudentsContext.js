@@ -11,15 +11,15 @@ const useStudentsContext = () => {
     setClassNumber,
     setAuthPeopleRelation,
   } = useContext(StudentsContext);
-  
+
   const [didPopulate, setDidPopulate] = useState(false);
 
   useEffect(() => {
     if (state.students && !didPopulate && state.students.length === 0) {
       (async () => {
         await populate(addStudent, setClassNumber, setAuthPeopleRelation);
+        setDidPopulate(true);
       })();
-      setDidPopulate(true);
     }
   }, []);
 

@@ -38,12 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const makeIcons = (history) => {
+const makeIcons = (history, job) => {
   return (
     <>
-      <IconButton color="secondary" onClick={() => history.push("/register")}>
-        <PersonAddIcon />
-      </IconButton>
+      {job === "Diretor" && (
+        <IconButton color="secondary" onClick={() => history.push("/register")}>
+          <PersonAddIcon />
+        </IconButton>
+      )}
       <IconButton color="secondary" onClick={() => history.push("/list")}>
         <ListAltIcon />
       </IconButton>
@@ -68,7 +70,7 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
         title={title}
         titleRoute={"/"}
         subtitle={subtitle}
-        icons={makeIcons(history)}
+        icons={makeIcons(history, user.job)}
       />
       <Container maxWidth={size || "sm"}>
         <div>{children}</div>

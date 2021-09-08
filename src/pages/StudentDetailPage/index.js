@@ -79,6 +79,13 @@ const StudentDetailPage = () => {
                   </TableRow>
                 );
               })}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => history.goBack()}
+            >
+              Voltar
+            </Button>
           </TableBody>
         </Table>
       </TableContainer>

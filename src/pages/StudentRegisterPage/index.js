@@ -18,7 +18,7 @@ import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Checkbox from "@material-ui/core/Checkbox";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Redirect } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
 import { Divider } from "@material-ui/core";
 
@@ -28,6 +28,7 @@ import PageWrapper from "../PageWrapper";
 import useStyles from "./style";
 import validationSchema from "./schema";
 import useStudentsContext from "../../hooks/useStudentsContext";
+import { Context as AuthContext } from "../../context/AuthContext";
 import { getRndInteger, parseDate } from "../../utils/functions";
 
 let initialValues = {
@@ -49,23 +50,25 @@ let initialValues = {
   additionalInfo: "",
 };
 
-const Teste = () => {
-  const { values, errors } = useFormikContext();
-  React.useEffect(() => {
-    console.log(values, errors);
-  });
-  return null;
-};
+// const Teste = () => {
+//   const { values, errors } = useFormikContext();
+//   React.useEffect(() => {
+//     console.log(values, errors);
+//   });
+//   return null;
+// };
 const StudentRegisterPage = () => {
   let params = useParams();
   let history = useHistory();
   const { state, addStudent, editStudent } = useStudentsContext();
+  const {
+    state: { user },
+  } = useContext(AuthContext);
   const classes = useStyles();
 
-  React.useEffect(() => {
-    console.log("students", state.students);
-  }, [state.students]);
-
+  if (user.job === "Professor" || user.job === "Coordenador") {
+    return <Redirect to={"/home"} />;
+  }
   return (
     <PageWrapper>
       <div className={classes.root}>
@@ -394,7 +397,7 @@ const StudentRegisterPage = () => {
               >
                 {params.id ? "Salvar" : "Registrar"}
               </Button>
-              <Teste />
+              {/* <Teste /> */}
             </form>
           )}
         </Formik>
