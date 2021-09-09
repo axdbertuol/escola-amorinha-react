@@ -16,7 +16,7 @@ import Link from "../Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
   },
   menu: {
     backgroundColor: theme.palette.secondary.main,
@@ -25,17 +25,29 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 4,
     fontFamily: "Montserrat, sans-serif",
     color: theme.palette.secondary.light,
     letterSpacing: "3px",
     fontWeight: "600",
-    fontSize: "1.2rem",
+    fontSize: "0.9rem",
+    // marginLeft: "auto",
+  },
+  subtitle: {
+    // justifySelf: "end",
+    marginLeft: "auto",
+
+    // flexGrow: 1,
+    fontFamily: "Roboto, sans-serif",
+    color: theme.palette.secondary.light,
+    // letterSpacing: "3px",
+    fontStyle: "italic",
+    fontWeight: "600",
+    fontSize: "0.7rem",
+    paddingRight: "1rem",
   },
   links: {
     display: "flex",
-    // flexGrow: 1,
-
     backgroundColor: theme.palette.primary.light,
     justifyContent: "center",
   },
@@ -43,26 +55,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = ({ title, titleRoute, subtitle, icons }) => {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <div className={classes.root}>
       <AppBar color="primary" position="static">
-        <Toolbar>
+        <Toolbar style={{ display: "flex" }}>
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -72,8 +69,12 @@ const Navbar = ({ title, titleRoute, subtitle, icons }) => {
             <MenuIcon />
           </IconButton>
 
-          <Link to={titleRoute}>{title}</Link>
-          <Typography className={classes.title}>{subtitle}</Typography>
+          <Link to={titleRoute} className={classes.title}>
+            {title}
+          </Link>
+          <Typography className={classes.subtitle}>
+            <small>Você está logado como</small> {subtitle}
+          </Typography>
 
           <div className={classes.links}>{icons && icons}</div>
         </Toolbar>

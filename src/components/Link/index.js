@@ -8,13 +8,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     textDecoration: "none",
     // backgroundColor: theme.palette.primary.dark,
-    flexGrow: 1,
+    // flexGrow: 1,
     padding: "1rem",
     justifyItems: "center",
-    fontFamily: "Roboto, sans-serif",
+    fontFamily: "Montserrat, sans-serif",
     fontWeight: "600",
     borderLeftRadius: "5px",
-    textAlign: "center",
     color: theme.palette.secondary.light,
     // borderRight: "1px solid #000",
   },
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     // color: "red",
   },
 }));
-const Link = ({ children, to, color }) => {
+const Link = ({ children, to, color, className }) => {
   const classes = useStyles();
   return (
     <NavLink
@@ -32,14 +31,7 @@ const Link = ({ children, to, color }) => {
       to={to}
       color={color || ""}
     >
-      <Typography
-        style={{
-          letterSpacing: "5px",
-          color: "secondary",
-        }}
-      >
-        {children}
-      </Typography>
+      <Typography className={className}>{children}</Typography>
     </NavLink>
   );
 };

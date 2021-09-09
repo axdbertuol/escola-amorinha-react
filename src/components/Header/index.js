@@ -5,8 +5,8 @@ import "./header.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    ...theme.typography.h2,
-    fontFamily: "Montserrat', sans-serif;",
+    // ...theme.typography.h2,
+    fontFamily: "Montserrat, sans-serif",
     fontSmooth: "normal",
     textAlign: "center",
     color: theme.palette.primary.main,
@@ -15,15 +15,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = ({ title }) => {
+const Header = ({ title, className }) => {
   const classes = useStyles();
   return (
     <header className="header">
       <Typography
-        className={classes.root}
-        variant="h3"
-        component="h2"
-        color="primary"
+        className={className}
+        // variant="h3"
+        // component="h2"
+        // color="primary"
       >
         {title}
       </Typography>

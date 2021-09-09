@@ -3,17 +3,20 @@ import "./App.css";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { createTheme } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
-import purple from "@material-ui/core/colors/purple";
+import { colors } from "@material-ui/core/";
 import MainRouter from "./MainRouter";
 import { apiServer } from "./mock/server";
 import { Provider as AuthProvider } from "./context/AuthContext";
 const theme = createTheme({
   palette: {
     primary: {
-      main: purple[500],
+      main: colors.purple[800],
     },
     secondary: {
-      main: red["100"],
+      main: colors.red[100],
+    },
+    tertiary: {
+      main: colors.grey[400],
     },
   },
 });

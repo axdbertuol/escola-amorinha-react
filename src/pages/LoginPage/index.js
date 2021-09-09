@@ -29,6 +29,9 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: "#FFF",
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -86,7 +89,7 @@ const LoginPage = () => {
   });
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" className={classes.root}>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -103,6 +106,7 @@ const LoginPage = () => {
             id="email"
             label="Email Address"
             name="email"
+            color="primary"
             autoComplete="email"
             autoFocus
             value={formik.values.email}

@@ -65,7 +65,7 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
 
   const subtitle = `${user.job} ${user.name}`;
   return (
-    <>
+    <Container size={"lg"}>
       <Navbar
         title={title}
         titleRoute={"/"}
@@ -75,7 +75,7 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
       <Container maxWidth={size || "sm"}>
         <div>{children}</div>
       </Container>
-    </>
+    </Container>
   );
 };
 
