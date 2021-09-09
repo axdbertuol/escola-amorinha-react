@@ -72,7 +72,7 @@ const StudentRegisterPage = () => {
   return (
     <PageWrapper>
       <div className={classes.root}>
-        <Header title="Registro de Aluno" />
+        <Header title={params.id ? "Editar Aluno" : "Registro de Aluno"} />
         <Divider variant="middle" />
         <Formik
           initialValues={

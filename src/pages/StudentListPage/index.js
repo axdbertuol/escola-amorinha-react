@@ -89,7 +89,6 @@ const StudentListPage = () => {
     ],
     []
   );
-  const memoizedStudents = React.useMemo(() => students, [students]);
   const tableRef = React.createRef();
 
   const actions = [
@@ -137,7 +136,7 @@ const StudentListPage = () => {
           icons={tableIcons}
           isLoading={didPopulate}
           columns={columns}
-          data={memoizedStudents}
+          data={students}
           title={"Tabela de Estudantes"}
           actions={actions}
         />

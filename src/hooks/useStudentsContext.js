@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context as StudentsContext } from "../context/StudentsContext";
 import { populate } from "../mock/api";
 
@@ -14,13 +14,14 @@ const useStudentsContext = () => {
 
   const [didPopulate, setDidPopulate] = useState(false);
 
-  useEffect(() => {
+  const populateState = async () => {
     if (state.students && !didPopulate && state.students.length === 0) {
-      (async () => {
-        await populate(addStudent, setClassNumber, setAuthPeopleRelation);
-        setDidPopulate(true);
-      })();
+      await populate(addStudent, setClassNumber, setAuthPeopleRelation);
+      setDidPopulate(true);
     }
+  };
+  useEffect(() => {
+    populateState();
   }, []);
 
   return {

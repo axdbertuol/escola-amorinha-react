@@ -9,6 +9,7 @@
 html {
   box-sizing: border-box;
   font-size: 87.5%; /* 14px/16px = 87.5% -> 1rem = 10px */
+  background-color: #cec9c9;
 }
 
 body {
@@ -16,5 +17,4 @@ body {
   color: black !important;
   font-weight: 300;
   line-height: 1.6;
-  background-color: #fafafa;
 }
