@@ -5,11 +5,10 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     flexGrow: 1,
     padding: theme.spacing(2),
-    marginTop: "1rem",
+    margin: "2rem 0",
+    border: "2px solid " + theme.palette.primary.main,
     // maxWidth: 500,
-    backgroundColor: theme.palette.secondary.light,
     color: theme.palette.primary.main,
-    border: `5px solid ${theme.palette.primary.dark}`,
     borderRadius: "10px",
     // marginBottom: "5rem",
     boxShadow: theme.shadows[10],
@@ -24,6 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     fontWeight: "500",
+  },
+  title: {
+    padding: "10px",
+    color: theme.palette.primary.main,
+    textAlign: "center",
   },
 }));
 

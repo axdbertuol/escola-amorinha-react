@@ -3,12 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {},
   paper: {
+    backgroundColor: "transparent",
     flexGrow: 1,
     padding: theme.spacing(2),
-    marginTop: "1rem",
+    border: "2px solid " + theme.palette.primary.main,
+    margin: "2rem 0",
     // maxWidth: 500,
-    backgroundColor: theme.palette.secondary.main,
-    border: `5px solid ${theme.palette.primary.dark}`,
     borderRadius: "10px",
     // marginBottom: "5rem",
     boxShadow: theme.shadows[10],
@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
   label: {
     fontWeight: "500",
+  },
+  title: {
+    padding: "10px",
+    color: theme.palette.primary.main,
+    textAlign: "center",
   },
 }));
 

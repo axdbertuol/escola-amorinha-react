@@ -28,7 +28,7 @@ const Link = ({ children, to, color, className }) => {
     <NavLink
       // activeClassName={classes.active}
       className={classes.root}
-      to={to}
+      to={to || "/"}
       color={color || ""}
     >
       <Typography className={className}>{children}</Typography>

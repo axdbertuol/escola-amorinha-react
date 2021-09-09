@@ -7,6 +7,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -72,7 +73,9 @@ const StudentRegisterPage = () => {
   return (
     <PageWrapper>
       <div className={classes.root}>
-        <Header title={params.id ? "Editar Aluno" : "Registro de Aluno"} />
+        <Typography variant="h2" className={classes.title}>
+          {params.id ? "Editar Aluno" : "Registro de Aluno"}
+        </Typography>
         <Divider variant="middle" />
         <Formik
           initialValues={

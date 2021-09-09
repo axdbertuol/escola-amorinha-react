@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 import PersonTwoToneIcon from "@material-ui/icons/PersonTwoTone";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "4px solid " + theme.palette.primary.dark,
     borderBottomRightRadius: "5px",
     borderBottomLeftRadius: "5px",
-    overflow: "hidden",
-    width: "30rem",
-    margin: "0 auto",
     backgroundColor: "transparent",
     boxShadow: theme.shadows["10"],
     marginBottom: "1rem",
@@ -36,7 +35,34 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
     justifyContent: "center",
   },
+  contentContainer: {
+    minHeight: "85vh",
+    // width: "100px",
+  },
+  mainContainer: {
+    width: "80%",
+    margin: "0 auto",
+    display: "flex",
+    flexDirection: "column",
+    // borderRight: "1px solid " + theme.palette.primary.main,
+    // borderLeft: "1px solid " + theme.palette.primary.main,
+  },
+  footer: {
+    padding: "1rem",
+    justifyContent: "center",
+    backgroundColor: theme.palette.primary.main,
+  },
 }));
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      Alexandre Bertuol {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 
 const makeIcons = (history, job) => {
   return (
@@ -65,17 +91,20 @@ const PageWrapper = ({ children, title = "Escolinha Amorinha", size }) => {
 
   const subtitle = `${user.job} ${user.name}`;
   return (
-    <Container size={"lg"}>
+    <div className={classes.mainContainer}>
       <Navbar
         title={title}
         titleRoute={"/"}
         subtitle={subtitle}
         icons={makeIcons(history, user.job)}
       />
-      <Container maxWidth={size || "sm"}>
-        <div>{children}</div>
+      <Container maxWidth={size || "sm"} className={classes.contentContainer}>
+        {children}
       </Container>
-    </Container>
+      <Box className={classes.footer}>
+        <Copyright />
+      </Box>
+    </div>
   );
 };
 

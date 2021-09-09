@@ -23,7 +23,7 @@ export function getLabel(key) {
     case "sponsorPhone":
       return "Tel. Responsável";
     case "sponsorType":
-      return "Relação";
+      return "Relação Responsável";
     case "emergencyPhone":
       return "Tel. Emergência";
     case "foodRestriction":

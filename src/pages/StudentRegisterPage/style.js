@@ -2,12 +2,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.secondary.light,
-    border: `5px solid ${theme.palette.tertiary.dark}`,
     borderRadius: "10px",
-    marginBottom: "5rem",
-    marginTop: "1rem",
+    margin: "2rem 0",
     boxShadow: theme.shadows[10],
+    border: "2px solid " + theme.palette.primary.main,
 
     padding: "15px",
     "& .MuiTextField-root": {
@@ -34,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
   },
   marginTop2: {
     marginTop: theme.spacing(2),
+  },
+  title: {
+    padding: "10px",
+    color: theme.palette.primary.main,
+    textAlign: "center",
   },
 }));
 

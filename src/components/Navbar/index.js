@@ -16,7 +16,7 @@ import Link from "../Link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // flexGrow: 1,
+    flexGrow: 1,
   },
   menu: {
     backgroundColor: theme.palette.secondary.main,

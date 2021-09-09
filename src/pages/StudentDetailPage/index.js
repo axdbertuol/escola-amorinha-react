@@ -42,10 +42,7 @@ const StudentDetailPage = () => {
   return (
     <PageWrapper size="sm">
       <TableContainer className={classes.paper} component={Paper}>
-        <Typography
-          variant="h3"
-          style={{ textAlign: "center", marginBottom: "1rem" }}
-        >
+        <Typography variant="h2" className={classes.title}>
           Dados do Estudante
         </Typography>
         <Divider />
