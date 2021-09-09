@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(2),
     margin: "2rem 0",
+    backgroundColor: theme.palette.common.white,
     border: "2px solid " + theme.palette.primary.main,
     // maxWidth: 500,
     color: theme.palette.primary.main,

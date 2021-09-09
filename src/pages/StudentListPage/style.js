@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.common.white,
     // border: `5px solid ${theme.palette.primary.dark}`,
     borderRadius: "10px",
     marginBottom: "5rem",

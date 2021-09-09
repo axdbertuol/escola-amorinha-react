@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "2rem 0",
     boxShadow: theme.shadows[10],
     border: "2px solid " + theme.palette.primary.main,
+    backgroundColor: theme.palette.common.white,
 
     padding: "15px",
     "& .MuiTextField-root": {

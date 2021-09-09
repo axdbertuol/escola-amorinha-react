@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {},
   paper: {
-    backgroundColor: "transparent",
+    backgroundColor: theme.palette.common.white,
     flexGrow: 1,
     padding: theme.spacing(2),
     border: "2px solid " + theme.palette.primary.main,
