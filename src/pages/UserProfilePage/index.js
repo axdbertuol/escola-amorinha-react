@@ -140,6 +140,7 @@ const MakeModalBody = (userId, classes, handleClose) => {
 const UserProfilePage = () => {
   const {
     state: { user },
+    logout,
   } = useContext(AuthContext);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -194,6 +195,13 @@ const UserProfilePage = () => {
             </TableRow>
           </TableBody>
         </Table>
+        <Button
+          variant={"outlined"}
+          className={classes.logoutButton}
+          onClick={() => logout()}
+        >
+          Sair
+        </Button>
       </TableContainer>
     </PageWrapper>
   );

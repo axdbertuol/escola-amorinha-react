@@ -30,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     textAlign: "center",
   },
+  logoutButton: {
+    margin: "10px",
+    width: "30%",
+    // margin: "0 auto",
+  },
 }));
 
 export default useStyles;

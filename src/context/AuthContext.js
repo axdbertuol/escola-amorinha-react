@@ -20,6 +20,8 @@ const authReducer = (state, action) => {
       return { ...state, user: action.payload };
     case "set_token":
       return { ...state, token: action.payload };
+    case "logout":
+      return { ...state, user: null, token: null };
     default:
       return state;
   }
@@ -66,12 +68,18 @@ const setToken = (dispatch) => (token) => {
   dispatch({ type: "set_token", payload: token });
 };
 
+const logout = (dispatch) => () => {
+  localStorage.removeItem("token");
+  dispatch({ type: "logout" });
+};
+
 export const { Context, Provider } = createDataContext(
   authReducer, // reducer
   {
     addUser,
     authenticateUser,
     tryLocalSignin,
+    logout,
   }, // functions  (actions)
   { user: {}, token: null } // state
 );
