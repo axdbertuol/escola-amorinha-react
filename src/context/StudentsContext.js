@@ -37,7 +37,7 @@ const studentsDataReducer = (state, action) => {
         newStudents[index] = action.payload.data;
       }
       return { ...state, students: newStudents };
-    case "set_students_from_local_storage":
+    case "set_students":
       return {
         ...state,
         students: action.payload,
@@ -68,6 +68,7 @@ addStudent.propTypes = {
   student: PropTypes.array.isRequired,
 };
 const setStudents = (dispatch) => (students) => {
+  console.log("students", students);
   if (Array.isArray(students)) {
     // addStudentDB(student);
     dispatch({ type: "set_students", payload: students });

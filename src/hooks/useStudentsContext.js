@@ -1,11 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 
 import { Context as StudentsContext } from "../context/StudentsContext";
-import { populate } from "../mock/api";
+import {
+  fetchAuthPeopleRelation,
+  fetchStudents,
+  fetchClassNumbers,
+} from "../mock/api";
 
 const useStudentsContext = () => {
   const {
-    state,
+    state: { students, classNumber, authorizedPeopleRelation },
     addStudent,
     removeStudent,
     editStudent,
@@ -16,18 +20,43 @@ const useStudentsContext = () => {
 
   const [didPopulate, setDidPopulate] = useState(false);
 
-  const populateState = async () => {
-    if (state.students && !didPopulate && state.students.length === 0) {
-      await populate(addStudent, setClassNumber, setAuthPeopleRelation);
+  useEffect(() => {
+    const setClassNumbersState = async () => {
+      const classNumbers = await fetchClassNumbers();
+      console.log("classNumbers", classNumbers);
+      setClassNumber(classNumbers);
+    };
+    if (classNumber.length === 0) {
+      setClassNumbersState();
+    }
+  }, [setClassNumber, classNumber]);
+
+  useEffect(() => {
+    const setAuthPeopleRelationState = async () => {
+      const authPeopleRelation = await fetchAuthPeopleRelation();
+      console.log("authPeopleRelation", authPeopleRelation);
+
+      setAuthPeopleRelation(authPeopleRelation);
+    };
+    if (authorizedPeopleRelation.length === 0) {
+      setAuthPeopleRelationState();
+    }
+  }, [setAuthPeopleRelation, authorizedPeopleRelation]);
+
+  useEffect(() => {
+    const setStudentsState = async () => {
+      const studentsFromApi = await fetchStudents();
+      console.log("Students", studentsFromApi);
+      setStudents(studentsFromApi);
+    };
+    if (students.length === 0) {
+      setStudentsState();
       setDidPopulate(true);
     }
-  };
-  useEffect(() => {
-    populateState();
-  }, []);
+  }, [setStudents, students]);
 
   return {
-    state,
+    state: { students, classNumber, authorizedPeopleRelation },
     addStudent,
     removeStudent,
     editStudent,

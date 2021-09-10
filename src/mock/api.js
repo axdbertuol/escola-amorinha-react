@@ -59,31 +59,31 @@ export const verifyAuthToken = async (token) => {
   }
 };
 
-export const populate = async (
-  addStudent,
-  setClassNumber,
-  setAuthPeopleRelation
-) => {
+export const fetchClassNumbers = async () => {
   try {
     const response = await fetch("/api/turmas");
     const data = await response.json();
-    setClassNumber(data);
+    return data;
   } catch (error) {
     console.log("fetch turmas error", error);
   }
+};
+
+export const fetchAuthPeopleRelation = async () => {
   try {
     const response = await fetch("/api/pessoas-autorizadas");
     const data = await response.json();
-    setAuthPeopleRelation(data);
+    return data;
   } catch (error) {
     console.log("fetch auth people error", error);
   }
+};
+
+export const fetchStudents = async () => {
   try {
     const response = await fetch("/api/students");
     const data = await response.json();
-    data.students.forEach((student) => {
-      addStudent(student);
-    });
+    return data.students;
   } catch (error) {
     console.log("fetch students error", error);
   }

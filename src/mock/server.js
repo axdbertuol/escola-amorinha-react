@@ -176,6 +176,7 @@ export function makeServer() {
             id,
           });
           student.update({ ...data });
+          console.log("student updated", student);
           return new Response(201, {}, { status: 201 });
         } catch (error) {
           console.log("erro ", error);

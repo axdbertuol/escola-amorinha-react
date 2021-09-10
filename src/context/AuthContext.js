@@ -5,7 +5,6 @@ import {
   getAuthToken,
   verifyAuthToken,
 } from "../mock/api";
-import { apiServer } from "../mock/server";
 
 /**
  * The data reducer
