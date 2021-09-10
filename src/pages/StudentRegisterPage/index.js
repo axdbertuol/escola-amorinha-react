@@ -391,7 +391,6 @@ const StudentRegisterPage = () => {
               >
                 {params.id ? "Salvar" : "Registrar"}
               </Button>
-              {/* <Teste /> */}
             </form>
           )}
         </Formik>
