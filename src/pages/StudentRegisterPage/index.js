@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
-import { FieldArray, Formik, useFormikContext } from "formik";
 import { AsYouType } from "libphonenumber-js";
+import { FieldArray, Formik } from "formik";
 import DateFnsUtils from "@date-io/date-fns";
+import React, { useContext } from "react";
+
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -24,13 +25,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Divider } from "@material-ui/core";
 
 import ColorRadio from "../../components/ColorRadio";
-import Header from "../../components/Header";
 import PageWrapper from "../PageWrapper";
 import useStyles from "./style";
 import validationSchema from "./schema";
 import useStudentsContext from "../../hooks/useStudentsContext";
 import { Context as AuthContext } from "../../context/AuthContext";
-import { getRndInteger, parseDate } from "../../utils/functions";
+import { getRndInteger } from "../../utils/functions";
 
 let initialValues = {
   id: "",
@@ -51,13 +51,6 @@ let initialValues = {
   additionalInfo: "",
 };
 
-// const Teste = () => {
-//   const { values, errors } = useFormikContext();
-//   React.useEffect(() => {
-//     console.log(values, errors);
-//   });
-//   return null;
-// };
 const StudentRegisterPage = () => {
   let params = useParams();
   let history = useHistory();
@@ -90,7 +83,6 @@ const StudentRegisterPage = () => {
                 Math.random().toString(36).substr(2, 5) +
                 "_" +
                 getRndInteger(100, 100000);
-              console.log(JSON.stringify(values, null, 2));
               addStudent(values);
               window.alert("Estudante salvo com sucesso!");
             } else if (params.id) {
@@ -309,7 +301,6 @@ const StudentRegisterPage = () => {
                         values.authorizedPeople.map(
                           ({ name, relation }, index) => {
                             const id = `auth-person-${index}-`;
-                            // console.log("relation", relation);
                             return (
                               <div key={"div" + id}>
                                 <TextField

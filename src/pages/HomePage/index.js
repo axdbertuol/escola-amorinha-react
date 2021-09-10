@@ -1,17 +1,14 @@
-import { Link, useHistory } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import React, { useContext, useEffect, useState } from "react";
 
 import { Context as AuthContext } from "../../context/AuthContext";
 import PageWrapper from "../PageWrapper";
 import useStudentsContext from "../../hooks/useStudentsContext";
-import { Paper, Typography } from "@material-ui/core";
-
 import useStyles from "./style";
 
 const HomePage = () => {
   const classes = useStyles();
-  const history = useHistory();
   const {
     state: { user },
   } = useContext(AuthContext);

@@ -4,13 +4,11 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { Provider as StudentsProvider } from "./context/StudentsContext";
-import {
-  Provider as AuthProvider,
-  Context as AuthContext,
-} from "./context/AuthContext";
+
+import { Context as AuthContext } from "./context/AuthContext";
 import HomePage from "./pages/HomePage";
 import StudentListPage from "./pages/StudentListPage";
 import StudentRegisterPage from "./pages/StudentRegisterPage";

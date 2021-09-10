@@ -1,25 +1,20 @@
 import React, { useContext } from "react";
+
 import {
-  Grid,
-  Paper,
-  ButtonBase,
   Typography,
-  colors,
   IconButton,
   Divider,
   Button,
   Modal,
   TextField,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import CloseIcon from "@material-ui/icons/Close";
-import { useFormik, Formik, useFormikContext } from "formik";
+import { useFormik } from "formik";
 
 import PageWrapper from "../PageWrapper";
 import { Context as AuthContext } from "../../context/AuthContext";
@@ -57,7 +52,6 @@ const MakeModalBody = (userId, classes, handleClose) => {
           }),
         });
         const data = await response.json();
-        console.log("data", data);
         if (data.status === 201) {
           // then check new password === new password confirm
 
@@ -87,7 +81,6 @@ const MakeModalBody = (userId, classes, handleClose) => {
         } else {
           alert("Senha atual inválida");
         }
-        // console.log("check-password", data);
       } catch (error) {
         console.log("onSubmit checkpassword", error);
       }

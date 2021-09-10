@@ -12,10 +12,20 @@ export const addStudent = async (student) => {
       method: "POST",
       body: JSON.stringify(student),
     });
-    const data = await response.json();
-    // console.log("addStudent", data);
+    await response.json();
   } catch (error) {
     console.log("fetch students error", error);
+  }
+};
+export const editStudent = async (student) => {
+  try {
+    const response = await fetch(`/api/students/${student.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ data: student }),
+    });
+    await response.json();
+  } catch (error) {
+    console.log("fetch edit students error", error);
   }
 };
 
@@ -57,7 +67,6 @@ export const populate = async (
   try {
     const response = await fetch("/api/turmas");
     const data = await response.json();
-    // console.log("turmas", data);
     setClassNumber(data);
   } catch (error) {
     console.log("fetch turmas error", error);
@@ -65,7 +74,6 @@ export const populate = async (
   try {
     const response = await fetch("/api/pessoas-autorizadas");
     const data = await response.json();
-    // console.log("auth people", data);
     setAuthPeopleRelation(data);
   } catch (error) {
     console.log("fetch auth people error", error);
@@ -73,9 +81,7 @@ export const populate = async (
   try {
     const response = await fetch("/api/students");
     const data = await response.json();
-    // console.log("randomStudents", data);
     data.students.forEach((student) => {
-      // console.log("student in api", student);
       addStudent(student);
     });
   } catch (error) {

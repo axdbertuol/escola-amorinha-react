@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+
 import { Context as AuthContext } from "../context/AuthContext";
-import { populate } from "../mock/api";
 
 const useCheckAuthToken = () => {
   const {
@@ -12,8 +12,7 @@ const useCheckAuthToken = () => {
 
   useEffect(() => {
     tryLocalSignin();
-    if (token) {
-      console.log("Token", token);
+    if (token !== null) {
       setDidCheckAuthToken(true);
     }
   }, []);

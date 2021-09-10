@@ -1,68 +1,16 @@
-import React, { useContext } from "react";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import PersonTwoToneIcon from "@material-ui/icons/PersonTwoTone";
-import MenuIcon from "@material-ui/icons/Menu";
-import { makeStyles } from "@material-ui/core/styles";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import { Divider, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import Link from "../../components/Link";
-import Navbar from "../../components/Navbar";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import React, { useContext } from "react";
+
 import { Context as AuthContext } from "../../context/AuthContext";
-
-const useStyles = makeStyles((theme) => ({
-  nav: {
-    display: "flex",
-    marginTop: "1rem",
-    borderBottom: "4px solid " + theme.palette.primary.dark,
-    borderBottomRightRadius: "5px",
-    borderBottomLeftRadius: "5px",
-    backgroundColor: "transparent",
-    boxShadow: theme.shadows["10"],
-    marginBottom: "1rem",
-    "& > .MuiButtonGroup-root": {
-      alignItems: "center",
-    },
-  },
-  links: {
-    display: "flex",
-    flexGrow: 1,
-
-    backgroundColor: theme.palette.primary.light,
-    justifyContent: "center",
-  },
-  contentContainer: {
-    minHeight: "85vh",
-    // width: "100px",
-  },
-  mainContainer: {
-    width: "80%",
-    margin: "0 auto",
-    display: "flex",
-    flexDirection: "column",
-    // borderRight: "1px solid " + theme.palette.primary.main,
-    // borderLeft: "1px solid " + theme.palette.primary.main,
-  },
-  footer: {
-    padding: "1rem",
-    justifyContent: "center",
-    backgroundColor: theme.palette.primary.main,
-  },
-}));
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      Alexandre Bertuol {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../../components/Copyright";
+import Navbar from "../../components/Navbar";
+import useStyles from "./style";
 
 const makeIcons = (history, job) => {
   return (

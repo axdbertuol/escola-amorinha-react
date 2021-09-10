@@ -1,13 +1,13 @@
+import { CircularProgress, TablePagination } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import MaterialTable from "material-table";
 import React, { useContext } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import MaterialTable, { MaterialTableProps } from "material-table";
-import { TablePagination, TablePaginationProps } from "@material-ui/core";
 
-import tableIcons from "./icons";
-import useStyles from "./style";
-import PageWrapper from "../PageWrapper";
 import { Context as AuthContext } from "../../context/AuthContext";
+import PageWrapper from "../PageWrapper";
+import tableIcons from "./icons";
 import useStudentsContext from "../../hooks/useStudentsContext";
+import useStyles from "./style";
 
 // workaround for material-ui bug
 function PatchedPagination(props) {
@@ -40,25 +40,25 @@ function PatchedPagination(props) {
 
 const StudentListPage = () => {
   let history = useHistory();
-  const params = useParams();
   const classes = useStyles();
   const {
     state: { students },
     removeStudent,
     didPopulate,
+    editStudent,
   } = useStudentsContext();
   const {
     state: { user },
   } = useContext(AuthContext);
-
   // useMemo so it doesn't rerender everytime
   const columns = React.useMemo(
     () => [
-      { field: "id", title: "ID", width: 100 },
+      { field: "id", title: "ID", width: 100, editable: "never", hidden: true },
       {
         field: "name",
         title: "Nome",
         width: 150,
+        editable: "never",
       },
       {
         field: "birthday",
@@ -66,12 +66,29 @@ const StudentListPage = () => {
         type: "date",
         dateSetting: { locale: "BR" },
         width: 180,
+        editable: "never",
+      },
+      {
+        field: "classNumber",
+        title: "Turma",
+        type: "string",
+        width: 110,
+        editable: "never",
+      },
+      {
+        field: "grade",
+        title: "Nota",
+        type: "numeric",
+        align: "left",
+        width: 100,
+        editable: user.job === "Professor" ? "onUpdate" : "never",
       },
       {
         field: "sponsorName",
         title: "Responsável",
         type: "string",
         width: 150,
+        editable: "never",
       },
 
       {
@@ -79,15 +96,10 @@ const StudentListPage = () => {
         title: "Tel. Emergência",
         type: "string",
         width: 170,
-      },
-      {
-        field: "classNumber",
-        title: "Turma",
-        type: "string",
-        width: 110,
+        editable: "never",
       },
     ],
-    []
+    [user.job]
   );
   const tableRef = React.createRef();
 
@@ -125,6 +137,10 @@ const StudentListPage = () => {
     actions.pop(2);
   }
 
+  if (!students || students.length === 0) {
+    return <CircularProgress />;
+  }
+
   return (
     <PageWrapper size="lg">
       <div className={classes.root}>
@@ -139,6 +155,23 @@ const StudentListPage = () => {
           data={students}
           title={"Tabela de Estudantes"}
           actions={actions}
+          cellEditable={{
+            onCellEditApproved: (newValue, oldValue, rowData, columnDef) => {
+              return new Promise(async (resolve, reject) => {
+                const editedStudent = {
+                  ...rowData,
+                  [columnDef.field]: newValue,
+                };
+                try {
+                  await editStudent(rowData.id, editedStudent);
+                  setTimeout(resolve, 1000);
+                } catch (error) {
+                  console.log(error);
+                  reject();
+                }
+              });
+            },
+          }}
         />
       </div>
     </PageWrapper>

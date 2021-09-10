@@ -1,6 +1,10 @@
 import createDataContext from "./createDataContext";
 import PropTypes from "prop-types";
-import { deleteStudent, addStudent as addStudentDB } from "../mock/api";
+import {
+  deleteStudent,
+  addStudent as addStudentDB,
+  editStudent as editStudentDB,
+} from "../mock/api";
 /**
  * The data reducer
  *
@@ -11,16 +15,8 @@ import { deleteStudent, addStudent as addStudentDB } from "../mock/api";
 const studentsDataReducer = (state, action) => {
   switch (action.type) {
     case "add_student":
-      console.log({
-        ...state,
-        students: [...state.students, action.payload],
-      });
       return { ...state, students: [...state.students, action.payload] };
     case "remove_student":
-      console.log(
-        "removendo ",
-        state.students.filter((task) => task.id !== action.payload)
-      );
       return {
         ...state,
         students: state.students.filter((task) => task.id !== action.payload),
@@ -62,7 +58,6 @@ const studentsDataReducer = (state, action) => {
 };
 
 const addStudent = (dispatch) => (student) => {
-  // console.log("studs from context", student);
   if (typeof student == "object" || Array.isArray(student)) {
     // addStudentDB(student);
     dispatch({ type: "add_student", payload: student });
@@ -72,8 +67,19 @@ const addStudent = (dispatch) => (student) => {
 addStudent.propTypes = {
   student: PropTypes.array.isRequired,
 };
+const setStudents = (dispatch) => (students) => {
+  if (Array.isArray(students)) {
+    // addStudentDB(student);
+    dispatch({ type: "set_students", payload: students });
+  }
+};
 
-const editStudent = (dispatch) => (id, data) => {
+setStudents.propTypes = {
+  students: PropTypes.array.isRequired,
+};
+
+const editStudent = (dispatch) => async (id, data) => {
+  await editStudentDB(data);
   dispatch({ type: "edit_student", payload: { id, data } });
 };
 
@@ -122,6 +128,7 @@ export const { Context, Provider } = createDataContext(
     addStudent,
     removeStudent,
     editStudent,
+    setStudents,
     setStudentsFromLocalStorage,
     setClassNumber,
     setAuthPeopleRelation,

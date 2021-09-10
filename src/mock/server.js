@@ -1,6 +1,7 @@
 import { createServer, Model, Factory, Response } from "miragejs";
-import jwt from "jsonwebtoken";
 import faker from "faker";
+import jwt from "jsonwebtoken";
+
 faker.locale = "pt_BR";
 
 const TURMAS = ["A", "B", "C", "D"];
@@ -75,6 +76,9 @@ export function makeServer() {
         classNumber() {
           return faker.helpers.randomize(TURMAS);
         },
+        grade() {
+          return faker.helpers.randomize([...Array(11).keys()]);
+        },
         birthday() {
           const date = faker.date.past(10, new Date(2015, 1, 1));
           return date;
@@ -94,7 +98,6 @@ export function makeServer() {
       this.namespace = "api";
       this.get("/auth-token/:id", (schema, request) => {
         let userId = request.params.id;
-        console.log("userId", userId);
         const token = jwt.sign({ id: userId }, "my_secret_key");
         return JSON.stringify(token);
       });
@@ -113,7 +116,6 @@ export function makeServer() {
             console.log(error);
           }
         });
-        console.log("user", user);
         return JSON.stringify({ user });
       });
       this.get("/turmas", () => {
@@ -166,7 +168,19 @@ export function makeServer() {
       this.get("/students");
       this.get("/students/:id");
       this.post("/students");
-      this.patch("/students/:id");
+      this.patch("/students/:id", (schema, request) => {
+        let { data } = JSON.parse(request.requestBody);
+        let id = request.params.id;
+        try {
+          let student = schema.students.findBy({
+            id,
+          });
+          student.update({ ...data });
+          return new Response(201, {}, { status: 201 });
+        } catch (error) {
+          console.log("erro ", error);
+        }
+      });
       this.del("/students/:id");
     },
     seeds(server) {

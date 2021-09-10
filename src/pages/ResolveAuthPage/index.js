@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from "react";
-
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory, useLocation } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import React, { useContext, useEffect } from "react";
 
 import { Context as AuthContext } from "../../context/AuthContext";
 

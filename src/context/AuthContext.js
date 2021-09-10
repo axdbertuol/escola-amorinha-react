@@ -39,7 +39,6 @@ addUser.propTypes = {
 
 const authenticateUser = (dispatch) => async (user) => {
   const userData = await verifyUserFromDB(user);
-  console.log("data", userData);
   if (userData) {
     const token = await getAuthToken(userData.id);
     localStorage.setItem("token", token);

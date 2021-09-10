@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+
 import { Context as StudentsContext } from "../context/StudentsContext";
 import { populate } from "../mock/api";
 
@@ -8,6 +9,7 @@ const useStudentsContext = () => {
     addStudent,
     removeStudent,
     editStudent,
+    setStudents,
     setClassNumber,
     setAuthPeopleRelation,
   } = useContext(StudentsContext);
@@ -29,6 +31,7 @@ const useStudentsContext = () => {
     addStudent,
     removeStudent,
     editStudent,
+    setStudents,
     setClassNumber,
     setAuthPeopleRelation,
     didPopulate,

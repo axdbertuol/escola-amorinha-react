@@ -18,6 +18,8 @@ export function getLabel(key) {
       return "Sobrenome";
     case "birthday":
       return "Data Nascimento";
+    case "grade":
+      return "Nota";
     case "sponsorName":
       return "Nome Responsável";
     case "sponsorPhone":
